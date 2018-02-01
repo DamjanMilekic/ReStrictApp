@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/myrelative"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="bottom"
+    android:gravity="bottom"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/btnLL"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="end"
+
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:weightSum="1">
+
+
+        <ImageButton
+            android:visibility="gone"
+            android:id="@+id/imgbtnResize"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_above="@+id/btn90minus"
+            android:layout_marginBottom="150dp"
+            android:layout_marginStart="13dp"
+            android:layout_toEndOf="@+id/txtOutput"
+
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            android:src="@drawable/resizeico" />
+
+    </LinearLayout>
+    <EditText
+        android:id="@+id/txtInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text=""
+        android:visibility="invisible"
+        android:layout_below="@+id/txtOutput"
+        android:layout_toEndOf="@+id/txtOutput" />
+
+    <TextView
+        android:id="@+id/txtOutput"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:layout_above="@+id/btnLL"
+
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:visibility="gone" />
+
+
+    <ImageButton
+        android:id="@+id/btn90plus"
+        android:layout_width="50dp"
+        android:visibility="gone"
+        android:layout_height="60dp"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/pluscut"
+        android:layout_above="@+id/btnLL"
+        android:layout_toEndOf="@+id/txtOutput" />
+
+    <ImageButton
+        android:id="@+id/btn90minus"
+        android:layout_width="50dp"
+        android:layout_height="60dp"
+        android:visibility="gone"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/minuscut"
+        android:layout_above="@+id/btnLL"
+        android:layout_toEndOf="@+id/txtOutput"
+        android:layout_marginStart="59dp" />
+
+    <ImageButton
+        android:id="@+id/btnZoom"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/aaa"
+        android:layout_above="@+id/imgbtnUndo"
+        android:layout_alignParentEnd="true" />
+
+    <ImageButton
+        android:id="@+id/imagecircle"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:src="@drawable/circle_selected"
+        android:layout_marginBottom="16dp"
+        android:layout_above="@+id/imgbtnText"
+        android:layout_alignParentEnd="true" />
+
+    <ImageButton
+        android:id="@+id/imagerectangle"
+        android:visibility="gone"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:layout_marginBottom="22dp"
+        android:src="@drawable/colorico"
+        android:background="@null"
+        android:layout_above="@+id/imagecircle"
+        android:layout_alignParentEnd="true" />
+
+    <ImageButton
+        android:visibility="gone"
+        android:id="@+id/imgbtnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_above="@+id/btnLL"
+
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="29dp"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/saveico" />
+
+    <ImageButton
+        android:id="@+id/imgbtnUndo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/btnLL"
+        android:layout_alignParentEnd="true"
+
+
+        android:layout_weight="0.08"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/undoico" />
+
+    <ImageButton
+        android:id="@+id/imgbtnChangeColor"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+
+        android:layout_weight="0.59"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/colorico"
+        android:layout_marginBottom="17dp"
+        android:layout_above="@+id/btnZoom"
+        android:layout_alignParentEnd="true" />
+
+    <ImageButton
+        android:id="@+id/imgbtnText"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+
+        android:layout_weight="0.29"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/textico"
+        android:layout_marginBottom="17dp"
+        android:layout_above="@+id/imgbtnChangeColor"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>
