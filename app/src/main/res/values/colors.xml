@@ -6,4 +6,8 @@
     <color name="overscroll">#000000</color>
     <color name="colorDark">#303F9F</color>
     <color name="actionBarC">#172D42</color>
+    <color name="backround">#e9efef</color>
+    <color name="fontAppSettings">#8c8c8c</color>
+    <color name="buttonLogout">#ff7700</color>
+    <color name="buttonsSettings">#1f4868</color>
 </resources>

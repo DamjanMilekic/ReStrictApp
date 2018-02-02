@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.laptop.restrict.Adapter.ThreeLevelListAdapter;
@@ -84,6 +85,16 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
         ThreeLevelListAdapter threeLevelListAdapterAdapter = new ThreeLevelListAdapter(this, parent, secondLevel, data);
         expandableListView.setAdapter( threeLevelListAdapterAdapter );
 
+        //Image view za app settings
+        ImageView iv = (ImageView) findViewById(R.id.btnProfileActBar);
+        iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, AppSettingsActivity.class);
+                startActivity(i);
+            }
+        });
+
 //optional show one list at a time
      /*   expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             int previousGroup = -1;
@@ -107,6 +118,8 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
         LayoutInflater mInflater = LayoutInflater.from(this);
 
         View mCustomView = mInflater.inflate(R.layout.toolbar_layout, null);
+
+
 
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
