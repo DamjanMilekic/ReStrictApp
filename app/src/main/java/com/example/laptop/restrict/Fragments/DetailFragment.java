@@ -1,5 +1,6 @@
 package com.example.laptop.restrict.Fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,7 +12,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.example.laptop.restrict.Adapter.ProjectAdapter;
 import com.example.laptop.restrict.R;
@@ -68,7 +71,6 @@ public class DetailFragment extends Fragment {
             public void onClick(View v) {
                 transaction = fragmentManager.beginTransaction();
                 transaction.replace(R.id.fragment_container, new InfoFragment());
-                //transaction.addToBackStack(null);
                 transaction.commit();
             }
         });
@@ -79,9 +81,59 @@ public class DetailFragment extends Fragment {
             public void onClick(View v) {
                 transaction = fragmentManager.beginTransaction();
                 transaction.replace(R.id.fragment_container, new CommentsFragment());
-                //transaction.addToBackStack(null);
                 transaction.commit();
             }
+        });
+
+        ImageButton download = (ImageButton) view.findViewById(R.id.downloadImageButton);
+        download.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                final View download_alert = LayoutInflater.from(getContext()).inflate(R.layout.download_alert, null);
+                TextView download = (TextView) download_alert.findViewById(R.id.download);
+                TextView cancel = (TextView) download_alert.findViewById(R.id.cancel);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setView(download_alert).setCancelable(false);
+
+                final AlertDialog alert = builder.create();
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.dismiss();
+                    }
+                });
+
+                alert.show();
+            }
+
+        });
+
+        ImageButton share = (ImageButton) view.findViewById(R.id.shareImageButton);
+        share.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                final View share_alert = LayoutInflater.from(getContext()).inflate(R.layout.share_alert, null);
+                Button cancel = (Button) share_alert.findViewById(R.id.cancel);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setView(share_alert).setCancelable(false);
+
+                final AlertDialog alert = builder.create();
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.dismiss();
+                    }
+                });
+
+                alert.show();
+            }
+
         });
 
         return view;
