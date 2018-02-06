@@ -1,15 +1,15 @@
-package com.example.laptop.restrict;
+package com.example.laptop.restrict.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,17 +17,23 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.laptop.restrict.Model.Osoba;
+import com.example.laptop.restrict.R;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by durma on 2.2.18..
- */
 
-public class AppSettingsActivity extends AppCompatActivity {
+public class FragmentAppSettingsActivity extends Fragment {
+
+    private FragmentActivity fragmentContext;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
+
+    private static final String TAG = "APP";
+
+
     EditText name, title, eMail, phone;
     Button test;
 
@@ -36,24 +42,35 @@ public class AppSettingsActivity extends AppCompatActivity {
 
     LinearLayout linearLayoutSlicicaIText;
 
-    private static final String TAG = "APP";
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        fragmentContext = (FragmentActivity) context;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.app_settings);
+        fragmentManager = fragmentContext.getSupportFragmentManager();
+    }
 
-        name = (EditText) findViewById(R.id.ime);
-        title = (EditText) findViewById(R.id.title);
-        eMail = (EditText) findViewById(R.id.eMail);
-        phone = (EditText) findViewById(R.id.phone);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.app_settings, container, false);
 
-        slikaIme = (ImageView) findViewById(R.id.sl);
+        name = (EditText)view.findViewById(R.id.ime);
+        title = (EditText)view. findViewById(R.id.title);
+        eMail = (EditText)view. findViewById(R.id.eMail);
+        phone = (EditText)view. findViewById(R.id.phone);
+
+        slikaIme = (ImageView)view. findViewById(R.id.sl);
 
         //Slike za manipulaciju sa slikom
 
-        slikax = (ImageView) findViewById(R.id.imagex);
-        slikaRotateLeft = (ImageView) findViewById(R.id.imagerotateLeft);
-        slikaRotateRight = (ImageView) findViewById(R.id.imagerotateRight);
+        slikax = (ImageView)view. findViewById(R.id.imagex);
+        slikaRotateLeft = (ImageView)view. findViewById(R.id.imagerotateLeft);
+        slikaRotateRight = (ImageView)view. findViewById(R.id.imagerotateRight);
 
 
         slikax.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +105,7 @@ public class AppSettingsActivity extends AppCompatActivity {
 
 
         //testButton
-        test = (Button) findViewById(R.id.test);
+        test = (Button)view. findViewById(R.id.test);
 
         test.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +117,7 @@ public class AppSettingsActivity extends AppCompatActivity {
         });
 
         //layout za elemente u kojoj su slicica sa kamerom i mali tekst upload picture
-        linearLayoutSlicicaIText = (LinearLayout) findViewById(R.id.slicicaItext);
+        linearLayoutSlicicaIText = (LinearLayout)view. findViewById(R.id.slicicaItext);
 
         //dodavanje ako slika  nema content, i ako ima brise placeholder
         if (slikaIme.getDrawable()==null){
@@ -111,12 +128,8 @@ public class AppSettingsActivity extends AppCompatActivity {
         else {
             linearLayoutSlicicaIText.setVisibility(View.GONE);
         }
-
-
-
+        return view;
     }
-
-
 
     public void dodajOsobu(){
         String ime = name.getText().toString();
@@ -137,16 +150,16 @@ public class AppSettingsActivity extends AppCompatActivity {
                 try {
                     int t = Integer.parseInt(tel);
                     osobaList.add(new Osoba(ime, titl, mail, t));
-                    Toast.makeText(AppSettingsActivity.this, "Uspesno unet", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Uspesno unet", Toast.LENGTH_LONG).show();
 
                 }catch (Exception e){
 
-                    Toast.makeText(AppSettingsActivity.this,"Morate uneti broj telefona", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(),"Morate uneti broj telefona", Toast.LENGTH_LONG).show();
                     phone.setError("Unesite brojeve u broj telefona");
 
                 }
             }else{
-                Toast.makeText(AppSettingsActivity.this,"Neispravno unet mail!!!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),"Neispravno unet mail!!!", Toast.LENGTH_LONG).show();
                 eMail.setError("Email nije validan");
             }
 
@@ -155,7 +168,7 @@ public class AppSettingsActivity extends AppCompatActivity {
             title.setError("morate popuniti title");
             eMail.setError("morate popuniti Email");
             phone.setError("morate popuniti phone");
-            Toast.makeText(AppSettingsActivity.this,"Morate popuniti sva polja!!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(),"Morate popuniti sva polja!!", Toast.LENGTH_LONG).show();
 
         }
     }

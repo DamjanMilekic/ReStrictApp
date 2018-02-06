@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.laptop.restrict.Adapter.ThreeLevelListAdapter;
+import com.example.laptop.restrict.Fragments.FragmentAppSettingsActivity;
 import com.example.laptop.restrict.Fragments.LoginFragment;
 import com.example.laptop.restrict.Interfaces.ILoginMain;
 
@@ -62,7 +63,7 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
         setContentView(R.layout.activity_main);
 
         loginFr = new LoginFragment();
-     //   setFragment(loginFr);
+        //   setFragment(loginFr);
 
         ActionBarInit();
 
@@ -83,15 +84,17 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandible_listview);
         ThreeLevelListAdapter threeLevelListAdapterAdapter = new ThreeLevelListAdapter(this, parent, secondLevel, data);
-        expandableListView.setAdapter( threeLevelListAdapterAdapter );
+        expandableListView.setAdapter(threeLevelListAdapterAdapter);
 
         //Image view za app settings
         ImageView iv = (ImageView) findViewById(R.id.btnProfileActBar);
         iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, AppSettingsActivity.class);
-                startActivity(i);
+               initFragment();
+
+                /*Intent i = new Intent(MainActivity.this, AppSettingsActivity.class);
+                startActivity(i);*/
             }
         });
 
@@ -107,9 +110,22 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
             }
         });
 */
+    }
+
+     private void initFragment(){
+
+         FragmentAppSettingsActivity fragmentAppSettingsActivity = new FragmentAppSettingsActivity();
+         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+         fragmentTransaction.setCustomAnimations(R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down, R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down);
+         fragmentTransaction.addToBackStack(null);
+
+         fragmentTransaction.add(R.id.frame, fragmentAppSettingsActivity).commit();
 
 
     }
+
+
     private void ActionBarInit()
     {
          mActionBar = getSupportActionBar();
