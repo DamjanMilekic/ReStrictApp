@@ -1,5 +1,6 @@
 package com.example.laptop.restrict.Fragments;
 
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,15 +8,18 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.laptop.restrict.MainActivity;
 import com.example.laptop.restrict.Model.Osoba;
 import com.example.laptop.restrict.R;
 
@@ -38,9 +42,12 @@ public class FragmentAppSettingsActivity extends Fragment {
     Button test;
 
 
-    ImageView slikaIme, slikax, slikaRotateLeft, slikaRotateRight ;
+    ImageView slikaIme, slikax, slikaRotateLeft, slikaRotateRight, backButton, buttonCheck;
+    ImageButton btnNotificationActBar;
 
     LinearLayout linearLayoutSlicicaIText;
+
+    private MainActivity mainActivity;
 
     @Override
     public void onAttach(Context context) {
@@ -71,6 +78,12 @@ public class FragmentAppSettingsActivity extends Fragment {
         slikax = (ImageView)view. findViewById(R.id.imagex);
         slikaRotateLeft = (ImageView)view. findViewById(R.id.imagerotateLeft);
         slikaRotateRight = (ImageView)view. findViewById(R.id.imagerotateRight);
+
+        //dugmici za actionBar
+        buttonCheck = (ImageView)view.findViewById(R.id.buttonCheck);
+        backButton = (ImageView)view.findViewById(R.id.backButton);
+        btnNotificationActBar = (ImageButton)view.findViewById(R.id.btnNotificationActBar);
+
 
 
         slikax.setOnClickListener(new View.OnClickListener() {
@@ -104,15 +117,20 @@ public class FragmentAppSettingsActivity extends Fragment {
         });
 
 
-        //testButton
-        test = (Button)view. findViewById(R.id.test);
-
-        test.setOnClickListener(new View.OnClickListener() {
+        //dugmici iz actionBar-a
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mainActivity = (MainActivity)getActivity();
+                mainActivity.onBackPressed();
 
+            }
+        });
+
+        buttonCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 dodajOsobu();
-
             }
         });
 
@@ -128,6 +146,14 @@ public class FragmentAppSettingsActivity extends Fragment {
         else {
             linearLayoutSlicicaIText.setVisibility(View.GONE);
         }
+
+/*
+
+        mainActivity = (MainActivity)getActivity();
+        mainActivity.getSupportActionBar().show();
+
+*/
+
         return view;
     }
 
@@ -179,4 +205,6 @@ public class FragmentAppSettingsActivity extends Fragment {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
+
+
 }

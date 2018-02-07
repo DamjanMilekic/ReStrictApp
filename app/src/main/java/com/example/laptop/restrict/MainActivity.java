@@ -13,6 +13,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,11 +93,13 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
             @Override
             public void onClick(View view) {
                initFragment();
-
+               getSupportActionBar().hide();
                 /*Intent i = new Intent(MainActivity.this, AppSettingsActivity.class);
                 startActivity(i);*/
             }
         });
+
+
 
 //optional show one list at a time
      /*   expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
@@ -128,7 +131,7 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
 
     private void ActionBarInit()
     {
-         mActionBar = getSupportActionBar();
+        mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
         LayoutInflater mInflater = LayoutInflater.from(this);
@@ -163,6 +166,14 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
         i.putExtra("url",imageDirPath);
         startActivity(i);
     }
+
+    @Override
+    public void onBackPressed() {
+        getSupportActionBar().show();
+
+        super.onBackPressed();
+    }
+
 
 
 }
