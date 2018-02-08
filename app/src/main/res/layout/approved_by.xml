@@ -2,113 +2,129 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="65dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/detail_fragment_background">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/white">
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/imageFrame"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                app:cardCornerRadius="30dp">
+                android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/image"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:background="@color/white"
-                    android:src="@drawable/userid_icon" />
+                <android.support.v7.widget.CardView
+                    android:id="@+id/imageFrame"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    app:cardCornerRadius="25dp">
 
-            </android.support.v7.widget.CardView>
+                    <ImageView
+                        android:id="@+id/image"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@color/white"
+                        android:src="@drawable/userid_icon" />
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/availabilityFrame"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignBottom="@id/imageFrame"
-                android:layout_alignRight="@id/imageFrame"
-                app:cardCornerRadius="10dp">
+                </android.support.v7.widget.CardView>
 
-                <ImageView
-                    android:id="@+id/imageAvailability"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/circle_selected"
-                    android:tint="@color/green" />
+                <android.support.v7.widget.CardView
+                    android:id="@+id/availabilityFrame"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/imageFrame"
+                    android:layout_alignRight="@id/imageFrame"
+                    app:cardCornerRadius="7.5dp">
 
-            </android.support.v7.widget.CardView>
+                    <ImageView
+                        android:id="@+id/imageAvailability"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/circle_selected"
+                        android:tint="@color/green" />
 
-        </RelativeLayout>
+                </android.support.v7.widget.CardView>
 
-        <RelativeLayout
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="5dp">
+            android:layout_height="match_parent"
+            android:background="@color/white">
 
-            <TextView
-                android:id="@+id/name"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="I.Djordjevic"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:textSize="20dp"/>
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp">
 
-            <TextView
-                android:id="@+id/jobPosition"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Android Developer"
-                android:layout_below="@id/name"
-                android:textSize="12sp"/>
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="I.Djordjevic"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/jobPosition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/name"
+                    android:text="Android Developer"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0.4"
-            android:gravity="right">
+            android:gravity="right"
+            android:background="@color/white">
 
             <ImageView
                 android:id="@+id/isUploader"
-                android:layout_width="wrap_content"
+                android:layout_width="20dp"
                 android:layout_height="match_parent"
                 android:src="@drawable/uploader"
                 android:layout_marginRight="10dp"/>
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/cardView">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/oval"
-                    android:layout_gravity="center_vertical"/>
-
-                <ImageView
-                    android:id="@+id/checked"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/check_symbol"
-                    android:layout_gravity="center"/>
-
-            </FrameLayout>
-
         </LinearLayout>
 
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/cardView"
+            android:background="@color/white"
+            android:layout_marginLeft="2dp"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/oval"
+                android:layout_gravity="center_vertical"/>
+
+            <ImageView
+                android:id="@+id/checked"
+                android:layout_width="15dp"
+                android:layout_height="30dp"
+                android:src="@drawable/check_symbol"
+                android:layout_gravity="center"/>
+
+        </FrameLayout>
 
     </LinearLayout>
 

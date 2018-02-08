@@ -7,7 +7,8 @@
     android:layout_marginTop="5dp"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/detail_fragment_background">
 
 
     <android.support.v7.widget.CardView
@@ -18,7 +19,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/detail_fragment_background">
 
             <LinearLayout
                 android:id="@+id/linearName"
@@ -26,7 +28,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginBottom="2dp"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:background="@color/white">
 
                 <TextView
                     android:id="@+id/name"
@@ -56,7 +59,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginBottom="2dp"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:background="@color/white">
 
                 <TextView
                     android:id="@+id/uploaded"
@@ -85,7 +89,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:background="@color/white">
 
                 <TextView
                     android:id="@+id/issuedfor"
@@ -148,26 +153,44 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:layout_marginBottom="2sp"
         app:cardCornerRadius="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/detail_fragment_background">
 
-            <TextView
-                android:id="@+id/approvedby"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="APPROVED BY"
-                android:textStyle="bold"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout_marginBottom="1dp">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/approvedbyRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="195dp"
-                android:layout_marginTop="5dp"/>
+                    <TextView
+                        android:id="@+id/approvedby"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="APPROVED BY"
+                        android:textStyle="bold"
+                        android:padding="5dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/approvedbyRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="260dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@color/detail_fragment_background"/>
+
+                </LinearLayout>
+
 
         </LinearLayout>
 
