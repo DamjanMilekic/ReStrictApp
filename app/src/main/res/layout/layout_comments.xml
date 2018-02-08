@@ -1,73 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="5dp"
     android:padding="5dp"
+    android:background="@color/detail_fragment_background"
     app:cardCornerRadius="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/detail_fragment_background">
 
         <LinearLayout
             android:id="@+id/search_linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:paddingTop="5dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="5dp">
 
             <TextView
                 android:id="@+id/commnets"
-                android:layout_width="wrap_content"
+                android:layout_width="158dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.25"
-                android:textStyle="bold"
+                android:padding="5dp"
                 android:text="COMMENTS"
-                android:padding="5dp"/>
+                android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/search"
-                android:layout_width="142dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.4"
-                android:hint="Search text"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/search"
+                    android:layout_width="142dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:hint="Search text"
+                    android:textSize="16sp"
+                    android:padding="5dp"
+                    android:background="@drawable/shape"/>
+
+                <ImageButton
+                    android:id="@+id/search_comments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/white"
+                    android:src="@mipmap/search"
+                    android:tint="@color/detail_fragment_tint_color" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewComments"
             android:layout_width="match_parent"
-            android:layout_height="195dp"
+            android:layout_height="329dp"
             android:layout_below="@id/search_linear"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="2dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="10dp"
-            android:layout_below="@id/recyclerViewComments">
+            android:layout_height="match_parent"
+            android:background="#F2F2F2">
 
-            <EditText
-                android:layout_width="301dp"
-                android:layout_height="100dp"
-                android:layout_weight="0.15"
-                android:hint="Add a comment..."
-                android:background="@color/white"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="5dp"
+                android:layout_below="@id/recyclerViewComments">
 
-            <ImageView
-                android:id="@+id/send_button"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_weight="0.85"
-                android:src="@mipmap/telegram_logo"
-                android:layout_gravity="center"
-                android:background="@color/white"/>
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
+
+                    <EditText
+                        android:layout_width="301dp"
+                        android:layout_height="100dp"
+                        android:layout_weight="0.15"
+                        android:hint="Add a comment..."
+                        android:background="@drawable/shape"
+                        android:textAlignment="textStart"
+                        android:gravity="top"
+                        android:padding="5dp"
+                        tools:ignore="RtlCompat" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="2dp"
+                    android:background="@color/white">
+
+                    <ImageView
+                        android:id="@+id/send_button"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="0.85"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@mipmap/telegram_logo"
+                        android:layout_gravity="center" />
+
+                </FrameLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
+
 
     </LinearLayout>
 
