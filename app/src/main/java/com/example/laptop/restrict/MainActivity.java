@@ -13,6 +13,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.laptop.restrict.Adapter.ThreeLevelListAdapter;
+import com.example.laptop.restrict.Fragments.FragmentAppSettingsActivity;
 import com.example.laptop.restrict.Fragments.LoginFragment;
 import com.example.laptop.restrict.Interfaces.ILoginMain;
 
@@ -62,7 +64,7 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
         setContentView(R.layout.activity_main);
 
         loginFr = new LoginFragment();
-     //   setFragment(loginFr);
+        //   setFragment(loginFr);
 
         ActionBarInit();
 
@@ -83,7 +85,21 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandible_listview);
         ThreeLevelListAdapter threeLevelListAdapterAdapter = new ThreeLevelListAdapter(this, parent, secondLevel, data);
-        expandableListView.setAdapter( threeLevelListAdapterAdapter );
+        expandableListView.setAdapter(threeLevelListAdapterAdapter);
+
+        //Image view za app settings
+        ImageView iv = (ImageView) findViewById(R.id.btnProfileActBar);
+        iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               initFragment();
+               getSupportActionBar().hide();
+                /*Intent i = new Intent(MainActivity.this, AppSettingsActivity.class);
+                startActivity(i);*/
+            }
+        });
+
+
 
         //Image view za app settings
         ImageView iv = (ImageView) findViewById(R.id.btnProfileActBar);
@@ -107,12 +123,28 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
             }
         });
 */
+    }
+
+     private void initFragment(){
+
+         FragmentAppSettingsActivity fragmentAppSettingsActivity = new FragmentAppSettingsActivity();
+
+         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+
+         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+         fragmentTransaction.setCustomAnimations(R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down, R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down);
+         fragmentTransaction.addToBackStack(null);
+
+         fragmentTransaction.add(R.id.frame, fragmentAppSettingsActivity).commit();
 
 
     }
+
+
     private void ActionBarInit()
     {
-         mActionBar = getSupportActionBar();
+        mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
         LayoutInflater mInflater = LayoutInflater.from(this);
@@ -147,6 +179,14 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
         i.putExtra("url",imageDirPath);
         startActivity(i);
     }
+
+    @Override
+    public void onBackPressed() {
+        getSupportActionBar().show();
+
+        super.onBackPressed();
+    }
+
 
 
 }
