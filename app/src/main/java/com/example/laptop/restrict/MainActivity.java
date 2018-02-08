@@ -118,8 +118,11 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
      private void initFragment(){
 
          FragmentAppSettingsActivity fragmentAppSettingsActivity = new FragmentAppSettingsActivity();
+
          android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+
          android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
          fragmentTransaction.setCustomAnimations(R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down, R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down);
          fragmentTransaction.addToBackStack(null);
 
