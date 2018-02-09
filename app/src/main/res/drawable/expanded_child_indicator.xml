@@ -1,0 +1,5 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_expanded="false" android:drawable="@drawable/right_arrow_blue"/>
+    <item android:state_expanded="true"  android:drawable="@drawable/down_arrow_blue" />
+    <item android:drawable="@drawable/down_arrow_blue" />
+</selector>

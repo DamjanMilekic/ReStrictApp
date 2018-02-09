@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="25dp"
+
     android:background="#172D42" >
 
     <ImageView
         android:id="@+id/imgLogo"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_centerInParent="true"
         android:src="@drawable/mid_act_bar_btn"
         android:scaleType="fitCenter"
@@ -16,41 +17,61 @@
     <ImageButton
         android:id="@+id/imgMaps"
         android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_height="30dp"
         android:background="@color/actionBarC"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="8dp"
         android:src="@drawable/left_act_bar_btn"
         android:scaleType="fitCenter"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="45dp"
+
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/btnNotificationActBar"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:background="@null"
+                android:scaleType="fitCenter"
+                android:src="@drawable/notif_act_bar_btn" />
+
+            <TextView
+                android:id="@+id/txNumberOfNotif"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginEnd="13dp"
+                android:text="9"
+                android:textColor="@color/strictBlue" />
+
+        </RelativeLayout>
+
         <ImageButton
-            android:id="@+id/btnNotificationActBar"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-
-            android:layout_centerVertical="true"
-
-
-            android:background="@null"
-            android:scaleType="fitCenter"
-            android:src="@drawable/notif_act_bar_btn" />
-        <ImageView
             android:id="@+id/btnProfileActBar"
             android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_height="30dp"
+            android:scaleType="fitCenter"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+
             android:background="@null"
             android:src="@drawable/profile_act_bar_btn" />
 
     </LinearLayout>
-
-
 
 
 </RelativeLayout>

@@ -20,17 +20,21 @@ import java.util.List;
 public class ThreeLevelListAdapter extends BaseExpandableListAdapter {
 
     String[] parentHeaders;
+    String [] parentHeadersNumber;
     List<String[]> secondLevel;
     private Context context;
     List<LinkedHashMap<String, String[]>> data;
+    List<LinkedHashMap<String,String[]>> dataNumber;
 
-    public ThreeLevelListAdapter(Context context, String[] parentHeader, List<String[]> secondLevel, List<LinkedHashMap<String, String[]>> data) {
+
+    public ThreeLevelListAdapter(Context context,String[] parentHeadersNumber ,String[] parentHeader, List<String[]> secondLevel,List<LinkedHashMap<String,String[]>> dataNumber,List<LinkedHashMap<String,String[]>> data) {
         this.context = context;
 
         this.parentHeaders = parentHeader;
+        this.parentHeadersNumber=parentHeadersNumber;
 
         this.secondLevel = secondLevel;
-
+        this.dataNumber = dataNumber;
         this.data = data;
     }
 
@@ -84,10 +88,12 @@ public class ThreeLevelListAdapter extends BaseExpandableListAdapter {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = inflater.inflate(R.layout.row_first, null);
+
         TextView text = (TextView) convertView.findViewById(R.id.rowParentText);
         TextView adressNo = (TextView)convertView.findViewById(R.id.adressNumber);
 
         text.setText(this.parentHeaders[groupPosition]);
+        adressNo.setText(this.parentHeadersNumber[groupPosition]);
 
         return convertView;
     }
@@ -100,8 +106,16 @@ public class ThreeLevelListAdapter extends BaseExpandableListAdapter {
         String[] headers = secondLevel.get(groupPosition);
 
 
-        List<String[]> childData = new ArrayList<>();
+                List<String[]> childData = new ArrayList<>();
+        List<String[]> childDataNumber = new ArrayList<>();
+
+
         HashMap<String, String[]> secondLevelData=data.get(groupPosition);
+        HashMap<String, String[]> secondLevelNumber = dataNumber.get(groupPosition);
+
+
+
+
 
         for(String key : secondLevelData.keySet())
         {
@@ -111,9 +125,12 @@ public class ThreeLevelListAdapter extends BaseExpandableListAdapter {
 
         }
 
+        for(String key2 :secondLevelNumber.keySet())
+        {
+            childDataNumber.add(secondLevelNumber.get(key2));
+        }
 
-
-        secondLevelELV.setAdapter(new SecondLevelAdapter(context, headers,childData));
+        secondLevelELV.setAdapter(new SecondLevelAdapter(context, headers,childData,childDataNumber));
 
         secondLevelELV.setGroupIndicator(null);
 
