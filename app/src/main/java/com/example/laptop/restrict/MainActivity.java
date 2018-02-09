@@ -155,6 +155,22 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
         imgProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 Toast.makeText(MainActivity.this, "Ovde vezati AppSetting", Toast.LENGTH_SHORT).show();
             }
         });

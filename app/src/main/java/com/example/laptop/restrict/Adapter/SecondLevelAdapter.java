@@ -146,6 +146,11 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
             public void onClick(View v) {
 
 
+
+
+
+
+
                 Toast.makeText(context, "Ovde vezati detalje", Toast.LENGTH_SHORT).show();
             }
         });
