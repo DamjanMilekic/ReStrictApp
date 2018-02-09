@@ -14,6 +14,7 @@ import com.example.laptop.restrict.R;
  * Created by ivandjordjevic on 2.2.18..
  */
 
+// Fragment za prikaz komentara na Detail stranici
 public class CommentsFragment extends Fragment {
 
     private RecyclerView recyclerView;
@@ -21,6 +22,8 @@ public class CommentsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        // Ucitavanje layout-a
         View view = inflater.inflate(R.layout.layout_comments, container, false);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewComments);
@@ -29,6 +32,7 @@ public class CommentsFragment extends Fragment {
 
         adapter = new CommentAdapter();
 
+        // Punjenje layout-a pomocu CommentAdapter-a
         recyclerView.setAdapter(adapter);
 
 

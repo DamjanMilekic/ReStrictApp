@@ -16,6 +16,7 @@ import com.example.laptop.restrict.R;
  * Created by ivandjordjevic on 2.2.18..
  */
 
+// Fragment za prikaz informacija na Detail stranici
 public class InfoFragment extends Fragment {
 
     private RecyclerView recyclerView;
@@ -23,6 +24,8 @@ public class InfoFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        // Ucitavanje layout-a
         View view = inflater.inflate(R.layout.layout_info, container, false);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.approvedbyRecyclerView);
@@ -31,6 +34,7 @@ public class InfoFragment extends Fragment {
 
         adapter = new ApprovedByAdapter();
 
+        // Punjenje layout-a pomocu ApprovedByAdapter-a
         recyclerView.setAdapter(adapter);
 
         return view;

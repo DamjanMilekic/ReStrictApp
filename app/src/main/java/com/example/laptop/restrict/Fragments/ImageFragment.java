@@ -14,6 +14,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  * Created by ivandjordjevic on 7.2.18..
  */
 
+// Fragment za prikaz slike
 public class ImageFragment extends Fragment {
 
     private ImageView image;
@@ -21,18 +22,20 @@ public class ImageFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        //Ucitavanje layouta
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_image, container, false);
 
         image = (ImageView) view.findViewById(R.id.image);
 
+        // Dodavanje slike u ImageView
         Picasso.with(getContext())
                 .load(R.drawable.landscape)
                 .into(image);
 
+        // Klasa koja omogucava zumiranje slike
         photoViewAttacher = new PhotoViewAttacher(image);
         photoViewAttacher.update();
-
-
 
         return view;
     }

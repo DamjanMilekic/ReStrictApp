@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.example.laptop.restrict.Adapter.ProjectAdapter;
 import com.example.laptop.restrict.R;
 
-
+// Glavni fragment Detail stranice
 public class DetailFragment extends Fragment {
 
     private FragmentActivity fragmentContext;
@@ -58,23 +58,26 @@ public class DetailFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setHasFixedSize(true);
 
+        // Punjenje Project dela
         adapter = new ProjectAdapter();
 
         recyclerView.setAdapter(adapter);
 
+        // Default ucitavanje dela za informacije na Detail-u prilikom prvog instanciranja DetailFragment-a
         transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragment_container, new InfoFragment());
         transaction.commit();
 
-        final FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.resizeFragmentContainer);
-
+        // Ucitavanje slike projekta
         ImageView projectImage = (ImageView) view.findViewById(R.id.image);
         projectImage.setImageResource(R.drawable.landscape);
 
+        // OnClickListener za resize slike projekta
         ImageView resize = (ImageView) view.findViewById(R.id.imgResizeFront);
         resize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Prikazivanje slike projekta pomocu ImageFragment-a na praznom FrameLayout-u u fragment_detail.xml fajlu
                 FragmentManager fragmentManager2 = getFragmentManager();
                 FragmentTransaction transaction2 = fragmentManager2.beginTransaction();
                 transaction2.replace(R.id.resizeFragmentContainer, new ImageFragment());
@@ -82,20 +85,24 @@ public class DetailFragment extends Fragment {
                 transaction2.commit();
                 getView().setFocusableInTouchMode(true);
                 getView().requestFocus();
+
+                // OnClickListener za izlazak iz resize slike
                 getView().setOnKeyListener(new View.OnKeyListener() {
+
                     @Override
                     public boolean onKey(View v, int keyCode, KeyEvent event) {
                         if( keyCode == KeyEvent.ACTION_UP) {
-
                             getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                             return true;
                         }
                         return false;
                     }
+
                 });
             }
         });
 
+        // OnClickListener za (un)lock slike projekta
         final ImageView un_lock = (ImageView) view.findViewById(R.id.imgLockFront);
         un_lock.setOnClickListener(new View.OnClickListener() {
 
@@ -116,6 +123,7 @@ public class DetailFragment extends Fragment {
             }
         });
 
+        // Prikaz fragmenta za informacijama u donjem delu DetailFragmenta pritiskom na infoImageButton
         ImageButton info = (ImageButton) view.findViewById(R.id.infoImageButton);
         info.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,6 +134,7 @@ public class DetailFragment extends Fragment {
             }
         });
 
+        // Prikaz fragmenta za komentarima u donjem delu DetailFragmenta pritiskom na commentsImageButton
         ImageButton comments = (ImageButton) view.findViewById(R.id.commentsImageButton);
         comments.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +145,7 @@ public class DetailFragment extends Fragment {
             }
         });
 
+        // Prikaz alert dialoga za download u DetailFragmentu pritiskom na downloadImageButton
         ImageButton download = (ImageButton) view.findViewById(R.id.downloadImageButton);
         download.setOnClickListener(new View.OnClickListener() {
 
@@ -162,6 +172,7 @@ public class DetailFragment extends Fragment {
 
         });
 
+        // Prikaz alert dialoga za share u DetailFragmentu pritiskom na sharemageButton
         ImageButton share = (ImageButton) view.findViewById(R.id.shareImageButton);
         share.setOnClickListener(new View.OnClickListener() {
 
