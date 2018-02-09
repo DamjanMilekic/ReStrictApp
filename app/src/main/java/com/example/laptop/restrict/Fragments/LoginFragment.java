@@ -2,10 +2,12 @@ package com.example.laptop.restrict.Fragments;
 
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import com.example.laptop.restrict.R;
 public  class LoginFragment extends Fragment {
 
     private ILoginMain listenerLoginMain;
+    HomeFragment homeFragment;
     EditText  passwordEdit,emailEdit;
     Button btnLogin;
     View view;
@@ -42,7 +45,7 @@ public  class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.login_fragment, container, false);
-
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         return view;
     }
 
@@ -75,10 +78,18 @@ public  class LoginFragment extends Fragment {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listenerLoginMain.onClick();
+
+                Fragment newFragment = new HomeFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                transaction.replace(R.id.famelayout, newFragment);
+
+                transaction.commit();
             }
         });
     }
+
+
 
     @Override
     public void onDetach() {

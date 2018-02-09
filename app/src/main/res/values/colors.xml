@@ -6,4 +6,8 @@
     <color name="overscroll">#000000</color>
     <color name="colorDark">#303F9F</color>
     <color name="actionBarC">#172D42</color>
+    <color name="addresNumber">#00C1FF</color>
+    <color name="strictBlue">#1B3F59</color>
+    <color name="extendedListBackground">#E7EFF1</color>
+    <color name="secondLevelText">#6E8595</color>
 </resources>

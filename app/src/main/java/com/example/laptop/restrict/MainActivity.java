@@ -6,19 +6,35 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Matrix;
+import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.laptop.restrict.Adapter.PopUpNotifAdapter;
 import com.example.laptop.restrict.Adapter.ThreeLevelListAdapter;
 import com.example.laptop.restrict.Fragments.LoginFragment;
 import com.example.laptop.restrict.Interfaces.ILoginMain;
@@ -34,56 +50,73 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
 
   Fragment loginFr;
 
+    Point p;
+    View menuButton;
+
     ExpandableListView expandableListView;
-    String[] parent = new String[]{"MOVIES", "GAMES"}; // comment this when uncomment bottom
-    String[] movies = new String[]{"Horror", "Action", "Thriller/Drama"};
-    String[] games = new String[]{"Fps", "Moba", "Rpg", "Racing"};
-    String[] horror = new String[]{"Conjuring", "Insidious", "The Ring"};
-    String[] action = new String[]{"Jon Wick", "Die Hard", "Fast 7", "Avengers"};
-    String[] thriller = new String[]{"Imitation Game", "Tinker, Tailer, Soldier, Spy", "Inception", "Manchester by the Sea"};
-    String[] fps = new String[]{"CS: GO", "Team Fortress 2", "Overwatch", "Battlefield 1", "Halo II", "Warframe"};
-    String[] moba = new String[]{"Dota 2", "League of Legends", "Smite", "Strife", "Heroes of the Storm"};
-    String[] rpg = new String[]{"Witcher III", "Skyrim", "Warcraft", "Mass Effect II", "Diablo", "Dark Souls", "Last of Us"};
-    String[] racing = new String[]{"NFS: Most Wanted", "Forza Motorsport 3", "EA: F1 2016", "Project Cars"};
+    String[] parent = new String[]{"Chelsea Barracks", "Hoxton"};
+    String [] parentNumbers = new String[]{"9472","4493"};
+    //Floors
+    String[] moviesSecLevel = new String[]{"Floor 1", "Floor 2", "Floor 3"};
+    String[] gamesSecLeve = new String[]{"Floor 1", "Floor 2"};
+
+
+    //Chelsea
+    String[] chelseaThirdLvl = new String[]{"chelsea1 base", "chelsea 2 base"};
+    String[] chelseaThirdLvl2 = new String[]{"Floor 2 chelsea 2 base"};
+    String[] chelseaThirdLvl3 = new String[]{"Floor 3 chelsea 3 base", "Floor 3 chelsea3 base", "Floor 3 chelsea 3 base"};
+
+    String[] planNumbersChelsea = new String[]{"280","281"};
+    String[] planNumbers2Chelsea = new String[]{"180"};
+
+    String[] planNumbers3Chelsea = new String[]{"380","381","382"};
+    //Hoxton
+    String[] hoxtonThirdLvl = new String[]{"Ground floor 1 Hoxton ", "Ground floor 2 Hoxton"};
+    String[] hoxtonThirdLvl2 = new String[]{"Ground floor 2 Hoxton"};
+
+    String[] planNumbersHoxton = new String[]{"008","009"};
+    String[] planNumbers2Hoxton = new String[]{"118a"};
+
+
+
+
+
 
     LinkedHashMap<String, String[]> thirdLevelMovies = new LinkedHashMap<>();
     LinkedHashMap<String, String[]> thirdLevelGames = new LinkedHashMap<>();
+    LinkedHashMap<String, String[]> thirdLevelDataNumbersMovies = new LinkedHashMap<>();
+    LinkedHashMap<String, String[]> thirdLevelDataNumbersGames = new LinkedHashMap<>();
+
+
     List<String[]> secondLevel = new ArrayList<>();
     List<LinkedHashMap<String, String[]>> data = new ArrayList<>();
+    List<LinkedHashMap<String, String[]>> dataNumbers = new ArrayList<>();
+
+    List<String> notificationList;
+
 
     ActionBar mActionBar;
-
-
+    private DisplayMetrics metrics;
+    public int width;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        notificationList = new ArrayList<>();
+
+        notificationList.add("Lorem ipsum dolor sit amet,consaectetur..");
+        notificationList.add("Test notifictation");
+        notificationList.add("Test notification 2");
+
+
+
+         findMenuItem();
+          actionBarInit();
+
         loginFr = new LoginFragment();
-     //   setFragment(loginFr);
-
-        ActionBarInit();
-
-        secondLevel.add(movies);
-        secondLevel.add(games);
-
-        thirdLevelMovies.put(movies[0], horror);
-        thirdLevelMovies.put(movies[1], action);
-        thirdLevelMovies.put(movies[2], thriller);
-
-        thirdLevelGames.put(games[0], fps);
-        thirdLevelGames.put(games[1], moba);
-        thirdLevelGames.put(games[2], rpg);
-        thirdLevelGames.put(games[3], racing);
-
-        data.add(thirdLevelMovies);
-        data.add(thirdLevelGames);
-
-        expandableListView = (ExpandableListView) findViewById(R.id.expandible_listview);
-        ThreeLevelListAdapter threeLevelListAdapterAdapter = new ThreeLevelListAdapter(this, parent, secondLevel, data);
-        expandableListView.setAdapter( threeLevelListAdapterAdapter );
-
+        setFragment(loginFr);
 //optional show one list at a time
      /*   expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             int previousGroup = -1;
@@ -97,11 +130,11 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
         });
 */
 
-
     }
-    private void ActionBarInit()
+
+    private void actionBarInit()
     {
-         mActionBar = getSupportActionBar();
+        mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
         LayoutInflater mInflater = LayoutInflater.from(this);
@@ -110,6 +143,29 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
 
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
+
+        ImageButton notification = (ImageButton)mCustomView.findViewById(R.id.btnNotificationActBar);
+        ImageButton imgProfile = (ImageButton)mCustomView.findViewById(R.id.btnProfileActBar);
+        TextView numberOfNotif = (TextView)mCustomView.findViewById(R.id.txNumberOfNotif);
+
+        numberOfNotif.setText(String.valueOf(notificationList.size()));
+
+
+
+        imgProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Ovde vezati AppSetting", Toast.LENGTH_SHORT).show();
+            }
+        });
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+               showPopUp(MainActivity.this,p,v);
+            }
+        });
     }
 
     public void setFragment(Fragment frag)
@@ -117,7 +173,9 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         if (fm.findFragmentById(R.id.famelayout) == null) {
-            ft.replace(R.id.famelayout,loginFr);
+           // ft.addToBackStack("login");
+            ft.add(R.id.famelayout,frag);
+         //   ft.replace(R.id.famelayout,loginFr);
             ft.commit();
         }
 
@@ -135,5 +193,88 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
         startActivity(i);
     }
 
+    private void findMenuItem()
+    {
+        final ViewTreeObserver viewTreeObserver = getWindow().getDecorView().getViewTreeObserver();
+        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                menuButton = findViewById(R.id.btnNotificationActBar);
+                if (menuButton != null) {
+                    // Found it! Do what you need with the button
+                    int[] location = new int[2];
+                    menuButton.getLocationInWindow(location);
+
+                    p = new Point();
+                    p.x = location[0];
+                    p.y = location[1];
+
+                    if(viewTreeObserver.isAlive()) {
+                        viewTreeObserver.removeOnGlobalLayoutListener(this);
+                    }
+                }
+            }
+        });
+    }
+
+    private void showPopUp(final Activity context,Point p,View view)
+    {
+       /* int popupWidth = 400;
+        int popupHeight = 200;
+
+        LinearLayout viewGroup = (LinearLayout) context.findViewById(R.id.popup);
+        LayoutInflater layoutInflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = layoutInflater.inflate(R.layout.popup_notifications, viewGroup);
+
+        final PopupWindow popup = new PopupWindow(layout);
+        popup.setContentView(layout);
+        popup.setWidth(width);
+        popup.setHeight(popupHeight);
+        popup.setFocusable(true);
+        popup.setBackgroundDrawable(new BitmapDrawable());
+
+        int OFFSET_X = 5;
+        int OFFSET_Y = 90;
+
+
+        popup.showAtLocation(view, Gravity.NO_GRAVITY, p.x+OFFSET_X, p.y+OFFSET_Y );
+*/
+
+        View popupView = getLayoutInflater().inflate(R.layout.popup_notifications, null);
+
+        PopupWindow popupWindow = new PopupWindow(popupView,
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        popupWindow.setFocusable(true);
+
+        popupWindow.setContentView(popupView);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+
+
+        int location[] = new int[2];
+        int OFFSET_X = 0;
+        int OFFSET_Y = 90;
+
+       // view.getLocationOnScreen(location);
+
+        popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, p.x+OFFSET_X, p.y+OFFSET_Y );
+
+
+        RecyclerView recyclerView = (RecyclerView)popupView.findViewById(R.id.rvNotify);
+        LinearLayoutManager vertical
+                = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(vertical);
+
+        PopUpNotifAdapter notifAdapter = new PopUpNotifAdapter(this,notificationList);
+        recyclerView.setAdapter(notifAdapter);
+
+
+
+
+
+
+
+    }
 
 }
