@@ -32,7 +32,6 @@ public class DetailFragment extends Fragment {
     private RecyclerView recyclerView;
     private ProjectAdapter adapter;
 
-
     public DetailFragment() {
         // Required empty public constructor
     }
@@ -69,24 +68,28 @@ public class DetailFragment extends Fragment {
 
         final FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.resizeFragmentContainer);
 
+        ImageView projectImage = (ImageView) view.findViewById(R.id.image);
+        projectImage.setImageResource(R.drawable.landscape);
+
         ImageView resize = (ImageView) view.findViewById(R.id.imgResizeFront);
         resize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.resizeFragmentContainer, new ImageFragment());
-                frameLayout.setVisibility(View.VISIBLE);
-                transaction.commit();
+                FragmentManager fragmentManager2 = getFragmentManager();
+                FragmentTransaction transaction2 = fragmentManager2.beginTransaction();
+                transaction2.replace(R.id.resizeFragmentContainer, new ImageFragment());
+                transaction2.addToBackStack(null);
+                transaction2.commit();
                 getView().setFocusableInTouchMode(true);
                 getView().requestFocus();
                 getView().setOnKeyListener(new View.OnKeyListener() {
                     @Override
                     public boolean onKey(View v, int keyCode, KeyEvent event) {
-                        if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){ // handle back button
-                            frameLayout.setVisibility(View.INVISIBLE);
+                        if( keyCode == KeyEvent.ACTION_UP) {
+
+                            getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                             return true;
                         }
-
                         return false;
                     }
                 });
@@ -186,5 +189,6 @@ public class DetailFragment extends Fragment {
 
         return view;
     }
+
 
 }

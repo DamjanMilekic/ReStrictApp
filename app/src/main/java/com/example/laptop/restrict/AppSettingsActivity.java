@@ -1,15 +1,11 @@
 package com.example.laptop.restrict;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
+
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -86,18 +82,6 @@ public class AppSettingsActivity extends AppCompatActivity {
             }
         });
 
-
-        //testButton
-        test = (Button) findViewById(R.id.test);
-
-        test.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                dodajOsobu();
-
-            }
-        });
 
         //layout za elemente u kojoj su slicica sa kamerom i mali tekst upload picture
         linearLayoutSlicicaIText = (LinearLayout) findViewById(R.id.slicicaItext);

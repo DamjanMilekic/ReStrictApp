@@ -2,7 +2,6 @@ package com.example.laptop.restrict.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,7 @@ public class ImageFragment extends Fragment {
         image = (ImageView) view.findViewById(R.id.image);
 
         Picasso.with(getContext())
-                .load(R.drawable.technologywallpaper)
+                .load(R.drawable.landscape)
                 .into(image);
 
         photoViewAttacher = new PhotoViewAttacher(image);

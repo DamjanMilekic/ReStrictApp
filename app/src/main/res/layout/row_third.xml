@@ -5,6 +5,10 @@
     android:orientation="horizontal"
 
     android:padding="10dp">
+<LinearLayout
+    android:id="@+id/testDetail"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/basePlanNumber"
@@ -20,4 +24,7 @@
         android:paddingLeft="46dp"
 
         android:textSize="16sp" />
+
+</LinearLayout>
+
 </LinearLayout>

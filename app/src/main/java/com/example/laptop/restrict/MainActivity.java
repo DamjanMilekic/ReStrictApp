@@ -18,10 +18,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.laptop.restrict.Adapter.ThreeLevelListAdapter;
+import com.example.laptop.restrict.Fragments.DetailFragment;
 import com.example.laptop.restrict.Fragments.FragmentAppSettingsActivity;
 import com.example.laptop.restrict.Fragments.LoginFragment;
 import com.example.laptop.restrict.Interfaces.ILoginMain;
@@ -55,8 +58,7 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
     List<LinkedHashMap<String, String[]>> data = new ArrayList<>();
 
     ActionBar mActionBar;
-
-
+    ImageButton btnNotificationActBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,17 +101,22 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
             }
         });
 
+        btnNotificationActBar = (ImageButton) findViewById(R.id.btnNotificationActBar);
 
-
-        //Image view za app settings
-        ImageView iv = (ImageView) findViewById(R.id.btnProfileActBar);
-        iv.setOnClickListener(new View.OnClickListener() {
+        btnNotificationActBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, AppSettingsActivity.class);
-                startActivity(i);
+                initFragment2();
+
             }
         });
+  /*      linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initFragment2();
+            }
+        });
+*/
 
 //optional show one list at a time
      /*   expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
@@ -123,6 +130,22 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
             }
         });
 */
+    }
+
+    private void initFragment2(){
+
+        DetailFragment detailFragment = new DetailFragment();
+
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+
+        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+       fragmentTransaction.setCustomAnimations(R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down, R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down);
+        fragmentTransaction.addToBackStack(null);
+
+        fragmentTransaction.add(R.id.frame, detailFragment).commit();
+
+
     }
 
      private void initFragment(){
@@ -183,6 +206,7 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
     @Override
     public void onBackPressed() {
         getSupportActionBar().show();
+
 
         super.onBackPressed();
     }
