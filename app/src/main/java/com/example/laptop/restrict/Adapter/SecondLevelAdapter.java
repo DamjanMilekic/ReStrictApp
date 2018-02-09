@@ -7,6 +7,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +16,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.laptop.restrict.Fragments.DetailFragment;
 import com.example.laptop.restrict.Fragments.LoginFragment;
 import com.example.laptop.restrict.MainActivity;
 import com.example.laptop.restrict.R;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.TooManyListenersException;
-import java.util.concurrent.RecursiveTask;
 
 
 public class SecondLevelAdapter extends BaseExpandableListAdapter {
@@ -30,22 +29,23 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
     private Context context;
 
     private static final int[] EMPTY_STATE_SET = {};
-    private static final int[] GROUP_EXPANDED_STATE_SET = { android.R.attr.state_expanded };
-    private static final int[][] GROUP_STATE_SETS = { EMPTY_STATE_SET, // 0
+    private static final int[] GROUP_EXPANDED_STATE_SET = {android.R.attr.state_expanded};
+    private static final int[][] GROUP_STATE_SETS = {EMPTY_STATE_SET, // 0
             GROUP_EXPANDED_STATE_SET // 1
     };
     LoginFragment loginFr;
     List<String[]> dataNumbers;
     List<String[]> data;
 
-   String[] headers;
+    String[] headers;
 
+    MainActivity mainActivity;
 
-    public SecondLevelAdapter(Context context, String[] headers,List<String[]> data,List<String[]> dataNumbers) {
+    public SecondLevelAdapter(Context context, String[] headers, List<String[]> data, List<String[]> dataNumbers) {
         this.context = context;
 
         this.data = data;
-        this.dataNumbers=dataNumbers;
+        this.dataNumbers = dataNumbers;
         this.headers = headers;
     }
 
@@ -114,7 +114,7 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         childData = data.get(groupPosition);
         //numberData = dataNumbers.get(groupPosition);*/
 
-       // return childData[childPosition];
+        // return childData[childPosition];
         return childPosition;
     }
 
@@ -130,9 +130,9 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         convertView = inflater.inflate(R.layout.row_third, null);
 
         TextView textView = (TextView) convertView.findViewById(R.id.rowThirdText);
-        TextView basePlanNumber = (TextView)convertView.findViewById(R.id.basePlanNumber);
+        TextView basePlanNumber = (TextView) convertView.findViewById(R.id.basePlanNumber);
 
-        String[] childArray=data.get(groupPosition);
+        String[] childArray = data.get(groupPosition);
         String[] childNumber = dataNumbers.get(groupPosition);
 
         String text = childArray[childPosition];
@@ -144,36 +144,30 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                initFragment2();
 
 
-
-
-
-
-
-                Toast.makeText(context, "Ovde vezati detalje", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context, "Ovde vezati detalje", Toast.LENGTH_SHORT).show();
             }
         });
-
 
 
         return convertView;
     }
 
-    public void setFragment(Fragment frag)
-    {
-        FragmentManager fm =((Activity)context).getFragmentManager();
+    public void setFragment(Fragment frag) {
+        FragmentManager fm = ((Activity) context).getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
-            ft.replace(R.id.famelayout,frag);
-            ft.addToBackStack("login");
-            ft.commit();
+        ft.replace(R.id.frame, frag);
+        ft.addToBackStack("login");
+        ft.commit();
 
 
     }
 
-    public interface IThirdLevelClick{
-        public void onThirdLevelClick(View view,int position);
+    public interface IThirdLevelClick {
+        public void onThirdLevelClick(View view, int position);
     }
 
     @Override
@@ -192,5 +186,22 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
+    }
+
+    private void initFragment2() {
+
+        DetailFragment detailFragment = new DetailFragment();
+
+        AppCompatActivity activity = (AppCompatActivity) context;
+
+        android.support.v4.app.FragmentManager fragmentManager = activity.getSupportFragmentManager();
+
+        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_out_left, R.anim.slide_from_right,R.anim.slide_out_left);
+        fragmentTransaction.addToBackStack(null);
+
+        fragmentTransaction.add(R.id.frame, detailFragment).commit();
+
     }
 }

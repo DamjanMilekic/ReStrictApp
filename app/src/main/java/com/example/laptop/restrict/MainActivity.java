@@ -5,44 +5,33 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
 
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.laptop.restrict.Adapter.PopUpNotifAdapter;
-import com.example.laptop.restrict.Adapter.ThreeLevelListAdapter;
 import com.example.laptop.restrict.Fragments.DetailFragment;
 import com.example.laptop.restrict.Fragments.FragmentAppSettingsActivity;
 import com.example.laptop.restrict.Fragments.LoginFragment;
 import com.example.laptop.restrict.Interfaces.ILoginMain;
 
-import java.io.FileDescriptor;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -115,7 +104,7 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
 
 
          findMenuItem();
-          actionBarInit();
+        actionBarInit();
 
         loginFr = new LoginFragment();
         setFragment(loginFr);
@@ -133,41 +122,25 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
 */
     }
 
-    private void initFragment2(){
+    private void initFragmentAppSettings(){
 
-        DetailFragment detailFragment = new DetailFragment();
+        FragmentAppSettingsActivity fragmentAppSettingsActivity = new FragmentAppSettingsActivity();
 
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
 
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-       fragmentTransaction.setCustomAnimations(R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down, R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down);
+        fragmentTransaction.setCustomAnimations(R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down, R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down);
         fragmentTransaction.addToBackStack(null);
 
-        fragmentTransaction.add(R.id.frame, detailFragment).commit();
+        fragmentTransaction.add(R.id.frame, fragmentAppSettingsActivity).commit();
+
 
     }
+
+
 
     private void actionBarInit()
-
-     private void initFragment(){
-
-         FragmentAppSettingsActivity fragmentAppSettingsActivity = new FragmentAppSettingsActivity();
-
-         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-
-         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-         fragmentTransaction.setCustomAnimations(R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down, R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down);
-         fragmentTransaction.addToBackStack(null);
-
-         fragmentTransaction.add(R.id.frame, fragmentAppSettingsActivity).commit();
-
-
-    }
-
-
-    private void ActionBarInit()
     {
         mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
@@ -192,21 +165,10 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
             public void onClick(View v) {
 
 
+                initFragmentAppSettings();
+                mActionBar.hide();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-                Toast.makeText(MainActivity.this, "Ovde vezati AppSetting", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Ovde vezati AppSetting", Toast.LENGTH_SHORT).show();
             }
         });
         notification.setOnClickListener(new View.OnClickListener() {
@@ -223,9 +185,9 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
     {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        if (fm.findFragmentById(R.id.famelayout) == null) {
+        if (fm.findFragmentById(R.id.frame) == null) {
            // ft.addToBackStack("login");
-            ft.add(R.id.famelayout,frag);
+            ft.add(R.id.frame,frag);
          //   ft.replace(R.id.famelayout,loginFr);
             ft.commit();
         }
@@ -305,7 +267,7 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
 
         int location[] = new int[2];
         int OFFSET_X = 0;
-        int OFFSET_Y = 90;
+        int OFFSET_Y = 140;
 
        // view.getLocationOnScreen(location);
 
@@ -330,7 +292,6 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
     @Override
     public void onBackPressed() {
         getSupportActionBar().show();
-
 
         super.onBackPressed();
     }

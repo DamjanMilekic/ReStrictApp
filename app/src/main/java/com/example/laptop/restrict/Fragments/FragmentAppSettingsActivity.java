@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.laptop.restrict.MainActivity;
@@ -147,8 +148,8 @@ public class FragmentAppSettingsActivity extends Fragment {
             linearLayoutSlicicaIText.setVisibility(View.GONE);
         }
 
-/*
 
+/*
         mainActivity = (MainActivity)getActivity();
         mainActivity.getSupportActionBar().show();
 

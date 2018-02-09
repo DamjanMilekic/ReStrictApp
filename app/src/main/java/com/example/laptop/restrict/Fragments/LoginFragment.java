@@ -82,7 +82,7 @@ public  class LoginFragment extends Fragment {
                 Fragment newFragment = new HomeFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
-                transaction.replace(R.id.famelayout, newFragment);
+                transaction.replace(R.id.frame, newFragment);
 
                 transaction.commit();
             }
