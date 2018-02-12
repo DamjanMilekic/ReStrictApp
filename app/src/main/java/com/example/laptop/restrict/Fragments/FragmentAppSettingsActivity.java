@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.laptop.restrict.MainActivity;
@@ -141,19 +139,12 @@ public class FragmentAppSettingsActivity extends Fragment {
         //dodavanje ako slika  nema content, i ako ima brise placeholder
         if (slikaIme.getDrawable()==null){
             slikaIme.setImageResource(R.drawable.backround_circle);
-            Log.d(TAG, "nema slike");
+            Log.d(TAG, "NO PICTURES");
 
         }
         else {
             linearLayoutSlicicaIText.setVisibility(View.GONE);
         }
-
-
-/*
-        mainActivity = (MainActivity)getActivity();
-        mainActivity.getSupportActionBar().show();
-
-*/
 
         return view;
     }
@@ -177,25 +168,25 @@ public class FragmentAppSettingsActivity extends Fragment {
                 try {
                     int t = Integer.parseInt(tel);
                     osobaList.add(new Osoba(ime, titl, mail, t));
-                    Toast.makeText(getContext(), "Uspesno unet", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Changes made successfully", Toast.LENGTH_LONG).show();
 
                 }catch (Exception e){
 
-                    Toast.makeText(getContext(),"Morate uneti broj telefona", Toast.LENGTH_LONG).show();
-                    phone.setError("Unesite brojeve u broj telefona");
+                    Toast.makeText(getContext(),"USE ONLY NUMBERS IN PHONE ENTRY", Toast.LENGTH_LONG).show();
+                    phone.setError("USE ONLY NUMBERS IN PHONE ENTRY");
 
                 }
             }else{
-                Toast.makeText(getContext(),"Neispravno unet mail!!!", Toast.LENGTH_LONG).show();
-                eMail.setError("Email nije validan");
+                Toast.makeText(getContext(),"ENTER EMAIL FORM CORRECTLY", Toast.LENGTH_LONG).show();
+                eMail.setError("ENTER EMAIL FORM CORRECTLY");
             }
 
         else{
-            name.setError("morate popuniti ime");
-            title.setError("morate popuniti title");
-            eMail.setError("morate popuniti Email");
-            phone.setError("morate popuniti phone");
-            Toast.makeText(getContext(),"Morate popuniti sva polja!!", Toast.LENGTH_LONG).show();
+            name.setError("ENTER NAME");
+            title.setError("ENTER TITLE");
+            eMail.setError("ENTER EMAIL");
+            phone.setError("ENTER PHONE");
+            Toast.makeText(getContext(),"ENTER ALL FIELDS", Toast.LENGTH_LONG).show();
 
         }
     }
@@ -206,6 +197,5 @@ public class FragmentAppSettingsActivity extends Fragment {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
-
 
 }

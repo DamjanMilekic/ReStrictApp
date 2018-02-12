@@ -2,10 +2,15 @@ package com.example.laptop.restrict.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+
+import com.example.laptop.restrict.MainActivity;
 import com.example.laptop.restrict.R;
 import com.squareup.picasso.Picasso;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -19,6 +24,8 @@ public class ImageFragment extends Fragment {
 
     private ImageView image;
     private PhotoViewAttacher photoViewAttacher;
+
+    private ImageView backButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,6 +43,19 @@ public class ImageFragment extends Fragment {
         // Klasa koja omogucava zumiranje slike
         photoViewAttacher = new PhotoViewAttacher(image);
         photoViewAttacher.update();
+
+        //backDugme u FullscreenImage
+        backButton = (ImageView) view.findViewById(R.id.backButtonFullScreen);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity mainActivity = (MainActivity)getActivity();
+                mainActivity.onBackPressed();
+                Log.d("123", "kliknutBACK: ");
+            }
+        });
+
 
         return view;
     }

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,6 +76,11 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         TextView text = (TextView) convertView.findViewById(R.id.rowSecondText);
         View ind = convertView.findViewById(R.id.arrowChild);
         View ind2 = convertView.findViewById(R.id.arrowChildExpanded);
+
+        ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(ind2.getLayoutParams());
+        marginLayoutParams.setMarginEnd(toPxs(16));
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(marginLayoutParams);
+
         String groupText = getGroup(groupPosition).toString();
         text.setText(groupText);
 
@@ -90,6 +96,8 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
                 if (stateSetIndex == 1) {
                     ind.setVisibility(View.INVISIBLE);
                     ind2.setVisibility(View.VISIBLE);
+                    ind2.setLayoutParams(layoutParams);
+
                     Drawable drawable = indicator.getDrawable();
                     drawable.setState(GROUP_STATE_SETS[stateSetIndex]);
                 } else if (stateSetIndex == 0) {
@@ -203,5 +211,9 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
 
         fragmentTransaction.add(R.id.frame, detailFragment).commit();
 
+    }
+
+    private int toPxs(float dps) {
+        return (int) (dps * context.getResources().getDisplayMetrics().density);
     }
 }

@@ -23,13 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PinchZoom">
 
-        </activity>
-        <activity android:name=".AppSettingsActivity">
-
-
-        </activity>
     </application>
 
 </manifest>

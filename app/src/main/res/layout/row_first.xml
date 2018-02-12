@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="4dp"
     android:divider="@drawable/divider_vertical"
     android:showDividers="middle"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@color/white">
 
     <TextView
 
@@ -16,18 +18,17 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="10dp"
         android:text=""
-
         android:textColor="@color/addresNumber"
-        android:textSize="29sp" />
+        android:textSize="19sp" />
+
     <TextView
-        android:layout_marginLeft="10dp"
         android:id="@+id/rowParentText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
 
         android:textColor="@color/strictBlue"
-        android:textSize="27sp"/>
-
+        android:textSize="18sp" />
 
 
 </LinearLayout>

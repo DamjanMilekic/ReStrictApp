@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.laptop.restrict.Adapter.ProjectAdapter;
+import com.example.laptop.restrict.MainActivity;
 import com.example.laptop.restrict.R;
 
 // Glavni fragment Detail stranice
@@ -99,6 +100,17 @@ public class DetailFragment extends Fragment {
                     }
 
                 });
+                //Gasenje actionbara prilikom inicijalizacije fullscreen dugmeta
+                MainActivity mainActivity = (MainActivity)getActivity();
+
+                android.support.v7.app.ActionBar actionBar;
+
+                actionBar = mainActivity.getSupportActionBar();
+                actionBar.setDisplayShowHomeEnabled(false);
+                actionBar.setDisplayShowTitleEnabled(false);
+                actionBar.hide();
+
+
             }
         });
 
