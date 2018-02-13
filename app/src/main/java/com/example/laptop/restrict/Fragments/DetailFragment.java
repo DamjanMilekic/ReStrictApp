@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.example.laptop.restrict.Adapter.ProjectAdapter;
 import com.example.laptop.restrict.MainActivity;
 import com.example.laptop.restrict.R;
+import com.squareup.picasso.Picasso;
 
 // Glavni fragment Detail stranice
 public class DetailFragment extends Fragment {
@@ -71,7 +72,11 @@ public class DetailFragment extends Fragment {
 
         // Ucitavanje slike projekta
         ImageView projectImage = (ImageView) view.findViewById(R.id.image);
-        projectImage.setImageResource(R.drawable.landscape);
+       // projectImage.setImageResource(R.drawable.landscape);
+
+        Picasso.with(getContext())
+                .load(R.drawable.landscape).fit().centerCrop()
+                .into(projectImage);
 
         // OnClickListener za resize slike projekta
         ImageView resize = (ImageView) view.findViewById(R.id.imgResizeFront);
