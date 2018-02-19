@@ -2,9 +2,9 @@ package com.example.laptop.restrict;
 
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
@@ -40,7 +40,7 @@ import java.util.List;
 public  class MainActivity extends AppCompatActivity implements ILoginMain {
 
 
-  Fragment loginFr;
+  android.support.v4.app.Fragment loginFr;
 
     Point p;
     View menuButton;
@@ -183,7 +183,7 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
 
     public void setFragment(Fragment frag)
     {
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         if (fm.findFragmentById(R.id.frame) == null) {
            // ft.addToBackStack("login");
