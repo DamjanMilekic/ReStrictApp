@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -19,13 +18,22 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.laptop.restrict.MainActivity;
+import com.example.laptop.restrict.Model.Data;
 import com.example.laptop.restrict.Model.Osoba;
+import com.example.laptop.restrict.Model.Person;
 import com.example.laptop.restrict.R;
+import com.example.laptop.restrict.RetrofitAppSettings.ApiClientAppSettings;
+import com.example.laptop.restrict.RetrofitAppSettings.ApiInterfaceAppSettings;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class FragmentAppSettingsActivity extends Fragment {
@@ -36,9 +44,9 @@ public class FragmentAppSettingsActivity extends Fragment {
 
     private static final String TAG = "APP";
 
+    public static final String APP_TOKEN = "Q4ramXIqJgnpnQldC6RYmYJmfdvUhmfdjk1hQ9uS1ClH0sTbvXO1Iaslush5";
 
     EditText name, title, eMail, phone;
-    Button test;
 
 
     ImageView slikaIme, slikax, slikaRotateLeft, slikaRotateRight, backButton, buttonCheck;
@@ -65,24 +73,25 @@ public class FragmentAppSettingsActivity extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.app_settings, container, false);
 
-        name = (EditText)view.findViewById(R.id.ime);
-        title = (EditText)view. findViewById(R.id.title);
-        eMail = (EditText)view. findViewById(R.id.eMail);
-        phone = (EditText)view. findViewById(R.id.phone);
+        name = (EditText) view.findViewById(R.id.ime);
+        title = (EditText) view.findViewById(R.id.title);
+        eMail = (EditText) view.findViewById(R.id.eMail);
+        phone = (EditText) view.findViewById(R.id.phone);
 
-        slikaIme = (ImageView)view. findViewById(R.id.sl);
+        slikaIme = (ImageView) view.findViewById(R.id.sl);
 
+        final ImageButton slicicaZaToolbar = (ImageButton)view.findViewById(R.id.btnProfileActBar);
         //Slike za manipulaciju sa slikom
 
-        slikax = (ImageView)view. findViewById(R.id.imagex);
-        slikaRotateLeft = (ImageView)view. findViewById(R.id.imagerotateLeft);
-        slikaRotateRight = (ImageView)view. findViewById(R.id.imagerotateRight);
+
+        slikax = (ImageView) view.findViewById(R.id.imagex);
+        slikaRotateLeft = (ImageView) view.findViewById(R.id.imagerotateLeft);
+        slikaRotateRight = (ImageView) view.findViewById(R.id.imagerotateRight);
 
         //dugmici za actionBar
-        buttonCheck = (ImageView)view.findViewById(R.id.buttonCheck);
-        backButton = (ImageView)view.findViewById(R.id.backButton);
-        btnNotificationActBar = (ImageButton)view.findViewById(R.id.btnNotificationActBar);
-
+        buttonCheck = (ImageView) view.findViewById(R.id.buttonCheck);
+        backButton = (ImageView) view.findViewById(R.id.backButton);
+        btnNotificationActBar = (ImageButton) view.findViewById(R.id.btnNotificationActBar);
 
 
         slikax.setOnClickListener(new View.OnClickListener() {
@@ -120,7 +129,7 @@ public class FragmentAppSettingsActivity extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainActivity = (MainActivity)getActivity();
+                mainActivity = (MainActivity) getActivity();
                 mainActivity.onBackPressed();
 
             }
@@ -134,20 +143,57 @@ public class FragmentAppSettingsActivity extends Fragment {
         });
 
         //layout za elemente u kojoj su slicica sa kamerom i mali tekst upload picture
-        linearLayoutSlicicaIText = (LinearLayout)view. findViewById(R.id.slicicaItext);
+        linearLayoutSlicicaIText = (LinearLayout) view.findViewById(R.id.slicicaItext);
 
         //dodavanje ako slika  nema content, i ako ima brise placeholder
-        if (slikaIme.getDrawable()==null){
+        if (slikaIme.getDrawable() == null) {
             slikaIme.setImageResource(R.drawable.backround_circle);
             Log.d(TAG, "NO PICTURES");
 
-        }
-        else {
+        } else {
             linearLayoutSlicicaIText.setVisibility(View.GONE);
         }
 
+        //Retrofit postavljanje tekstfildova sa servera
+        ApiInterfaceAppSettings apiInterfaceAppSettings =
+                ApiClientAppSettings.getApiClient().create(ApiInterfaceAppSettings.class);
+
+        retrofit2.Call<Person> call = apiInterfaceAppSettings.getPerson(APP_TOKEN);
+        call.enqueue(new Callback<Person>() {
+            @Override
+            public void onResponse(Call<Person> call, Response<Person> response) {
+
+                Data data = response.body().getData();
+
+                name.setText(data.getFirstName());
+                title.setText(data.getTitle());
+                eMail.setText(data.getEmail());
+                phone.setText(data.getProfile().getPhone());
+
+/*
+                slikaIme.se(data.getProfile().getImage());
+*/
+                String urlSlike= "https://s.strictapp.com/" + data.getProfile().getImage();
+                Picasso.with(getContext())
+                        .load(urlSlike).fit().centerCrop()
+                        .into(slikaIme);
+
+                /*Picasso.with(mainActivity.getApplicationContext())
+                        .load(urlSlike).fit().centerCrop()
+                        .into(slicicaZaToolbar);*/
+            }
+
+            @Override
+            public void onFailure(Call<Person> call, Throwable t) {
+                Log.d("Error", "onFailure je pozvan iz enquea" );
+                Toast.makeText(getContext(), "onFailure je pozvan iz enquea", Toast.LENGTH_LONG).show();
+            }
+
+
+        });
         return view;
     }
+
 
     public void dodajOsobu(){
         String ime = name.getText().toString();

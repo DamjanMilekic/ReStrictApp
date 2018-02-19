@@ -5,13 +5,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.laptop.restrict.Fragments.FragmentAppSettingsActivity;
+import com.example.laptop.restrict.Model.Aprovals.Aprovals;
 import com.example.laptop.restrict.R;
+import com.example.laptop.restrict.RetrofitAppSettings.ApiClientAppSettings;
+import com.example.laptop.restrict.RetrofitAppSettings.ApiInterfaceAppSettings;
+
+import retrofit2.Call;
 
 /**
  * Created by ivandjordjevic on 5.2.18..
  */
 
 public class ApprovedByAdapter extends RecyclerView.Adapter<ApprovedByAdapter.ApprovedByViewHolder> {
+
+/*
+    public static final int APROVED_STATIC_VALUE = 254;
+
+    ApiInterfaceAppSettings apiInterfaceAppSettings= ApiClientAppSettings.getApiClient().
+            create(ApiInterfaceAppSettings.class);
+    Call<Aprovals> call = apiInterfaceAppSettings.getAprovals
+            (FragmentAppSettingsActivity.APP_TOKEN, APROVED_STATIC_VALUE);
+
+*/
 
     @Override
     public ApprovedByViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

@@ -22,6 +22,8 @@ public class InfoFragment extends Fragment {
     private RecyclerView recyclerView;
     private ApprovedByAdapter adapter;
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 

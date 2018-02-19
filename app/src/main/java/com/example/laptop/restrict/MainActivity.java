@@ -31,6 +31,7 @@ import com.example.laptop.restrict.Fragments.DetailFragment;
 import com.example.laptop.restrict.Fragments.FragmentAppSettingsActivity;
 import com.example.laptop.restrict.Fragments.LoginFragment;
 import com.example.laptop.restrict.Interfaces.ILoginMain;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -157,7 +158,6 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
         TextView numberOfNotif = (TextView)mCustomView.findViewById(R.id.txNumberOfNotif);
 
         numberOfNotif.setText(String.valueOf(notificationList.size()));
-
 
 
         imgProfile.setOnClickListener(new View.OnClickListener() {
