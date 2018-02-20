@@ -27,7 +27,7 @@
 
             <TextView
                 android:id="@+id/commnets"
-                android:layout_width="158dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.25"
                 android:padding="5dp"
@@ -36,17 +36,20 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_weight="0.65">
 
                 <EditText
                     android:id="@+id/search"
                     android:layout_width="142dp"
                     android:layout_height="wrap_content"
+                    android:maxLines="1"
                     android:layout_weight="0.4"
                     android:hint="Search text"
                     android:textSize="16sp"
                     android:padding="5dp"
-                    android:background="@drawable/shape"/>
+                    android:background="@drawable/shape"
+                    android:tooltipText="RtlCompat" />
 
                 <ImageButton
                     android:id="@+id/search_comments"
@@ -54,7 +57,7 @@
                     android:layout_height="match_parent"
                     android:backgroundTint="@color/white"
                     android:src="@mipmap/search"
-                    android:tint="@color/detail_fragment_tint_color" />
+                    android:tint="@color/colorPrimary" />
 
             </LinearLayout>
 
@@ -63,7 +66,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewComments"
             android:layout_width="match_parent"
-            android:layout_height="329dp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/search_linear"
             android:layout_marginTop="2dp" />
 
@@ -82,10 +85,12 @@
                 <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.8"
                     android:background="@color/white">
 
                     <EditText
-                        android:layout_width="301dp"
+                        android:id="@+id/write_comment"
+                        android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:layout_weight="0.15"
                         android:hint="Add a comment..."
@@ -100,6 +105,7 @@
                 <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_weight="0.01"
                     android:layout_marginLeft="2dp"
                     android:background="@color/white">
 
@@ -118,7 +124,6 @@
             </LinearLayout>
 
         </LinearLayout>
-
 
     </LinearLayout>
 

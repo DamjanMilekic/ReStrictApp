@@ -2,133 +2,140 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="2dp">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:background="@color/white"
-        android:layout_weight="0.6">
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/imageFrame"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            app:cardCornerRadius="30dp">
+            android:orientation="horizontal"
+            android:background="@color/white"
+            android:layout_weight="0.6">
 
-            <ImageView
-                android:id="@+id/image"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@color/white"
-                android:src="@drawable/userid_icon" />
-
-        </android.support.v7.widget.CardView>
-
-        <LinearLayout
-            android:layout_width="242dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="I.Djordjevic"
-                android:textColor="@color/colorPrimary"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textComment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="5dp"
-                android:text="Comment goes here..."
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/date_and_time"
+            <android.support.v7.widget.CardView
+                android:id="@+id/imageFrame"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:text="05/04/16 13:16" />
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                app:cardCornerRadius="25dp">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@color/white"
+                    android:src="@drawable/userid_icon" />
+
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="242dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="I.Djordjevic"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:text="Comment goes here..."
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/date_and_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:text="05/04/16 13:16" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/detail_fragment_background" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.2"
-        android:orientation="vertical"
-        android:padding="3dp"
-        android:background="@color/white"
-        android:layout_marginLeft="2dp">
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/circle1"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            app:cardCornerRadius="12.5dp">
+            android:layout_weight="0.2"
+            android:orientation="vertical"
+            android:padding="3dp"
+            android:background="@color/white">
+            <android.support.v7.widget.CardView
+                android:id="@+id/circle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:gravity="top"
+                app:cardCornerRadius="12.5dp">
 
-            <ImageView
-                android:id="@+id/imageCircle1"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:background="@color/white"
-                android:src="@drawable/userid_icon"/>
+                <ImageView
+                    android:id="@+id/imageCircle1"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@color/white"
+                    android:src="@drawable/userid_icon"/>
 
-        </android.support.v7.widget.CardView>
+            </android.support.v7.widget.CardView>
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/circle2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            app:cardCornerRadius="12.5dp">
+            <android.support.v7.widget.CardView
+                android:id="@+id/circle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                app:cardCornerRadius="12.5dp">
 
-            <ImageView
-                android:id="@+id/imageCircle2"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:background="@color/white"
-                android:src="@drawable/userid_icon"/>
+                <ImageView
+                    android:id="@+id/imageCircle2"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@color/white"
+                    android:src="@drawable/userid_icon"/>
 
-        </android.support.v7.widget.CardView>
+            </android.support.v7.widget.CardView>
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/circle3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            app:cardCornerRadius="12.5dp">
+            <android.support.v7.widget.CardView
+                android:id="@+id/circle3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:gravity="bottom"
+                app:cardCornerRadius="12.5dp">
 
-            <ImageView
-                android:id="@+id/imageCircle3"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:background="@color/white"
-                android:src="@drawable/userid_icon"/>
+                <ImageView
+                    android:id="@+id/imageCircle3"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@color/white"
+                    android:src="@drawable/userid_icon"/>
 
-        </android.support.v7.widget.CardView>
+            </android.support.v7.widget.CardView>
 
-    </LinearLayout>
+        </LinearLayout>
 
 </LinearLayout>

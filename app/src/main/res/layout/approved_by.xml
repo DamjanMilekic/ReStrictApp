@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="65dp"
+    android:layout_height="70dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/detail_fragment_background">
 
@@ -22,7 +22,6 @@
                     android:id="@+id/imageFrame"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     app:cardCornerRadius="25dp">
 
                     <ImageView
@@ -69,6 +68,7 @@
                 <TextView
                     android:id="@+id/name"
                     android:layout_width="wrap_content"
+                    android:maxWidth="200dp"
                     android:layout_height="wrap_content"
                     android:text="I.Djordjevic"
                     android:textColor="@color/colorPrimary"
@@ -79,6 +79,7 @@
                     android:id="@+id/jobPosition"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxWidth="200dp"
                     android:layout_below="@id/name"
                     android:text="Android Developer"
                     android:textSize="12sp" />
@@ -98,7 +99,6 @@
                 android:id="@+id/isUploader"
                 android:layout_width="20dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/uploader"
                 android:layout_marginRight="10dp"/>
 
         </LinearLayout>
@@ -121,7 +121,6 @@
                 android:id="@+id/checked"
                 android:layout_width="15dp"
                 android:layout_height="30dp"
-                android:src="@drawable/check_symbol"
                 android:layout_gravity="center"/>
 
         </FrameLayout>

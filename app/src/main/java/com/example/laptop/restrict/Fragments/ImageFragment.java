@@ -9,8 +9,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.example.laptop.restrict.Adapter.ProjectAdapter;
 import com.example.laptop.restrict.MainActivity;
+import com.example.laptop.restrict.Model.Version;
 import com.example.laptop.restrict.R;
 import com.squareup.picasso.Picasso;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -25,6 +28,8 @@ public class ImageFragment extends Fragment {
     private ImageView image;
     private PhotoViewAttacher photoViewAttacher;
 
+    private Version selectedVersion;
+
     private ImageView backButton;
 
     @Override
@@ -35,14 +40,21 @@ public class ImageFragment extends Fragment {
 
         image = (ImageView) view.findViewById(R.id.image);
 
-        // Dodavanje slike u ImageView
-        Picasso.with(getContext())
-                .load(R.drawable.landscape)
-                .into(image);
+        if (getArguments() != null) {
+            selectedVersion = (Version) getArguments().getSerializable(ProjectAdapter.SELECTED_VERSION);
 
-        // Klasa koja omogucava zumiranje slike
-        photoViewAttacher = new PhotoViewAttacher(image);
-        photoViewAttacher.update();
+            // Dodavanje slike u ImageView
+            Picasso.with(getContext())
+                    .load(DetailFragment.STRICTAPP_URL + selectedVersion.getImageFile())
+                    .into(image);
+
+            // Klasa koja omogucava zumiranje slike
+            photoViewAttacher = new PhotoViewAttacher(image);
+            photoViewAttacher.update();
+
+        } else {
+            Toast.makeText(getContext(), "Doslo je do greske sa ucitavanjem slike.", Toast.LENGTH_SHORT).show();
+        }
 
         //backDugme u FullscreenImage
         backButton = (ImageView) view.findViewById(R.id.backButtonFullScreen);
