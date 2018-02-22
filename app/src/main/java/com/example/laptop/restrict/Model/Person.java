@@ -16,7 +16,7 @@ public class Person  implements Serializable {
     private String status;
     @SerializedName("data")
     @Expose
-    private Data data;
+    private User user;
 
     /**
      * No args constructor for use in serialization
@@ -28,12 +28,12 @@ public class Person  implements Serializable {
     /**
      *
      * @param status
-     * @param data
+     * @param user
      */
-    public Person(String status, Data data) {
+    public Person(String status, User user) {
         super();
         this.status = status;
-        this.data = data;
+        this.user = user;
     }
 
     public String getStatus() {
@@ -44,12 +44,12 @@ public class Person  implements Serializable {
         this.status = status;
     }
 
-    public Data getData() {
-        return data;
+    public User getUser() {
+        return user;
     }
 
-    public void setData(Data data) {
-        this.data = data;
+    public void setUser(User user) {
+        this.user = user;
     }
 
 }

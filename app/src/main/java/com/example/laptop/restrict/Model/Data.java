@@ -38,7 +38,7 @@ public class Data implements Serializable {
 
     }
 
-    public Data(Integer id, String sectionId, String title, String identifier, String createdAt, String updatedAt, ArrayList<Version> versions) {
+    public Data(Integer id, String sectionId, String title, String identifier, String createdAt, String updatedAt, ArrayList<Version> versions, Profile profile) {
         this.id = id;
         this.sectionId = sectionId;
         this.title = title;

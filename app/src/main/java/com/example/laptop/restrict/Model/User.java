@@ -38,12 +38,15 @@ public class User implements Serializable {
     @SerializedName("updated_at")
     @Expose
     private String updatedAt;
+    @SerializedName("profile")
+    @Expose
+    private Profile profile;
 
     public User() {
 
     }
 
-    public User(Integer id, String firstName, String lastName, String email, String title, String role, String loggedAt, String createdAt, String updatedAt) {
+    public User(Integer id, String firstName, String lastName, String email, String title, String role, String loggedAt, String createdAt, String updatedAt, Profile profile) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -53,6 +56,15 @@ public class User implements Serializable {
         this.loggedAt = loggedAt;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.profile = profile;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     public Integer getId() {

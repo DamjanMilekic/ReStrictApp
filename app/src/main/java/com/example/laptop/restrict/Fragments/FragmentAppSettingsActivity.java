@@ -3,22 +3,18 @@ package com.example.laptop.restrict.Fragments;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -29,29 +25,23 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.laptop.restrict.MainActivity;
 import com.example.laptop.restrict.Model.Data;
-import com.example.laptop.restrict.Model.Osoba;
 import com.example.laptop.restrict.Model.Person;
+import com.example.laptop.restrict.Model.User;
 import com.example.laptop.restrict.R;
 import com.example.laptop.restrict.RetrofitAppSettings.Client;
 import com.example.laptop.restrict.RetrofitAppSettings.Service;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -247,7 +237,7 @@ public class FragmentAppSettingsActivity extends Fragment {
             @Override
             public void onResponse(Call<Person> call, Response<Person> response) {
 
-                Data data = response.body().getData();
+                User data = response.body().getUser();
 
                 name.setText(data.getFirstName());
                 lastName.setText(data.getLastName());
@@ -287,9 +277,6 @@ public class FragmentAppSettingsActivity extends Fragment {
         String tel = phone.getText().toString();
 
 
-
-        List<Osoba> osobaList= new ArrayList<>();
-
         if (ime.trim().length()>0 &&
                 titl.trim().length()>0 &&
                 mail.trim().length()>0 &&
@@ -298,7 +285,6 @@ public class FragmentAppSettingsActivity extends Fragment {
             if (isEmailValid(mail)) {
                 try {
                     int t = Integer.parseInt(tel);
-                    osobaList.add(new Osoba(ime, titl, mail, t));
                     Toast.makeText(getContext(), "Changes made successfully", Toast.LENGTH_LONG).show();
 
                 }catch (Exception e){

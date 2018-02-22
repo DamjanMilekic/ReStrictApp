@@ -1,8 +1,7 @@
 package com.example.laptop.restrict.RetrofitAppSettings;
 
 
-import com.example.laptop.restrict.Model.Aprovals.Aprovals;
-import com.example.laptop.restrict.Model.Data;
+import com.example.laptop.restrict.Model.Approval;
 import com.example.laptop.restrict.Model.Person;
 
 import retrofit2.Call;
@@ -23,7 +22,7 @@ public interface Service {
     Call<Person> getPerson(@Query("api_token") String apiToken);
 
     @GET ("approvals/show/{version_id}")
-    Call<Aprovals> getAprovals(@Path("version_id")int versionId ,@Query("api_token") String apiToken);
+    Call<Approval> getAprovals(@Path("version_id")int versionId , @Query("api_token") String apiToken);
 
     @FormUrlEncoded
     @POST("me/update")

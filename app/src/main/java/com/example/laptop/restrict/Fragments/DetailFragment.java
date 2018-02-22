@@ -39,7 +39,7 @@ import com.example.laptop.restrict.Model.Version;
 // Glavni fragment Detail stranice
 public class DetailFragment extends Fragment {
 
-    public static final String API_KEY = "bSllktQmQEboNMzRk02OWkrHIKiCOiolnCbJx75awyz5gjCRG9EhZ7nAf66o";
+    public static final String API_KEY = "jdqYFmt9Qs5JfTEqvcylWT3ykizYbVCuQkvv0toDx2DrdqnzJ6aSkMwQx15g";
     public static final String STRICTAPP_URL = "https://s.strictapp.com/";
 
     private FragmentActivity fragmentContext;
@@ -102,7 +102,7 @@ public class DetailFragment extends Fragment {
                 ImageView projectImage = (ImageView) view.findViewById(R.id.image);
 
                 Picasso.with(getContext())
-                        .load(STRICTAPP_URL + selectedVersion.getImageFile())
+                        .load(STRICTAPP_URL + selectedVersion.getImageFile()).resize(300,300) //RESIZE ZBOG KVALITETA
                         .into(projectImage);
 
                 // OnClickListener za resize slike projekta
