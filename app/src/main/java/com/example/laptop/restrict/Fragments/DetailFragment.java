@@ -39,7 +39,7 @@ import com.example.laptop.restrict.Model.Version;
 // Glavni fragment Detail stranice
 public class DetailFragment extends Fragment {
 
-    public static final String API_KEY = "3CZStpQkgjDbdabq6VrOH8HVIlAQ5VEFt6W75w3Kuzcg9YBXxzjN8kjptpsf";
+    public static final String API_KEY = "bSllktQmQEboNMzRk02OWkrHIKiCOiolnCbJx75awyz5gjCRG9EhZ7nAf66o";
     public static final String STRICTAPP_URL = "https://s.strictapp.com/";
 
     private FragmentActivity fragmentContext;
@@ -82,7 +82,7 @@ public class DetailFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         ApiInterfaceDetails apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
-        Call<ProjectStatusData> call = apiInterfaceDetails.getVersions(254, API_KEY);
+        Call<ProjectStatusData> call = apiInterfaceDetails.getVersions(358, API_KEY);
         call.enqueue(new Callback<ProjectStatusData>() {
             @Override
             public void onResponse(Call<ProjectStatusData> call, Response<ProjectStatusData> response) {
