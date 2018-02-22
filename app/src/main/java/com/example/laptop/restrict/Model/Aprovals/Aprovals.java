@@ -16,7 +16,7 @@ public class Aprovals implements Serializable {
     private String status;
     @SerializedName("data")
     @Expose
-    private List<DataAprovals> data = null;
+    private List<DataAprovals> data;
 
     /**
      * No args constructor for use in serialization

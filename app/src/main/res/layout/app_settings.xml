@@ -78,11 +78,24 @@
                         android:background="@drawable/shape" />
 
                     <EditText
+                        android:id="@+id/prezime"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_below="@id/ime"
+                        android:layout_marginEnd="30dp"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:hint="Last Name"
+                        android:inputType="textPersonName"
+                        android:background="@drawable/shape" />
+
+                    <EditText
                         android:id="@+id/title"
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
                         android:gravity="center"
-                        android:layout_below="@id/ime"
+                        android:layout_below="@id/prezime"
                         android:layout_marginEnd="30dp"
                         android:layout_marginStart="30dp"
                         android:layout_marginTop="10dp"
@@ -118,7 +131,7 @@
                         android:id="@+id/card"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/phone"
+                        android:layout_below="@id/phone"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="24dp"
                         android:layout_marginBottom="10dp">
@@ -165,7 +178,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignEnd="@+id/phone"
+                        android:layout_alignEnd="@id/phone"
                         android:layout_alignBottom="@+id/card"
                         android:orientation="vertical"
                         android:gravity="center_vertical"

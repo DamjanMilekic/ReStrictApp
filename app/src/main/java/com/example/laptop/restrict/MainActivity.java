@@ -39,7 +39,7 @@ import java.util.List;
 
 public  class MainActivity extends AppCompatActivity implements ILoginMain {
 
-
+    public static final String APP_TOKEN = "anmlkyj1Mpfwr3EStR9B9RP29ZbtHkGKLOQhg6yIJun5WJ7ZOqRxqRK3Dn0a";
   android.support.v4.app.Fragment loginFr;
 
     Point p;
@@ -157,8 +157,10 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
         ImageButton imgProfile = (ImageButton)mCustomView.findViewById(R.id.btnProfileActBar);
         TextView numberOfNotif = (TextView)mCustomView.findViewById(R.id.txNumberOfNotif);
 
-        numberOfNotif.setText(String.valueOf(notificationList.size()));
+        /*Picasso.with(getApplicationContext()).
+                load("https://s.strictapp.com/images/people/profile-fm4F7sWk88-129.jpeg").into(imgProfile);*/
 
+        numberOfNotif.setText(String.valueOf(notificationList.size()));
 
         imgProfile.setOnClickListener(new View.OnClickListener() {
             @Override
