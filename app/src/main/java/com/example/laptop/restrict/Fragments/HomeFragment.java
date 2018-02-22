@@ -35,7 +35,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 
-public class HomeFragment extends android.app.Fragment {
+public class HomeFragment extends Fragment {
 
 
     Point p;

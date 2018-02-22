@@ -2,9 +2,9 @@ package com.example.laptop.restrict;
 
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
@@ -31,6 +31,7 @@ import com.example.laptop.restrict.Fragments.DetailFragment;
 import com.example.laptop.restrict.Fragments.FragmentAppSettingsActivity;
 import com.example.laptop.restrict.Fragments.LoginFragment;
 import com.example.laptop.restrict.Interfaces.ILoginMain;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -38,8 +39,8 @@ import java.util.List;
 
 public  class MainActivity extends AppCompatActivity implements ILoginMain {
 
-
-  Fragment loginFr;
+    public static final String APP_TOKEN = "anmlkyj1Mpfwr3EStR9B9RP29ZbtHkGKLOQhg6yIJun5WJ7ZOqRxqRK3Dn0a";
+  android.support.v4.app.Fragment loginFr;
 
     Point p;
     View menuButton;
@@ -156,9 +157,10 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
         ImageButton imgProfile = (ImageButton)mCustomView.findViewById(R.id.btnProfileActBar);
         TextView numberOfNotif = (TextView)mCustomView.findViewById(R.id.txNumberOfNotif);
 
+        /*Picasso.with(getApplicationContext()).
+                load("https://s.strictapp.com/images/people/profile-fm4F7sWk88-129.jpeg").into(imgProfile);*/
+
         numberOfNotif.setText(String.valueOf(notificationList.size()));
-
-
 
         imgProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,7 +185,7 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
 
     public void setFragment(Fragment frag)
     {
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         if (fm.findFragmentById(R.id.frame) == null) {
            // ft.addToBackStack("login");
