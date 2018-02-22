@@ -1,13 +1,18 @@
 package com.example.laptop.restrict.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.lang.reflect.ParameterizedType;
 
 /**
  * Created by ivandjordjevic on 20.2.18..
  */
 
-public class Approval {
+public class Approval implements Parcelable {
 
     @SerializedName("user_id")
     @Expose
@@ -72,6 +77,47 @@ public class Approval {
         this.approved = approved;
         this.compositeKey = compositeKey;
     }
+
+    protected Approval(Parcel in) {
+        if (in.readByte() == 0) {
+            userId = null;
+        } else {
+            userId = in.readInt();
+        }
+        email = in.readString();
+        title = in.readString();
+        firstName = in.readString();
+        lastName = in.readString();
+        image = in.readString();
+        role = in.readString();
+        companyName = in.readString();
+        phone = in.readString();
+        byte tmpUploader = in.readByte();
+        uploader = tmpUploader == 0 ? null : tmpUploader == 1;
+        if (in.readByte() == 0) {
+            approvalId = null;
+        } else {
+            approvalId = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            approved = null;
+        } else {
+            approved = in.readInt();
+        }
+        compositeKey = in.readString();
+    }
+
+    public static final Creator<Approval> CREATOR = new Creator<Approval>() {
+        @Override
+        public Approval createFromParcel(Parcel in) {
+            return new Approval(in);
+        }
+
+        @Override
+        public Approval[] newArray(int size) {
+            return new Approval[size];
+        }
+    };
 
     public Integer getUserId() {
         return userId;
@@ -185,4 +231,40 @@ public class Approval {
         this.compositeKey = compositeKey;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        if (userId == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(userId);
+        }
+        parcel.writeString(email);
+        parcel.writeString(title);
+        parcel.writeString(firstName);
+        parcel.writeString(lastName);
+        parcel.writeString(image);
+        parcel.writeString(role);
+        parcel.writeString(companyName);
+        parcel.writeString(phone);
+        parcel.writeByte((byte) (uploader == null ? 0 : uploader ? 1 : 2));
+        if (approvalId == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(approvalId);
+        }
+        if (approved == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(approved);
+        }
+        parcel.writeString(compositeKey);
+    }
 }

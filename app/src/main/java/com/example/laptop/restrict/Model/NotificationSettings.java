@@ -4,12 +4,15 @@ package com.example.laptop.restrict.Model;
  * Created by durma on 14.2.18..
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class NotificationSettings implements Serializable {
+public class NotificationSettings implements Parcelable {
 
     @Expose
     private Integer id;
@@ -57,6 +60,33 @@ public class NotificationSettings implements Serializable {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
+    protected NotificationSettings(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        userId = in.readString();
+        drawingUploadPush = in.readString();
+        drawingUploadEmail = in.readString();
+        commentPush = in.readString();
+        commentEmail = in.readString();
+        createdAt = in.readString();
+        updatedAt = in.readString();
+    }
+
+    public static final Creator<NotificationSettings> CREATOR = new Creator<NotificationSettings>() {
+        @Override
+        public NotificationSettings createFromParcel(Parcel in) {
+            return new NotificationSettings(in);
+        }
+
+        @Override
+        public NotificationSettings[] newArray(int size) {
+            return new NotificationSettings[size];
+        }
+    };
 
     public Integer getId() {
         return id;
@@ -122,4 +152,25 @@ public class NotificationSettings implements Serializable {
         this.updatedAt = updatedAt;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        if (id == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(id);
+        }
+        parcel.writeString(userId);
+        parcel.writeString(drawingUploadPush);
+        parcel.writeString(drawingUploadEmail);
+        parcel.writeString(commentPush);
+        parcel.writeString(commentEmail);
+        parcel.writeString(createdAt);
+        parcel.writeString(updatedAt);
+    }
 }

@@ -4,12 +4,15 @@ package com.example.laptop.restrict.Model;
  * Created by durma on 14.2.18..
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Person  implements Serializable {
+public class Person  implements Parcelable {
 
     @SerializedName("status")
     @Expose
@@ -36,6 +39,22 @@ public class Person  implements Serializable {
         this.user = user;
     }
 
+    protected Person(Parcel in) {
+        status = in.readString();
+    }
+
+    public static final Creator<Person> CREATOR = new Creator<Person>() {
+        @Override
+        public Person createFromParcel(Parcel in) {
+            return new Person(in);
+        }
+
+        @Override
+        public Person[] newArray(int size) {
+            return new Person[size];
+        }
+    };
+
     public String getStatus() {
         return status;
     }
@@ -52,4 +71,13 @@ public class Person  implements Serializable {
         this.user = user;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(status);
+    }
 }

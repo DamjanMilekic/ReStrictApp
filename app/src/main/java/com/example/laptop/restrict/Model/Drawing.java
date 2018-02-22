@@ -1,5 +1,8 @@
 package com.example.laptop.restrict.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -10,7 +13,7 @@ import java.util.List;
  * Created by ivandjordjevic on 13.2.18..
  */
 
-public class Drawing implements Serializable {
+public class Drawing implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -47,6 +50,51 @@ public class Drawing implements Serializable {
         this.updatedAt = updatedAt;
         this.versions = versions;
     }
+
+    protected Drawing(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        sectionId = in.readString();
+        title = in.readString();
+        identifier = in.readString();
+        createdAt = in.readString();
+        updatedAt = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(id);
+        }
+        dest.writeString(sectionId);
+        dest.writeString(title);
+        dest.writeString(identifier);
+        dest.writeString(createdAt);
+        dest.writeString(updatedAt);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Drawing> CREATOR = new Creator<Drawing>() {
+        @Override
+        public Drawing createFromParcel(Parcel in) {
+            return new Drawing(in);
+        }
+
+        @Override
+        public Drawing[] newArray(int size) {
+            return new Drawing[size];
+        }
+    };
 
     public Integer getId() {
         return id;

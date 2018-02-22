@@ -4,12 +4,15 @@ package com.example.laptop.restrict.Model;
  * Created by durma on 14.2.18..
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Profile implements Serializable {
+public class Profile implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -75,6 +78,35 @@ public class Profile implements Serializable {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
+    protected Profile(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        userId = in.readString();
+        memberTitleId = in.readString();
+        companyId = in.readString();
+        phone = in.readString();
+        image = in.readString();
+        pushToken = in.readString();
+        os = in.readString();
+        createdAt = in.readString();
+        updatedAt = in.readString();
+    }
+
+    public static final Creator<Profile> CREATOR = new Creator<Profile>() {
+        @Override
+        public Profile createFromParcel(Parcel in) {
+            return new Profile(in);
+        }
+
+        @Override
+        public Profile[] newArray(int size) {
+            return new Profile[size];
+        }
+    };
 
     public Integer getId() {
         return id;
@@ -156,4 +188,27 @@ public class Profile implements Serializable {
         this.updatedAt = updatedAt;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        if (id == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(id);
+        }
+        parcel.writeString(userId);
+        parcel.writeString(memberTitleId);
+        parcel.writeString(companyId);
+        parcel.writeString(phone);
+        parcel.writeString(image);
+        parcel.writeString(pushToken);
+        parcel.writeString(os);
+        parcel.writeString(createdAt);
+        parcel.writeString(updatedAt);
+    }
 }

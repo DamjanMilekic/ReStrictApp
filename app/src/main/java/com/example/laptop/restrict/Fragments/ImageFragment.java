@@ -41,7 +41,7 @@ public class ImageFragment extends Fragment {
         image = (ImageView) view.findViewById(R.id.image);
 
         if (getArguments() != null) {
-            selectedVersion = (Version) getArguments().getSerializable(ProjectAdapter.SELECTED_VERSION);
+            selectedVersion = (Version) getArguments().getParcelable(ProjectAdapter.SELECTED_VERSION);
 
             // Dodavanje slike u ImageView
             Picasso.with(getContext())

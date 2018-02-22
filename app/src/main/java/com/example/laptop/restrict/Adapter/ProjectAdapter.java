@@ -50,7 +50,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(SELECTED_VERSION, versions.get(position));
+                bundle.putParcelable(SELECTED_VERSION, versions.get(position));
                 DetailFragment detailFragment = new DetailFragment();
                 detailFragment.setArguments(bundle);
                 reopenDetailFragment(detailFragment);

@@ -1,5 +1,8 @@
 package com.example.laptop.restrict.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -9,7 +12,7 @@ import java.io.Serializable;
  * Created by ivandjordjevic on 13.2.18..
  */
 
-public class User implements Serializable {
+public class User implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -58,6 +61,35 @@ public class User implements Serializable {
         this.updatedAt = updatedAt;
         this.profile = profile;
     }
+
+    protected User(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        firstName = in.readString();
+        lastName = in.readString();
+        email = in.readString();
+        title = in.readString();
+        role = in.readString();
+        loggedAt = in.readString();
+        createdAt = in.readString();
+        updatedAt = in.readString();
+        profile = in.readParcelable(Profile.class.getClassLoader());
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 
     public Profile getProfile() {
         return profile;
@@ -139,4 +171,27 @@ public class User implements Serializable {
         this.updatedAt = updatedAt;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        if (id == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(id);
+        }
+        parcel.writeString(firstName);
+        parcel.writeString(lastName);
+        parcel.writeString(email);
+        parcel.writeString(title);
+        parcel.writeString(role);
+        parcel.writeString(loggedAt);
+        parcel.writeString(createdAt);
+        parcel.writeString(updatedAt);
+        parcel.writeParcelable(profile, i);
+    }
 }

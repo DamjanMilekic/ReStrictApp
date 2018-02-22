@@ -1,5 +1,8 @@
 package com.example.laptop.restrict.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -7,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by ivandjordjevic on 19.2.18..
  */
 
-public class Comment {
+public class Comment implements Parcelable{
 
     @SerializedName("id")
     @Expose
@@ -36,6 +39,30 @@ public class Comment {
     @SerializedName("user_avatar")
     @Expose
     private String userAvatar;
+
+    protected Comment(Parcel in) {
+        id = in.readInt();
+        versionId = in.readInt();
+        text = in.readString();
+        time = in.readString();
+        userId = in.readInt();
+        firstName = in.readString();
+        lastName = in.readString();
+        drawingPath = in.readString();
+        userAvatar = in.readString();
+    }
+
+    public static final Creator<Comment> CREATOR = new Creator<Comment>() {
+        @Override
+        public Comment createFromParcel(Parcel in) {
+            return new Comment(in);
+        }
+
+        @Override
+        public Comment[] newArray(int size) {
+            return new Comment[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -109,4 +136,21 @@ public class Comment {
         this.userAvatar = userAvatar;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeInt(versionId);
+        parcel.writeString(text);
+        parcel.writeString(time);
+        parcel.writeInt(userId);
+        parcel.writeString(firstName);
+        parcel.writeString(lastName);
+        parcel.writeString(drawingPath);
+        parcel.writeString(userAvatar);
+    }
 }

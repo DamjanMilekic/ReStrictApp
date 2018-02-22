@@ -1,5 +1,8 @@
 package com.example.laptop.restrict.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -9,7 +12,7 @@ import java.io.Serializable;
  * Created by ivandjordjevic on 13.2.18..
  */
 
-public class Version implements Serializable {
+public class Version implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -70,6 +73,36 @@ public class Version implements Serializable {
         this.subVersions = subVersions;
         this.user = user;
     }
+
+    protected Version(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        drawingId = in.readString();
+        userId = in.readString();
+        type = in.readString();
+        label = in.readString();
+        imageFile = in.readString();
+        pdfFile = in.readString();
+        issuedFor = in.readString();
+        createdAt = in.readString();
+        updatedAt = in.readString();
+        user = in.readParcelable(User.class.getClassLoader());
+    }
+
+    public static final Creator<Version> CREATOR = new Creator<Version>() {
+        @Override
+        public Version createFromParcel(Parcel in) {
+            return new Version(in);
+        }
+
+        @Override
+        public Version[] newArray(int size) {
+            return new Version[size];
+        }
+    };
 
     public Integer getId() {
         return id;
@@ -173,5 +206,30 @@ public class Version implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        if (id == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(id);
+        }
+        parcel.writeString(drawingId);
+        parcel.writeString(userId);
+        parcel.writeString(type);
+        parcel.writeString(label);
+        parcel.writeString(imageFile);
+        parcel.writeString(pdfFile);
+        parcel.writeString(issuedFor);
+        parcel.writeString(createdAt);
+        parcel.writeString(updatedAt);
+        parcel.writeParcelable(user, i);
     }
 }

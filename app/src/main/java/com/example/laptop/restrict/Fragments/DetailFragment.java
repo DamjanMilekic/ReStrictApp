@@ -93,7 +93,7 @@ public class DetailFragment extends Fragment {
                 recyclerView.setAdapter(adapter);
 
                 if (getArguments() != null) {
-                    selectedVersion = (Version) getArguments().getSerializable(ProjectAdapter.SELECTED_VERSION);
+                    selectedVersion = (Version) getArguments().getParcelable(ProjectAdapter.SELECTED_VERSION);
                 } else {
                     selectedVersion = versionList.get(0);
                 }
@@ -111,7 +111,7 @@ public class DetailFragment extends Fragment {
                 // Default ucitavanje dela za informacije na Detail-u prilikom prvog instanciranja DetailFragment-a
                 InfoFragment infoFragment = new InfoFragment();
                 Bundle arguments = new Bundle();
-                arguments.putSerializable(ProjectAdapter.SELECTED_VERSION, selectedVersion);
+                arguments.putParcelable(ProjectAdapter.SELECTED_VERSION, selectedVersion);
                 infoFragment.setArguments(arguments);
                 transaction = fragmentManager.beginTransaction();
                 transaction.replace(R.id.fragment_container, infoFragment);
@@ -221,7 +221,7 @@ public class DetailFragment extends Fragment {
         // Ucitavanje dela za informacije na Detail-u prilikom prvog instanciranja DetailFragment-a
         final InfoFragment infoFragment = new InfoFragment();
         Bundle arguments = new Bundle();
-        arguments.putSerializable(ProjectAdapter.SELECTED_VERSION, selectedVersion);
+        arguments.putParcelable(ProjectAdapter.SELECTED_VERSION, selectedVersion);
         infoFragment.setArguments(arguments);
         info.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -261,7 +261,7 @@ public class DetailFragment extends Fragment {
 
         final ImageFragment imageFragment = new ImageFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ProjectAdapter.SELECTED_VERSION, selectedVersion);
+        bundle.putParcelable(ProjectAdapter.SELECTED_VERSION, selectedVersion);
         imageFragment.setArguments(bundle);
 
         resize.setOnClickListener(new View.OnClickListener() {

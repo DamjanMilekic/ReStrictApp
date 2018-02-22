@@ -59,7 +59,7 @@ public class InfoFragment extends Fragment {
         textPreliminary = (TextView) view.findViewById(R.id.textPreliminary);
 
         if (getArguments() != null) {
-            selectedVersion = (Version) getArguments().getSerializable(ProjectAdapter.SELECTED_VERSION);
+            selectedVersion = (Version) getArguments().getParcelable(ProjectAdapter.SELECTED_VERSION);
             name.setText(selectedVersion.getLabel());
             uploaded.setText(selectedVersion.getUpdatedAt());
             issuedFor.setText(selectedVersion.getIssuedFor());
