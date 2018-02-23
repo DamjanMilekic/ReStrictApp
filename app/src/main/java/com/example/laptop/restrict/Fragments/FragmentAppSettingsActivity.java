@@ -41,13 +41,20 @@ import com.example.laptop.restrict.RetrofitAppSettings.Client;
 import com.example.laptop.restrict.RetrofitAppSettings.Service;
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Multipart;
 
 
 public class FragmentAppSettingsActivity extends Fragment {
@@ -60,8 +67,6 @@ public class FragmentAppSettingsActivity extends Fragment {
     private static final int STORAGE_PERMISION_CODE = 123;
     private static final int CAMERA_REQUEST = 555;
     private static final int PICK_IMAGE_REQUEST = 321;
-    private Uri filePath;
-    private Bitmap bitmap;
 
     EditText name, lastName, title, eMail, phone;
 
@@ -194,8 +199,6 @@ public class FragmentAppSettingsActivity extends Fragment {
             }
         });
 
-
-
         buttonCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -205,8 +208,7 @@ public class FragmentAppSettingsActivity extends Fragment {
                         lastName.getText().toString(),
                         title.getText().toString(),
                         eMail.getText().toString(),
-                        phone.getText().toString(),
-                        slikaIme.getResources().toString());
+                        phone.getText().toString());
                         //
                 // TODO treba upload na server slikaaaaa
 
@@ -316,10 +318,10 @@ public class FragmentAppSettingsActivity extends Fragment {
     }
 
     private void executePostRequest(String postName, String postLastName, String postTitle
-                    ,String postEmail,String postPhone, String image){
+                    ,String postEmail,String postPhone){
 
         Service apiService = Client.getApiClient().create(Service.class);
-        Call<Person> call = apiService.postPerson(postName,postLastName,postTitle,postEmail,postPhone,image, MainActivity.APP_TOKEN);
+        Call<Person> call = apiService.postPerson(postName,postLastName,postTitle,postEmail,postPhone, MainActivity.APP_TOKEN);
 
         call.enqueue(new Callback<Person>() {
             @Override
@@ -332,6 +334,32 @@ public class FragmentAppSettingsActivity extends Fragment {
             public void onFailure(Call<Person> call, Throwable t) {
                 Toast.makeText(getContext(), "NEUPSESNO", Toast.LENGTH_LONG).show();
 
+            }
+        });
+    }
+
+    private void executreImagePostRequest(String fileUri){
+        Service apiService = Client.getApiClient().create(Service.class);
+
+      /*  File file = new File(filePath);
+
+        RequestBody body = RequestBody.create(MultipartBody.FORM);*/
+        File file = new File(fileUri);
+
+        RequestBody filePart = RequestBody.create( MediaType.parse("image/*"), file);
+
+        MultipartBody.Part body = MultipartBody.Part.createFormData("picture", file.getName(), filePart);
+
+        Call<Person> call = apiService.postPicture(body, MainActivity.APP_TOKEN);
+        call.enqueue(new Callback<Person>() {
+            @Override
+            public void onResponse(Call<Person> call, Response<Person> response) {
+                Log.v("Upload", "success");
+            }
+
+            @Override
+            public void onFailure(Call<Person> call, Throwable t) {
+                Log.e("Upload error:", t.getMessage());
             }
         });
     }
@@ -374,17 +402,20 @@ public class FragmentAppSettingsActivity extends Fragment {
                 if (requestCode == PICK_IMAGE_REQUEST){
                     Uri slika = data.getData();
                     slikaIme.setImageURI(slika);
+                    //executreImagePostRequest(slika);
+                    //TODO TREBA UPLOAD SLIKU NA SERVER
                 }else if (requestCode == CAMERA_REQUEST){
                     Bundle extras = data.getExtras();
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
                     slikaIme.setImageBitmap(imageBitmap);
+                    //executreImagePostRequest();
                 }
             }
 
 
 
     }
-
+    Bitmap bitmap;
     private String imageToString(){
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -394,14 +425,5 @@ public class FragmentAppSettingsActivity extends Fragment {
         return Base64.encodeToString(imgByte,Base64.DEFAULT);
 
     }
-/*
-    private Uri imageUri;
-    public void takePhoto(View view){
 
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File photo = new File(Environment.getExternalStorageDirectory(), "Pic.jpg");
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
-
-        imageUri.
-    }*/
 }

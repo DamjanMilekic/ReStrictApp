@@ -40,7 +40,8 @@ public class DetailImageFragment extends Fragment {
 
             // Dodavanje slike u ImageView
             Picasso.with(getContext())
-                    .load(DetailActivity.STRICTAPP_URL + selectedVersion.getImageFile())
+                    .load(DetailActivity.STRICTAPP_URL + selectedVersion.getImageFile()).resize(300,300)
+                    /*.placeholder()*/
                     .into(image);
 
         }

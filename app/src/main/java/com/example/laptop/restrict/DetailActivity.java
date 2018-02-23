@@ -1,9 +1,11 @@
 package com.example.laptop.restrict;
 
 import android.app.AlertDialog;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,7 +16,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private ProjectAdapter adapter;
     private ArrayList<Version> versionList;
     public Version selectedVersion;
+
+    ActionBar actionBar;
 
     // ImageButton komponente DetailActivity-a
     ImageButton info, comment, download, share;
@@ -201,6 +204,22 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
         alert.show();
     }
+
+    /*private void initActionBar(){
+
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
+
+        View v = LayoutInflater.from(this).inflate(R.layout.toolbar_layout, null);
+        actionBar.setCustomView(v);
+        actionBar.setDisplayShowCustomEnabled(true);
+
+        ImageButton notification = (ImageButton)v.findViewById(R.id.btnNotificationActBar);
+        ImageButton imgProfile = (ImageButton)v.findViewById(R.id.btnProfileActBar);
+        TextView numberOfNotif = (TextView)v.findViewById(R.id.txNumberOfNotif);
+
+    }*/
 
     @Override
     public void onBackPressed() {
