@@ -17,6 +17,7 @@ import com.example.laptop.restrict.Adapter.ProjectAdapter;
 import com.example.laptop.restrict.ApiClientDetails;
 import com.example.laptop.restrict.DetailActivity;
 import com.example.laptop.restrict.Interfaces.ApiInterfaceDetails;
+import com.example.laptop.restrict.MainActivity;
 import com.example.laptop.restrict.Model.Approval;
 import com.example.laptop.restrict.Model.ProjectStatusApprovals;
 import com.example.laptop.restrict.Model.ProjectStatusComment;
@@ -81,7 +82,7 @@ public class InfoFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         ApiInterfaceDetails apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
-        Call<ProjectStatusApprovals> call = apiInterfaceDetails.getApprovals(254, DetailActivity.API_KEY);
+        Call<ProjectStatusApprovals> call = apiInterfaceDetails.getApprovals(254, MainActivity.APP_TOKEN);
         call.enqueue(new Callback<ProjectStatusApprovals>() {
             @Override
             public void onResponse(Call<ProjectStatusApprovals> call, Response<ProjectStatusApprovals> response) {

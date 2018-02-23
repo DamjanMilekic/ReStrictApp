@@ -34,7 +34,6 @@ import retrofit2.Response;
 
 public class DetailActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public static final String API_KEY = "tTUaOqddjY0VY7rwz5KTQj2PtxuNl7XgIrVg8KOsYuU2yHiFMxN6XIFznKtQ";
     public static final String STRICTAPP_URL = "https://s.strictapp.com/";
 
     // Potrebno za PROJECT DEO AKTIVNOSTI
@@ -69,7 +68,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         share.setOnClickListener(this);
 
         ApiInterfaceDetails apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
-        Call<ProjectStatusData> call = apiInterfaceDetails.getVersions(358, API_KEY);
+        Call<ProjectStatusData> call = apiInterfaceDetails.getVersions(358, MainActivity.APP_TOKEN);
         call.enqueue(new Callback<ProjectStatusData>() {
             @Override
             public void onResponse(Call<ProjectStatusData> call, Response<ProjectStatusData> response) {

@@ -63,7 +63,7 @@ public class CommentsFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
-        Call<ProjectStatusComment> call = apiInterfaceDetails.getComments(254, DetailActivity.API_KEY);
+        Call<ProjectStatusComment> call = apiInterfaceDetails.getComments(254, MainActivity.APP_TOKEN);
         call.enqueue(new Callback<ProjectStatusComment>() {
             @Override
             public void onResponse(Call<ProjectStatusComment> call, Response<ProjectStatusComment> response) {
@@ -98,7 +98,7 @@ public class CommentsFragment extends Fragment {
 
     public void postComment() {
         String text = writeComment.getText().toString();
-        PostCommentRequest postCommentRequest = new PostCommentRequest(254, text, DetailFragment.API_KEY);
+        PostCommentRequest postCommentRequest = new PostCommentRequest(254, text, MainActivity.APP_TOKEN);
         Call<ProjectStatusPostComment> call = apiInterfaceDetails.setComment(postCommentRequest);
         call.enqueue(new Callback<ProjectStatusPostComment>() {
             @Override
