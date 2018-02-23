@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.laptop.restrict.DetailActivity;
 import com.example.laptop.restrict.Fragments.DetailFragment;
 import com.example.laptop.restrict.Fragments.LoginFragment;
 import com.example.laptop.restrict.MainActivity;
@@ -198,7 +200,7 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
 
     private void initFragment2() {
 
-        DetailFragment detailFragment = new DetailFragment();
+        /*DetailFragment detailFragment = new DetailFragment();
 
         AppCompatActivity activity = (AppCompatActivity) context;
 
@@ -209,7 +211,9 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         fragmentTransaction.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_out_left, R.anim.slide_from_right,R.anim.slide_out_left);
         fragmentTransaction.addToBackStack(null);
 
-        fragmentTransaction.add(R.id.frame, detailFragment).commit();
+        fragmentTransaction.add(R.id.frame, detailFragment).commit();*/
+        Intent intent = new Intent(context, DetailActivity.class);
+        ((MainActivity) context).startActivity(intent);
 
     }
 

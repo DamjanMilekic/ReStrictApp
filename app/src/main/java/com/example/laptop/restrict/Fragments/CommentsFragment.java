@@ -16,7 +16,9 @@ import android.widget.Toast;
 
 import com.example.laptop.restrict.Adapter.CommentAdapter;
 import com.example.laptop.restrict.ApiClientDetails;
+import com.example.laptop.restrict.DetailActivity;
 import com.example.laptop.restrict.Interfaces.ApiInterfaceDetails;
+import com.example.laptop.restrict.MainActivity;
 import com.example.laptop.restrict.Model.Comment;
 import com.example.laptop.restrict.Model.PostCommentRequest;
 import com.example.laptop.restrict.Model.ProjectStatusComment;
@@ -36,13 +38,14 @@ import retrofit2.Response;
 // Fragment za prikaz komentara na Detail stranici
 public class CommentsFragment extends Fragment {
 
+    // Potrebno za deo koji prikazuje komentare
     private RecyclerView recyclerView;
+    private ArrayList<Comment> comments;
     private CommentAdapter adapter;
 
+    // Potrebno za deo pretrage i slanje komentara
     private EditText search, writeComment;
     private ImageView sendButton;
-
-    private ArrayList<Comment> comments;
 
     private ApiInterfaceDetails apiInterfaceDetails;
     @Override
@@ -51,6 +54,7 @@ public class CommentsFragment extends Fragment {
         // Ucitavanje layout-a
         View view = inflater.inflate(R.layout.layout_comments, container, false);
 
+        // Omogucuje kucanje teksta u EditText komponenti u jednom redu
         search = (EditText) view.findViewById(R.id.search);
         search.setSingleLine();
 
@@ -59,18 +63,14 @@ public class CommentsFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
-        Call<ProjectStatusComment> call = apiInterfaceDetails.getComments(254, DetailFragment.API_KEY);
+        Call<ProjectStatusComment> call = apiInterfaceDetails.getComments(254, DetailActivity.API_KEY);
         call.enqueue(new Callback<ProjectStatusComment>() {
             @Override
             public void onResponse(Call<ProjectStatusComment> call, Response<ProjectStatusComment> response) {
 
-                ProjectStatusComment projectStatusComment = response.body();
-
-                comments = projectStatusComment.getComments();
-
+                // Ucitavanje komentara sa API-a, dodavanje u adapter i prikaz u recyclerview-u
+                comments = response.body().getComments();
                 adapter = new CommentAdapter(getContext(), comments);
-
-                // Punjenje layout-a pomocu CommentAdapter-a
                 recyclerView.setAdapter(adapter);
 
             }
@@ -81,8 +81,11 @@ public class CommentsFragment extends Fragment {
             }
         });
 
+        // Registrovanje dela za unos komentara
         writeComment = (EditText) view.findViewById(R.id.write_comment);
         sendButton = (ImageView) view.findViewById(R.id.send_button);
+
+        // Osluskivac za unos komentara
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

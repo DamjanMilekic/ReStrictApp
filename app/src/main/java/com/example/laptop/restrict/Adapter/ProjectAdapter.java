@@ -12,7 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.laptop.restrict.DetailActivity;
+import com.example.laptop.restrict.Fragments.CommentsFragment;
 import com.example.laptop.restrict.Fragments.DetailFragment;
+import com.example.laptop.restrict.Fragments.DetailImageFragment;
+import com.example.laptop.restrict.Fragments.InfoFragment;
 import com.example.laptop.restrict.MainActivity;
 import com.example.laptop.restrict.Model.Version;
 
@@ -36,7 +40,6 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
         this.versions = versions;
     }
 
-
     @Override
     public ProjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.project, parent, false);
@@ -49,11 +52,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
         holder.circle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(SELECTED_VERSION, versions.get(position));
-                DetailFragment detailFragment = new DetailFragment();
-                detailFragment.setArguments(bundle);
-                reopenDetailFragment(detailFragment);
+                update(position);
             }
         });
     }
@@ -76,13 +75,19 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
 
     }
 
-    private void reopenDetailFragment(DetailFragment detailFragment) {
-        MainActivity mainActivity = (MainActivity) context;
-        FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
+    // Metoda koja azurira DetailActivity
+    private void update(int position) {
+        DetailImageFragment detailImageFragment = new DetailImageFragment();
+        InfoFragment infoFragment = new InfoFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(ProjectAdapter.SELECTED_VERSION, versions.get(position));
+        detailImageFragment.setArguments(args);
+        infoFragment.setArguments(args);
+        DetailActivity activity = (DetailActivity) context;
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frame, detailFragment);
-        transaction.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_out_left, R.anim.slide_from_right,R.anim.slide_out_left);
-        transaction.addToBackStack(null);
+        transaction.replace(R.id.detailImageFragment, detailImageFragment);
+        transaction.replace(R.id.onClickButtonFragmentContainer, infoFragment);
         transaction.commit();
     }
 }

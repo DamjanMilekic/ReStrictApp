@@ -6,12 +6,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.laptop.restrict.Adapter.ProjectAdapter;
+import com.example.laptop.restrict.DetailActivity;
 import com.example.laptop.restrict.MainActivity;
 import com.example.laptop.restrict.Model.Version;
 import com.example.laptop.restrict.R;
@@ -30,8 +29,6 @@ public class ImageFragment extends Fragment {
 
     private Version selectedVersion;
 
-    private ImageView backButton;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -45,29 +42,14 @@ public class ImageFragment extends Fragment {
 
             // Dodavanje slike u ImageView
             Picasso.with(getContext())
-                    .load(DetailFragment.STRICTAPP_URL + selectedVersion.getImageFile())
+                    .load(DetailActivity.STRICTAPP_URL + selectedVersion.getImageFile())
                     .into(image);
 
             // Klasa koja omogucava zumiranje slike
             photoViewAttacher = new PhotoViewAttacher(image);
             photoViewAttacher.update();
 
-        } else {
-            Toast.makeText(getContext(), "Doslo je do greske sa ucitavanjem slike.", Toast.LENGTH_SHORT).show();
         }
-
-        //backDugme u FullscreenImage
-        backButton = (ImageView) view.findViewById(R.id.backButtonFullScreen);
-
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MainActivity mainActivity = (MainActivity)getActivity();
-                mainActivity.onBackPressed();
-                Log.d("123", "kliknutBACK: ");
-            }
-        });
-
 
         return view;
     }

@@ -185,7 +185,7 @@
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/approvedbyRecyclerView"
                         android:layout_width="match_parent"
-                        android:layout_height="260dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:background="@color/detail_fragment_background"/>
 

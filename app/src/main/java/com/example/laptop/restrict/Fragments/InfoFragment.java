@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.laptop.restrict.Adapter.ApprovedByAdapter;
 import com.example.laptop.restrict.Adapter.ProjectAdapter;
 import com.example.laptop.restrict.ApiClientDetails;
+import com.example.laptop.restrict.DetailActivity;
 import com.example.laptop.restrict.Interfaces.ApiInterfaceDetails;
 import com.example.laptop.restrict.Model.Approval;
 import com.example.laptop.restrict.Model.ProjectStatusApprovals;
@@ -36,15 +37,15 @@ import retrofit2.Response;
 // Fragment za prikaz informacija na Detail stranici
 public class InfoFragment extends Fragment {
 
-    private RecyclerView recyclerView;
-    private ApprovedByAdapter adapter;
-
-    private ArrayList<Approval> approvals;
-
+    // Potrebno za deo IZNAD APPROVED BY DELA
     private TextView name, uploaded, issuedFor, textPreliminary;
     private ImageView circlePreliminary;
-
     private Version selectedVersion;
+
+    // Potrebno za APPROVED BY
+    private RecyclerView recyclerView;
+    private ApprovedByAdapter adapter;
+    private ArrayList<Approval> approvals;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,6 +53,7 @@ public class InfoFragment extends Fragment {
         // Ucitavanje layout-a
         View view = inflater.inflate(R.layout.layout_info, container, false);
 
+        // Registrovanje TextView komponenti
         name = (TextView) view.findViewById(R.id.textName);
         uploaded = (TextView) view.findViewById(R.id.textUploaded);
         issuedFor = (TextView) view.findViewById(R.id.textIssuedfor);
@@ -79,7 +81,7 @@ public class InfoFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         ApiInterfaceDetails apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
-        Call<ProjectStatusApprovals> call = apiInterfaceDetails.getApprovals(254, DetailFragment.API_KEY);
+        Call<ProjectStatusApprovals> call = apiInterfaceDetails.getApprovals(254, DetailActivity.API_KEY);
         call.enqueue(new Callback<ProjectStatusApprovals>() {
             @Override
             public void onResponse(Call<ProjectStatusApprovals> call, Response<ProjectStatusApprovals> response) {
@@ -95,7 +97,7 @@ public class InfoFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ProjectStatusApprovals> call, Throwable t) {
-                Toast.makeText(getContext(), "Approvals problem", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Problem sa ucitavanje APPROVED BY dela", Toast.LENGTH_SHORT).show();
             }
         });
 

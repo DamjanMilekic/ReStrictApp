@@ -8,15 +8,15 @@
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/logo_strict"
         android:label="Strict"
-        android:roundIcon="@mipmap/rounded_picture_logo"
         android:largeHeap="true"
+        android:roundIcon="@mipmap/rounded_picture_logo"
         android:supportsRtl="true"
-        android:hardwareAccelerated="true"
-        android:theme="@style/AppTheme"
-        >
-        <activity android:name=".MainActivity"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +24,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".DetailActivity"></activity>
+        <activity android:name=".FullScreenImageActivity"></activity>
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.laptop.restrict.DetailActivity;
 import com.example.laptop.restrict.Fragments.DetailFragment;
 import com.example.laptop.restrict.Model.Comment;
 import com.example.laptop.restrict.R;
@@ -26,23 +27,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     public CommentAdapter(Context context, ArrayList<Comment> comments) {
         this.context = context;
-        if (comments != null) {
-            this.comments = comments;
-        } else {
-            this.comments = new ArrayList<>();
-        }
-
+        this.comments = comments;
     }
 
     @Override
     public CommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view;
-
-        if (comments.size() > 0) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.comment, parent, false);
-        } else {
-            view = LayoutInflater.from(context).inflate(R.layout.no_comment, parent, false);
-        }
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.comment, parent, false);
 
         return new CommentViewHolder(view);
     }
@@ -50,26 +40,19 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @Override
     public void onBindViewHolder(CommentViewHolder holder, int position) {
 
-        if (comments.size() > 0) {
-            Comment comment = comments.get(position);
-            Picasso.with(context)
-                    .load(DetailFragment.STRICTAPP_URL + comment.getUserAvatar())
-                    .into(holder.image);
-            holder.name.setText(comment.getFirstName() + " " + comment.getLastName());
-            holder.comment.setText(comment.getText());
-            holder.dateAndTime.setText(comment.getTime());
-        }
+        Comment comment = comments.get(position);
+        Picasso.with(context)
+                .load(DetailActivity.STRICTAPP_URL + comment.getUserAvatar())
+                .into(holder.image);
+        holder.name.setText(comment.getFirstName() + " " + comment.getLastName());
+        holder.comment.setText(comment.getText());
+        holder.dateAndTime.setText(comment.getTime());
 
     }
 
     @Override
     public int getItemCount() {
-        if (comments.size() > 0) {
             return comments.size();
-        } else {
-            return 1;
-        }
-
     }
 
     public class CommentViewHolder extends RecyclerView.ViewHolder {
