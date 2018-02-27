@@ -100,7 +100,7 @@ public class CommentsFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
-        Call<ProjectStatusComment> call = apiInterfaceDetails.getComments(254, MainActivity.APP_TOKEN);
+        Call<ProjectStatusComment> call = apiInterfaceDetails.getComments(254, LoginFragment.api_token);
         call.enqueue(new Callback<ProjectStatusComment>() {
             @Override
             public void onResponse(Call<ProjectStatusComment> call, Response<ProjectStatusComment> response) {

@@ -82,7 +82,7 @@ public class InfoFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         ApiInterfaceDetails apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
-        Call<ProjectStatusApprovals> call = apiInterfaceDetails.getApprovals(254, MainActivity.APP_TOKEN);
+        Call<ProjectStatusApprovals> call = apiInterfaceDetails.getApprovals(254, LoginFragment.api_token);
         call.enqueue(new Callback<ProjectStatusApprovals>() {
             @Override
             public void onResponse(Call<ProjectStatusApprovals> call, Response<ProjectStatusApprovals> response) {

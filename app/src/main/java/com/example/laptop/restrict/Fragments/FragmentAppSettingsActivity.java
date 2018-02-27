@@ -234,7 +234,7 @@ public class FragmentAppSettingsActivity extends Fragment {
         //Retrofit postavljanje tekstfildova sa servera
         Service service = Client.getApiClient().create(Service.class);
 
-        Call<Person> call = service.getPerson(MainActivity.APP_TOKEN);
+        Call<Person> call = service.getPerson(LoginFragment.api_token);
         call.enqueue(new Callback<Person>() {
             @Override
             public void onResponse(Call<Person> call, Response<Person> response) {

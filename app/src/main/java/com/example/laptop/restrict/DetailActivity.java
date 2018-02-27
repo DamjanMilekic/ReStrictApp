@@ -25,6 +25,7 @@ import com.example.laptop.restrict.Adapter.ProjectAdapter;
 import com.example.laptop.restrict.Fragments.CommentsFragment;
 import com.example.laptop.restrict.Fragments.DetailImageFragment;
 import com.example.laptop.restrict.Fragments.InfoFragment;
+import com.example.laptop.restrict.Fragments.LoginFragment;
 import com.example.laptop.restrict.Interfaces.ApiInterfaceDetails;
 import com.example.laptop.restrict.Model.ProjectStatusData;
 import com.example.laptop.restrict.Model.Version;
@@ -71,7 +72,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         share.setOnClickListener(this);
 
         ApiInterfaceDetails apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
-        Call<ProjectStatusData> call = apiInterfaceDetails.getVersions(358, MainActivity.APP_TOKEN);
+        Call<ProjectStatusData> call = apiInterfaceDetails.getVersions(358, LoginFragment.api_token);
         call.enqueue(new Callback<ProjectStatusData>() {
             @Override
             public void onResponse(Call<ProjectStatusData> call, Response<ProjectStatusData> response) {

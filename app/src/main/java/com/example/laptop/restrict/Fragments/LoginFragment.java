@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,8 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
 
     Client apiClient;
     Service apiService;
+
+    public static String api_token = "";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -120,6 +123,7 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
 
                         ProjectStatusLogin projectStatusLogin = response.body();
                         String status = projectStatusLogin.getStatus();
+                        api_token += projectStatusLogin.getToken();
 
                         if (status != null && status.equals("success")) {
 
@@ -146,6 +150,7 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
                         Toast.makeText(getContext(), "Problem sa povezivanjem.", Toast.LENGTH_SHORT).show();
                     }
                 });
+
             } else {
                 Toast.makeText(context, "Niste ispravno uneli email.", Toast.LENGTH_LONG).show();
             }
