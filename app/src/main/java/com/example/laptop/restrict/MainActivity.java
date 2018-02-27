@@ -36,7 +36,7 @@ import java.util.List;
 
 public  class MainActivity extends AppCompatActivity implements ILoginMain {
 
-    public static final String APP_TOKEN = "YjzUJsVRf8t2P6VfQ8MyHljdFh8VXLkYzvsMXlYc0THepxZENwQFmc3OIlj1";
+    public static final String APP_TOKEN = "FAV7Ehp3UDBWoLZX5lJXRd1fPkwbT5xrG5P5ofMzer3JowyDa0Hgd3pB3gdg";
   android.support.v4.app.Fragment loginFr;
 
     Point p;

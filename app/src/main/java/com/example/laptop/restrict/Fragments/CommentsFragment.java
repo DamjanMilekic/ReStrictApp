@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,11 +41,12 @@ public class CommentsFragment extends Fragment {
 
     // Potrebno za deo koji prikazuje komentare
     private RecyclerView recyclerView;
-    private ArrayList<Comment> comments;
+    private ArrayList<Comment> comments, searchedComment;
     private CommentAdapter adapter;
 
     // Potrebno za deo pretrage i slanje komentara
     private EditText search, writeComment;
+    private ImageButton searchButton;
     private ImageView sendButton;
 
     private ApiInterfaceDetails apiInterfaceDetails;
@@ -55,8 +57,43 @@ public class CommentsFragment extends Fragment {
         View view = inflater.inflate(R.layout.layout_comments, container, false);
 
         // Omogucuje kucanje teksta u EditText komponenti u jednom redu
+        searchedComment = new ArrayList<>();
         search = (EditText) view.findViewById(R.id.search);
         search.setSingleLine();
+        searchButton = (ImageButton) view.findViewById(R.id.search_comments);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                /*if (search.getText().toString() != null) {
+                    apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
+                    Call<ProjectStatusComment> call = apiInterfaceDetails.getComments(254, MainActivity.APP_TOKEN);
+                    call.enqueue(new Callback<ProjectStatusComment>() {
+                        @Override
+                        public void onResponse(Call<ProjectStatusComment> call, Response<ProjectStatusComment> response) {
+
+                            // Ucitavanje komentara sa API-a, dodavanje u adapter i prikaz u recyclerview-u
+                            comments = response.body().getComments();
+                            if (comments.size() > 0) {
+                                for (int i = 0; i <comments.size(); i++) {
+                                    if (comments.get(i).getText().equals(search.getText().toString())){
+                                        searchedComment.add(comments.get(i));
+                                    }
+                                }
+                            }
+                            adapter = new CommentAdapter(getContext(), searchedComment);
+                            recyclerView.setAdapter(adapter);
+                        }
+
+                        @Override
+                        public void onFailure(Call<ProjectStatusComment> call, Throwable t) {
+                            Toast.makeText(getContext(), "Problem sa ucitavanjem komentara", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }*/
+
+            }
+        });
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewComments);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));

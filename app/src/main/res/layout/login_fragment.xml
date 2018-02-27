@@ -47,7 +47,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:drawableRight="@mipmap/userid_icon"
+                android:drawableTint="@color/colorPrimary"
                 android:hint="User ID"
                 android:inputType="textEmailAddress" />
 
@@ -55,6 +58,8 @@
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:drawableRight="@mipmap/pass_icon"
                 android:hint="Password"
                 android:inputType="textPassword" />

@@ -205,7 +205,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         alert.show();
     }
 
-    /*private void initActionBar(){
+    private void initActionBar(){
 
         actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(false);
@@ -219,7 +219,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         ImageButton imgProfile = (ImageButton)v.findViewById(R.id.btnProfileActBar);
         TextView numberOfNotif = (TextView)v.findViewById(R.id.txNumberOfNotif);
 
-    }*/
+    }
 
     @Override
     public void onBackPressed() {
