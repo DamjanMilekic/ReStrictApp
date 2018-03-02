@@ -37,7 +37,7 @@ import java.util.List;
 public  class MainActivity extends AppCompatActivity implements ILoginMain {
 
     public static final String APP_TOKEN = LoginFragment.api_token;
-  android.support.v4.app.Fragment loginFr;
+    android.support.v4.app.Fragment loginFr;
 
     Point p;
     View menuButton;
@@ -278,13 +278,9 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
         PopUpNotifAdapter notifAdapter = new PopUpNotifAdapter(this,notificationList);
         recyclerView.setAdapter(notifAdapter);
 
-
-
-
-
-
-
     }
+
+
     @Override
     public void onBackPressed() {
         getSupportActionBar().show();

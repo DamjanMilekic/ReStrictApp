@@ -1,6 +1,7 @@
 package com.example.laptop.restrict.Fragments;
 
 
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 
 import android.content.Context;
@@ -37,8 +38,12 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
     View view;
     Context context;
 
+    String email = "", password = "";
+
     Client apiClient;
     Service apiService;
+    ProjectStatusLogin projectStatusLogin;
+    Handler handler;
 
     public static String api_token = "";
 
@@ -65,6 +70,8 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
 
         emailEdit = (EditText) view.findViewById(R.id.email);
         passwordEdit = (EditText) view.findViewById(R.id.password);
+        projectStatusLogin = new ProjectStatusLogin();
+        handler = new Handler(getContext().getMainLooper());
 
         return view;
     }
@@ -93,12 +100,39 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
         passwordEdit = (EditText) view.findViewById(R.id.password);
         btnLogin = (Button) view.findViewById(R.id.login_btn);
 
-
-
         btnLogin.setOnClickListener(this);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString("emailEdit", emailEdit.getText().toString());
+        outState.putString("passwordEdit", passwordEdit.getText().toString());
+        outState.putString("email", email);
+        outState.putString("password", password);
 
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            emailEdit.setText(savedInstanceState.getString("emailEdit"));
+            passwordEdit.setText(savedInstanceState.getString("passwordEdit"));
+            email = savedInstanceState.getString("email");
+            password = savedInstanceState.getString("password");
+        }
+    }
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        emailEdit.setText(email);
+        passwordEdit.setText(password);
+
+    }
 
     @Override
     public void onDetach() {
@@ -113,35 +147,42 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
         String email = emailEdit.getText().toString();
         String password = passwordEdit.getText().toString();
 
-        if (email != null && password != null) {
-            if (email.contains("@") && email.contains(".")) {
+        if (email != null && email.trim().length() > 0 && password != null && password.trim().length() > 0) {
+
+            if (FragmentAppSettingsActivity.isEmailValid(email.trim().toString())) {
+
                 apiService = Client.getApiClient().create(Service.class);
                 Call<ProjectStatusLogin> call = apiService.loginToApp(new LoginRequest(email, password));
                 call.enqueue(new Callback<ProjectStatusLogin>() {
+
                     @Override
                     public void onResponse(Call<ProjectStatusLogin> call, Response<ProjectStatusLogin> response) {
 
-                        ProjectStatusLogin projectStatusLogin = response.body();
-                        String status = projectStatusLogin.getStatus();
-                        api_token += projectStatusLogin.getToken();
+                            if (response.body() != null) {
 
-                        if (status != null && status.equals("success")) {
+                                projectStatusLogin = (ProjectStatusLogin) response.body();
+                                String status = projectStatusLogin.getStatus();
+                                api_token += projectStatusLogin.getToken();
 
-                            Fragment newFragment = new HomeFragment();
-                            Bundle args = new Bundle();
-                            args.putSerializable("login", projectStatusLogin);
-                            newFragment.setArguments(args);
-                            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                            transaction.replace(R.id.frame, newFragment);
-                            transaction.commit();
+                                if (status != null && status.equals("success")) {
 
-                            Toast.makeText(getContext(), "Login status: " + status, Toast.LENGTH_LONG).show();
+                                    Fragment newFragment = new HomeFragment();
+                                    Bundle args = new Bundle();
+                                    args.putSerializable("login", projectStatusLogin);
+                                    newFragment.setArguments(args);
+                                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                                    transaction.replace(R.id.frame, newFragment);
+                                    transaction.commit();
 
-                        } else {
-                            Toast.makeText(getContext(), "Login status: " + status, Toast.LENGTH_LONG).show();
-                            emailEdit.setError("Proverite da li ste ispravno uneli email.");
-                            emailEdit.setError("Proverite da li ste ispravno uneli password");
-                        }
+                                } else {
+                                    Toast.makeText(getContext(), "Login status: " + status, Toast.LENGTH_LONG).show();
+                                    emailEdit.setText("");
+                                }
+
+                            } else {
+                                Toast.makeText(getContext(), "Pogresni podaci za logovanje", Toast.LENGTH_LONG).show();
+                                Log.d("LOGIN", "Step 5");
+                            }
 
                     }
 
@@ -151,12 +192,55 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
                     }
                 });
 
+                /*Log.d("ResponseBody", "test0");
+                apiService = Client.getApiClient().create(Service.class);
+                Call<ResponseBody> call = apiService.loginToApplication(new LoginRequest(email, password));
+                call.enqueue(new Callback<ResponseBody>() {
+
+                    String responseBodyJSON;
+
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                        Log.d("ResponseBody", "test");
+
+                        if (response.isSuccessful()) {
+                            Gson gson = new Gson();
+
+                            try {
+
+                                responseBodyJSON = response.body().string();
+
+                            } catch (IOException e) {
+
+                                e.printStackTrace();
+
+                            }
+
+                            Log.d("ResponseBody", responseBodyJSON);
+
+                        } else {
+
+                            Toast.makeText(this, response.body().string(), Toast.LENGTH_LONG).show();
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    }
+                });*/
+
+
             } else {
-                Toast.makeText(context, "Niste ispravno uneli email.", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Pogresan format email-a.", Toast.LENGTH_LONG).show();
             }
         } else {
             Toast.makeText(context, "Morate popuniti sva polja.", Toast.LENGTH_LONG).show();
         }
 
     }
+
 }

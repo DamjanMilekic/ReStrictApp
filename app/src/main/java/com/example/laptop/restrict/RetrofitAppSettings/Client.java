@@ -18,20 +18,18 @@ public class Client {
    public static Retrofit retrofit = null;
 
     public static Retrofit getApiClient(){
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+       /* OkHttpClient.Builder builder = new OkHttpClient.Builder();
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         if (BuildConfig.DEBUG) {
             builder.addInterceptor(logging);
-        }
+        }*/
         if (retrofit ==null){
 
             retrofit = new Retrofit.Builder().
                   baseUrl(BASE_URL).
-                  addConverterFactory(GsonConverterFactory.create()).
-                    client(builder.build()).
-                  build();
+                  addConverterFactory(GsonConverterFactory.create())/*.client(builder.build())*/.build();
 
         }
 

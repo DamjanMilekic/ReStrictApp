@@ -7,6 +7,7 @@ import com.example.laptop.restrict.Model.Person;
 import com.example.laptop.restrict.Model.ProjectStatusLogin;
 
 import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -42,6 +43,9 @@ public interface Service {
     @Multipart
     @POST("img-save-to-file")
     Call<Person> postPicture(@Part MultipartBody.Part file, @Query("api_token") String apiToken);
+
+    @POST("api/login")
+    Call <ResponseBody> loginToApplication(@Body LoginRequest loginRequest);
 
     @POST("api/login")
     Call <ProjectStatusLogin> loginToApp(@Body LoginRequest loginRequest);

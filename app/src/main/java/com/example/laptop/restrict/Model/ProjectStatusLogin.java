@@ -18,19 +18,23 @@ public class ProjectStatusLogin implements Serializable {
     private String status;
     @SerializedName("token")
     @Expose
-    @Nullable
     private String token;
     @SerializedName("user_id")
     @Expose
-    @Nullable
     private Integer userId;
     @SerializedName("avatar")
     @Expose
-    @Nullable
     private String avatar;
 
     public ProjectStatusLogin() {
 
+    }
+
+    public ProjectStatusLogin(String status) {
+        this.status = status;
+        this.token = null;
+        this.userId = null;
+        this.avatar = null;
     }
 
     public ProjectStatusLogin(String status, String token, Integer userId, String avatar) {
@@ -72,4 +76,13 @@ public class ProjectStatusLogin implements Serializable {
         this.avatar = avatar;
     }
 
+    @Override
+    public String toString() {
+        return "ProjectStatusLogin{" +
+                "status='" + status + '\'' +
+                ", token='" + token + '\'' +
+                ", userId=" + userId +
+                ", avatar='" + avatar + '\'' +
+                '}';
+    }
 }
