@@ -203,14 +203,49 @@ public class FragmentAppSettingsActivity extends Fragment {
             @Override
             public void onClick(View view) {
 
+                String ime,prezime, titl,mail,tel;
 
-                executePostRequest(name.getText().toString(),
-                        lastName.getText().toString(),
-                        title.getText().toString(),
-                        eMail.getText().toString(),
-                        phone.getText().toString());
-                        //
-                // TODO treba upload na server slikaaaaa
+                ime=name.getText().toString();
+                prezime = lastName.getText().toString();
+                titl = title.getText().toString();
+                mail = eMail.getText().toString();
+                tel = phone.getText().toString();
+
+                if (ime.trim().length()>0 &&
+                        prezime.trim().length()>0 &&
+                        titl.trim().length()>0 &&
+                        mail.trim().length()>0 &&
+                        tel.trim().length()>0)
+
+                    if (isEmailValid(mail)) {
+
+                            executePostRequest(ime,prezime, titl,mail,tel);
+                            //
+                            // TODO treba upload na server slikaaaaa
+                            Toast.makeText(getContext(), "Changes made successfully", Toast.LENGTH_LONG).show();
+
+
+                    }else{
+                        Toast.makeText(getContext(),"ENTER EMAIL FORM CORRECTLY", Toast.LENGTH_LONG).show();
+                        eMail.setError("ENTER EMAIL FORM CORRECTLY");
+                        name.setError(null);
+                        lastName.setError(null);
+                        title.setError(null);
+                        phone.setError(null);
+                    }
+
+                else{
+                    name.setError("ENTER NAME");
+                    lastName.setError("ENTER LASTNAME");
+                    title.setError("ENTER TITLE");
+                    eMail.setError("ENTER EMAIL");
+                    phone.setError("ENTER PHONE");
+
+                }
+
+
+
+
 
 
             }
@@ -271,44 +306,6 @@ public class FragmentAppSettingsActivity extends Fragment {
         return view;
     }
 
-
-    public void dodajOsobu(){
-        String ime = name.getText().toString();
-        String titl = title.getText().toString();
-        String mail = eMail.getText().toString();
-        String tel = phone.getText().toString();
-
-
-        if (ime.trim().length()>0 &&
-                titl.trim().length()>0 &&
-                mail.trim().length()>0 &&
-                tel.trim().length()>0)
-
-            if (isEmailValid(mail)) {
-                try {
-                    int t = Integer.parseInt(tel);
-                    Toast.makeText(getContext(), "Changes made successfully", Toast.LENGTH_LONG).show();
-
-                }catch (Exception e){
-
-                    Toast.makeText(getContext(),"USE ONLY NUMBERS IN PHONE ENTRY", Toast.LENGTH_LONG).show();
-                    phone.setError("USE ONLY NUMBERS IN PHONE ENTRY");
-
-                }
-            }else{
-                Toast.makeText(getContext(),"ENTER EMAIL FORM CORRECTLY", Toast.LENGTH_LONG).show();
-                eMail.setError("ENTER EMAIL FORM CORRECTLY");
-            }
-
-        else{
-            name.setError("ENTER NAME");
-            title.setError("ENTER TITLE");
-            eMail.setError("ENTER EMAIL");
-            phone.setError("ENTER PHONE");
-            Toast.makeText(getContext(),"ENTER ALL FIELDS", Toast.LENGTH_LONG).show();
-
-        }
-    }
     
     public static boolean isEmailValid(String email) {
         String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
@@ -326,13 +323,13 @@ public class FragmentAppSettingsActivity extends Fragment {
         call.enqueue(new Callback<Person>() {
             @Override
             public void onResponse(Call<Person> call, Response<Person> response) {
-                Toast.makeText(getContext(), "Uspesno Izmenjen", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Sucessfull change", Toast.LENGTH_LONG).show();
 
             }
 
             @Override
             public void onFailure(Call<Person> call, Throwable t) {
-                Toast.makeText(getContext(), "NEUPSESNO", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Fail", Toast.LENGTH_LONG).show();
 
             }
         });
