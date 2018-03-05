@@ -50,4 +50,7 @@ public interface Service {
     @POST("api/login")
     Call <ProjectStatusLogin> loginToApp(@Body LoginRequest loginRequest);
 
+    @POST("api/logout")
+    Call<Person> logout(@Query("api_token") String apiToken);
+
 }

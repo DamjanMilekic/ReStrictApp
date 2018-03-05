@@ -58,6 +58,10 @@ import retrofit2.http.Multipart;
 
 
 public class FragmentAppSettingsActivity extends Fragment {
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 
     private FragmentActivity fragmentContext;
     private FragmentManager fragmentManager;
@@ -73,6 +77,8 @@ public class FragmentAppSettingsActivity extends Fragment {
 
     ImageView slikaIme, slikax, slikaRotateLeft, slikaRotateRight, backButton, buttonCheck;
     ImageButton btnNotificationActBar;
+
+    Button logout;
 
     LinearLayout linearLayoutSlicicaIText;
 
@@ -100,7 +106,7 @@ public class FragmentAppSettingsActivity extends Fragment {
         title = (EditText) view.findViewById(R.id.title);
         eMail = (EditText) view.findViewById(R.id.eMail);
         phone = (EditText) view.findViewById(R.id.phone);
-
+        logout = (Button) view.findViewById(R.id.logoutbutton);
         slikaIme = (ImageView) view.findViewById(R.id.sl);
 
         final ImageButton slicicaZaToolbar = (ImageButton)view.findViewById(R.id.btnProfileActBar);
@@ -200,33 +206,69 @@ public class FragmentAppSettingsActivity extends Fragment {
         });
 
         buttonCheck.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+                String ime, prezime, titl, mail, tel;
 
-                String ime,prezime, titl,mail,tel;
-
-                ime=name.getText().toString();
+                ime = name.getText().toString();
                 prezime = lastName.getText().toString();
                 titl = title.getText().toString();
                 mail = eMail.getText().toString();
                 tel = phone.getText().toString();
 
-                if (ime.trim().length()>0 &&
-                        prezime.trim().length()>0 &&
-                        titl.trim().length()>0 &&
-                        mail.trim().length()>0 &&
-                        tel.trim().length()>0)
+                boolean failFlag = false;
+                if (ime.trim().length() == 0) {
+                    failFlag = true;
+                    name.setError("ENTER NAME");
+                }
+                if (prezime.trim().length() == 0) {
+                    failFlag = true;
+                    lastName.setError("ENTER LASTNAME");
+                }
+                if (titl.trim().length() == 0) {
+                    failFlag = true;
+                    title.setError("ENTER TITLE");
+                }
+                if (mail.trim().length() == 0) {
+                    failFlag = true;
+                    eMail.setError("ENTER EMAIL");
+                }
+                if (tel.trim().length() == 0) {
+                    failFlag = true;
+                    phone.setError("ENTER PHONE");
+                }
+                if (!failFlag) {
 
                     if (isEmailValid(mail)) {
 
-                            executePostRequest(ime,prezime, titl,mail,tel);
-                            //
-                            // TODO treba upload na server slikaaaaa
-                            Toast.makeText(getContext(), "Changes made successfully", Toast.LENGTH_LONG).show();
+                        //executePostRequest(ime,prezime, titl,mail,tel);
+                        //
+                        // TODO treba upload na server slikaaaaa
+                        //Toast.makeText(getContext(), "Changes made successfully", Toast.LENGTH_LONG).show();
+                        //TODO save states
+
+                        Service apiService = Client.getApiClient().create(Service.class);
+                        Call<Person> call = apiService.postPerson(ime, prezime, titl, mail, tel, LoginFragment.api_token);
+
+                        call.enqueue(new Callback<Person>() {
+                            @Override
+                            public void onResponse(Call<Person> call, Response<Person> response) {
+                                Toast.makeText(getContext(), "Sucessfull change", Toast.LENGTH_LONG).show();
+                                mainActivity = (MainActivity) getActivity();
+                                mainActivity.onBackPressed();
+                            }
+
+                            @Override
+                            public void onFailure(Call<Person> call, Throwable t) {
+                                Toast.makeText(getContext(), "Fail on server", Toast.LENGTH_LONG).show();
+
+                            }
+                        });
 
 
-                    }else{
-                        Toast.makeText(getContext(),"ENTER EMAIL FORM CORRECTLY", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getContext(), "ENTER EMAIL FORM CORRECTLY", Toast.LENGTH_LONG).show();
                         eMail.setError("ENTER EMAIL FORM CORRECTLY");
                         name.setError(null);
                         lastName.setError(null);
@@ -234,24 +276,43 @@ public class FragmentAppSettingsActivity extends Fragment {
                         phone.setError(null);
                     }
 
-                else{
-                    name.setError("ENTER NAME");
-                    lastName.setError("ENTER LASTNAME");
-                    title.setError("ENTER TITLE");
-                    eMail.setError("ENTER EMAIL");
-                    phone.setError("ENTER PHONE");
 
                 }
-
-
-
-
-
 
             }
 
         });
 
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                Service apiService = Client.getApiClient().create(Service.class);
+                Call<Person> call = apiService.logout(LoginFragment.api_token);
+                call.enqueue(new Callback<Person>() {
+                    @Override
+                    public void onResponse(Call<Person> call, Response<Person> response) {
+
+                        onDestroy();
+                        mainActivity = (MainActivity) getActivity();
+                        LoginFragment loginFragment = new LoginFragment();
+                        FragmentManager fm = mainActivity.getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                        fragmentTransaction.commit();
+                        fragmentTransaction.replace(R.id.frame, loginFragment);
+
+                        Toast.makeText(getContext(), "Success logout", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Person> call, Throwable t) {
+                        Toast.makeText(getContext(), "Fail logout", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
 
 
         //layout za elemente u kojoj su slicica sa kamerom i mali tekst upload picture
@@ -314,7 +375,7 @@ public class FragmentAppSettingsActivity extends Fragment {
         return matcher.matches();
     }
 
-    private void executePostRequest(String postName, String postLastName, String postTitle
+    /*private void executePostRequest(String postName, String postLastName, String postTitle
                     ,String postEmail,String postPhone){
 
         Service apiService = Client.getApiClient().create(Service.class);
@@ -333,7 +394,7 @@ public class FragmentAppSettingsActivity extends Fragment {
 
             }
         });
-    }
+    }*/
 
     private void executreImagePostRequest(String fileUri){
         Service apiService = Client.getApiClient().create(Service.class);

@@ -162,7 +162,7 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
 
                                 projectStatusLogin = (ProjectStatusLogin) response.body();
                                 String status = projectStatusLogin.getStatus();
-                                api_token += projectStatusLogin.getToken();
+                                api_token = projectStatusLogin.getToken();
 
                                 if (status != null && status.equals("success")) {
 
