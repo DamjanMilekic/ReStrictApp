@@ -2,6 +2,7 @@ package com.example.laptop.restrict.Fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,7 +42,7 @@ public class CommentsFragment extends Fragment {
 
     // Potrebno za deo koji prikazuje komentare
     private RecyclerView recyclerView;
-    private ArrayList<Comment> comments, searchedComment;
+    private ArrayList<Comment> comments;
     private CommentAdapter adapter;
 
     // Potrebno za deo pretrage i slanje komentara
@@ -50,14 +51,19 @@ public class CommentsFragment extends Fragment {
     private ImageView sendButton;
 
     private ApiInterfaceDetails apiInterfaceDetails;
+
+    // Potrebno za update UI-a
+    private Handler handler;
+
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 
         // Ucitavanje layout-a
         View view = inflater.inflate(R.layout.layout_comments, container, false);
 
+        handler = new Handler();
+
         // Omogucuje kucanje teksta u EditText komponenti u jednom redu
-        searchedComment = new ArrayList<>();
         search = (EditText) view.findViewById(R.id.search);
         search.setSingleLine();
         searchButton = (ImageButton) view.findViewById(R.id.search_comments);
@@ -65,24 +71,35 @@ public class CommentsFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                /*if (search.getText().toString() != null) {
+                if (search.getText().toString() != null) {
                     apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
-                    Call<ProjectStatusComment> call = apiInterfaceDetails.getComments(254, MainActivity.APP_TOKEN);
+                    Call<ProjectStatusComment> call = apiInterfaceDetails.getComments(254, LoginFragment.api_token);
                     call.enqueue(new Callback<ProjectStatusComment>() {
                         @Override
                         public void onResponse(Call<ProjectStatusComment> call, Response<ProjectStatusComment> response) {
-
                             // Ucitavanje komentara sa API-a, dodavanje u adapter i prikaz u recyclerview-u
                             comments = response.body().getComments();
+                            final ArrayList<Comment> searchedComment = new ArrayList<>();
                             if (comments.size() > 0) {
                                 for (int i = 0; i <comments.size(); i++) {
-                                    if (comments.get(i).getText().equals(search.getText().toString())){
+                                    if (comments.get(i).getText().contains(search.getText().toString())){
                                         searchedComment.add(comments.get(i));
                                     }
                                 }
                             }
-                            adapter = new CommentAdapter(getContext(), searchedComment);
-                            recyclerView.setAdapter(adapter);
+                            if (searchedComment.size() > 0 ) {
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        adapter = new CommentAdapter(getContext(), searchedComment);
+                                        recyclerView.setAdapter(adapter);
+                                        search.setText("");
+                                    }
+                                });
+                            } else {
+                                Toast.makeText(getContext(), "No comments to show", Toast.LENGTH_SHORT).show();
+                            }
+
                         }
 
                         @Override
@@ -90,7 +107,7 @@ public class CommentsFragment extends Fragment {
                             Toast.makeText(getContext(), "Problem sa ucitavanjem komentara", Toast.LENGTH_SHORT).show();
                         }
                     });
-                }*/
+                }
 
             }
         });
@@ -135,14 +152,39 @@ public class CommentsFragment extends Fragment {
 
     public void postComment() {
         String text = writeComment.getText().toString();
-        PostCommentRequest postCommentRequest = new PostCommentRequest(254, text, MainActivity.APP_TOKEN);
+        PostCommentRequest postCommentRequest = new PostCommentRequest(254, text, LoginFragment.api_token);
         Call<ProjectStatusPostComment> call = apiInterfaceDetails.setComment(postCommentRequest);
         call.enqueue(new Callback<ProjectStatusPostComment>() {
             @Override
             public void onResponse(Call<ProjectStatusPostComment> call, Response<ProjectStatusPostComment> response) {
                 ProjectStatusPostComment projectStatusPostComment = response.body();
-                if (projectStatusPostComment.getStatus().equals("success")) {
+                if (projectStatusPostComment != null && projectStatusPostComment.getStatus().equals("success")) {
+
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Call<ProjectStatusComment> reloadComments = apiInterfaceDetails.getComments(254, LoginFragment.api_token);
+                            reloadComments.enqueue(new Callback<ProjectStatusComment>() {
+                                @Override
+                                public void onResponse(Call<ProjectStatusComment> call, Response<ProjectStatusComment> response) {
+                                    // Ucitavanje komentara sa API-a, dodavanje u adapter i prikaz u recyclerview-u
+                                    comments = response.body().getComments();
+                                    adapter = new CommentAdapter(getContext(), comments);
+                                    recyclerView.setAdapter(adapter);
+                                    writeComment.setText(null);
+                                }
+
+                                @Override
+                                public void onFailure(Call<ProjectStatusComment> call, Throwable t) {
+                                    Toast.makeText(getContext(), "Problem sa internet konekcijom.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    });
+
                     Toast.makeText(getContext(), projectStatusPostComment.getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Problem sa postavljanjem komentara komentara", Toast.LENGTH_SHORT).show();
                 }
             }
 

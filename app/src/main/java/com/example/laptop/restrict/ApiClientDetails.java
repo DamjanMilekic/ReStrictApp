@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClientDetails {
 
-    public static final String BASE_URL = "https://s.strictapp.com/api/";
+    public static final String BASE_URL = "https://s.strictapp.com/";
 
     public static Retrofit retrofit = null;
 

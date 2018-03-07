@@ -49,7 +49,8 @@
                     android:textSize="16sp"
                     android:padding="5dp"
                     android:background="@drawable/shape"
-                    android:tooltipText="RtlCompat" />
+                    android:tooltipText="RtlCompat"
+                    android:cursorVisible="false"/>
 
                 <ImageButton
                     android:id="@+id/search_comments"
@@ -98,7 +99,8 @@
                         android:textAlignment="textStart"
                         android:gravity="top"
                         android:padding="5dp"
-                        tools:ignore="RtlCompat" />
+                        tools:ignore="RtlCompat"
+                        android:cursorVisible="false"/>
 
                 </FrameLayout>
 

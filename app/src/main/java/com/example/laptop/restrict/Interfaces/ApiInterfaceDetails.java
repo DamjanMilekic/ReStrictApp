@@ -7,7 +7,10 @@ import com.example.laptop.restrict.Model.ProjectStatusApprovals;
 import com.example.laptop.restrict.Model.ProjectStatusComment;
 import com.example.laptop.restrict.Model.ProjectStatusData;
 import com.example.laptop.restrict.Model.ProjectStatusPostComment;
+import com.example.laptop.restrict.Model.ProjectStatusShare;
 
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -25,16 +28,19 @@ import retrofit2.http.Query;
 
 public interface ApiInterfaceDetails {
 
-    @GET("projects/master/{id}")
+    @GET("api/projects/master/{id}")
     Call<ProjectStatusData> getVersions(@Path("id") int drawing_id, @Query("api_token") String api_key);
 
-    @GET("comments/show/{id}")
+    @GET("api/comments/show/{id}")
     Call<ProjectStatusComment> getComments(@Path("id") int drawing_id, @Query("api_token") String api_key);
 
-    @GET("approvals/show/{id}")
+    @GET("api/approvals/show/{id}")
     Call<ProjectStatusApprovals> getApprovals(@Path("id") int drawing_id, @Query("api_token") String api_key);
 
-    @POST("comments/store/")
+    @POST("api/comments/store/")
     Call<ProjectStatusPostComment> setComment(@Body PostCommentRequest postCommentRequest);
+
+    @POST("angular/share/create/")
+    Call<ProjectStatusShare> share(@Body String json);
 
 }

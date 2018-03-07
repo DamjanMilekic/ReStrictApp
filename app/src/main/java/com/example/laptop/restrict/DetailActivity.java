@@ -24,11 +24,16 @@ import java.util.ArrayList;
 import com.example.laptop.restrict.Adapter.ProjectAdapter;
 import com.example.laptop.restrict.Fragments.CommentsFragment;
 import com.example.laptop.restrict.Fragments.DetailImageFragment;
+import com.example.laptop.restrict.Fragments.FragmentAppSettingsActivity;
 import com.example.laptop.restrict.Fragments.InfoFragment;
 import com.example.laptop.restrict.Fragments.LoginFragment;
 import com.example.laptop.restrict.Interfaces.ApiInterfaceDetails;
 import com.example.laptop.restrict.Model.ProjectStatusData;
+import com.example.laptop.restrict.Model.ProjectStatusShare;
 import com.example.laptop.restrict.Model.Version;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,6 +58,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        // Inicijalizovanje toolbar-a
+        initActionBar();
 
         // Definisanje RecyclerView-a
         circleRecyclerView = (RecyclerView) findViewById(R.id.circleRecyclerView);
@@ -174,6 +182,13 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         builder.setView(download_alert).setCancelable(false);
 
         final AlertDialog alert = builder.create();
+        /*download.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DownloadFile().execute("http://s.strictapp.com/pdf/drawings/u1xjwIyFm9jz76nMYB2v.pdf" ,"Basement Plan");
+                alert.dismiss();
+            }
+        });*/
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,15 +202,62 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private void showShareAlert() {
         View share_alert = LayoutInflater.from(DetailActivity.this).inflate(R.layout.share_alert, null);
 
-        EditText inputEmail = (EditText) share_alert.findViewById(R.id.input_email);
+        final EditText inputEmail = (EditText) share_alert.findViewById(R.id.input_email);
         inputEmail.setSingleLine();
+        final EditText inputNotes = (EditText) share_alert.findViewById(R.id.input_notes);
 
+        Button share = (Button) share_alert.findViewById(R.id.share);
         Button cancel = (Button) share_alert.findViewById(R.id.cancel);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
         builder.setView(share_alert).setCancelable(false);
 
         final AlertDialog alert = builder.create();
+        /*share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                JSONObject jsonObject = new JSONObject();
+
+                try {
+                    jsonObject.put("version", 358);
+                    if (FragmentAppSettingsActivity.isEmailValid(inputEmail.getText().toString())) {
+                        jsonObject.put("email", inputEmail.getText().toString());
+                    } else {
+                        inputEmail.setText("");
+                        inputEmail.setError("Unesite ispravnu mail adresu");
+                    }
+                    jsonObject.put("notes", inputNotes.getText().toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                ApiInterfaceDetails apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
+                Call<ProjectStatusShare> call = apiInterfaceDetails.share(jsonObject.toString());
+                call.enqueue(new Callback<ProjectStatusShare>() {
+                    @Override
+                    public void onResponse(Call<ProjectStatusShare> call, Response<ProjectStatusShare> response) {
+                        ProjectStatusShare projectStatusShare = response.body();
+                        if (projectStatusShare != null) {
+                            if (projectStatusShare.getStatus() != null && projectStatusShare.getStatus().toUpperCase().equals("SUCCESS")) {
+                                Toast.makeText(DetailActivity.this, "Uspesno deljenje.",Toast.LENGTH_SHORT).show();
+                                alert.dismiss();
+                            } else {
+                                Toast.makeText(DetailActivity.this, "Neuspesno deljenje. Pokusajte ponovo.",Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(DetailActivity.this, "NULL.",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ProjectStatusShare> call, Throwable t) {
+                        Toast.makeText(DetailActivity.this, "Problem sa povezivanjem.",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+        });*/
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
