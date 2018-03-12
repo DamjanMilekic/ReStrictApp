@@ -182,13 +182,13 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         builder.setView(download_alert).setCancelable(false);
 
         final AlertDialog alert = builder.create();
-        /*download.setOnClickListener(new View.OnClickListener() {
+        download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new DownloadFile().execute("http://s.strictapp.com/pdf/drawings/u1xjwIyFm9jz76nMYB2v.pdf" ,"Basement Plan");
                 alert.dismiss();
             }
-        });*/
+        });
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

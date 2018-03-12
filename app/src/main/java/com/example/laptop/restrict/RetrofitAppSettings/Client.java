@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Client {
 
-    private static final String BASE_URL = "https://s.strictapp.com/";
+    private static final String BASE_URL = "http://s.strictapp.com/";
 
    public static Retrofit retrofit = null;
 
