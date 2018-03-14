@@ -32,6 +32,8 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
 
     public static final String SELECTED_VERSION = "SELECTED_VERSION";
 
+    public int raw_index;
+
     private Context context;
     private ArrayList<Version> versions;
 
@@ -47,14 +49,23 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
     }
 
     @Override
-    public void onBindViewHolder(ProjectViewHolder holder, final int position) {
+    public void onBindViewHolder(final ProjectViewHolder holder, final int position) {
+
         holder.textView.setText("" + (char)(65 + position));
         holder.circle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 update(position);
+                raw_index = position;
+                notifyDataSetChanged();
             }
         });
+        if(raw_index==position){
+            holder.circle.setColorFilter(R.color.colorPrimary);
+        }
+        else {holder.circle.setColorFilter(null);
+        }
+
     }
 
     @Override

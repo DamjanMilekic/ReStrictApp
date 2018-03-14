@@ -50,7 +50,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     public Version selectedVersion;
 
     ActionBar actionBar;
-
+    int rawindex;
     // ImageButton komponente DetailActivity-a
     ImageButton info, comment, download, share;
 
@@ -129,8 +129,35 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         FragmentTransaction transaction;
         Fragment currentFragment;
 
+        rawindex=v.getId();
         Bundle args = new Bundle();
         args.putParcelable(ProjectAdapter.SELECTED_VERSION, selectedVersion);
+        /*holder.circle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                update(position);
+                raw_index = position;
+                notifyDataSetChanged();
+            }
+        });
+        if(raw_index==position){
+            holder.circle.setColorFilter(R.color.colorPrimary);
+        }
+        else {holder.circle.setColorFilter(null);
+        }*/
+        /*if (rawindex == v.getId())
+            info.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        else {
+            info.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        }*/
+        /*info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rawindex=v.getId();
+
+            }
+        });*/
+
 
         switch(v.getId()) {
             case R.id.infoImageButton:
@@ -140,6 +167,18 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
                 currentFragment = fragmentManager.findFragmentById(R.id.onClickButtonFragmentContainer);
 
+
+                info.setBackgroundColor(getResources().getColor(R.color.buttonsSettings));
+                info.setColorFilter(getResources().getColor(R.color.white));
+
+                comment.setBackgroundColor(getResources().getColor(R.color.white));
+                comment.setColorFilter(getResources().getColor(R.color.buttonsSettings));
+
+                download.setBackgroundColor(getResources().getColor(R.color.white));
+                download.setColorFilter(getResources().getColor(R.color.buttonsSettings));
+
+                share.setBackgroundColor(getResources().getColor(R.color.white));
+                share.setColorFilter(getResources().getColor(R.color.buttonsSettings));
                 if (currentFragment != null && currentFragment instanceof CommentsFragment) {
                     transaction = fragmentManager.beginTransaction();
                     transaction.remove(currentFragment);
@@ -153,6 +192,18 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 fragmentManager = getSupportFragmentManager();
 
                 currentFragment = fragmentManager.findFragmentById(R.id.onClickButtonFragmentContainer);
+
+                info.setBackgroundColor(getResources().getColor(R.color.white));
+                info.setColorFilter(getResources().getColor(R.color.buttonsSettings));
+
+                comment.setBackgroundColor(getResources().getColor(R.color.buttonsSettings));
+                comment.setColorFilter(getResources().getColor(R.color.white));
+
+                download.setBackgroundColor(getResources().getColor(R.color.white));
+                download.setColorFilter(getResources().getColor(R.color.buttonsSettings));
+
+                share.setBackgroundColor(getResources().getColor(R.color.white));
+                share.setColorFilter(getResources().getColor(R.color.buttonsSettings));
 
                 if (currentFragment != null && currentFragment instanceof InfoFragment) {
                     transaction = fragmentManager.beginTransaction();

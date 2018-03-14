@@ -46,14 +46,14 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignBottom="@+id/image"
                     android:layout_marginBottom="60dp"
-                    android:layout_marginRight="15dp">
+                    android:layout_marginRight="15dp"
+                    >
 
                     <ImageView
                         android:id="@+id/imgResizeBackground"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@mipmap/circle_selected"
-                        android:alpha="0.5"/>
+                        android:src="@drawable/circle_selected" />
 
                     <ImageView
                         android:id="@+id/imgResizeFront"
@@ -61,7 +61,7 @@
                         android:layout_height="25dp"
                         android:src="@mipmap/resize"
                         android:layout_gravity="center"
-                        android:alpha="0.5"/>
+                        />
 
                 </FrameLayout>
 
@@ -72,14 +72,14 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignBottom="@+id/image"
                     android:layout_marginBottom="15dp"
-                    android:layout_marginRight="15dp">
+                    android:layout_marginRight="15dp"
+                    >
 
                     <ImageView
                         android:id="@+id/imgLockBackground"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@mipmap/circle_selected"
-                        android:alpha="0.5"/>
+                        android:src="@drawable/circle_selected"/>
 
                     <ImageView
                         android:id="@+id/imgLockFront"
@@ -87,7 +87,7 @@
                         android:layout_height="25dp"
                         android:src="@mipmap/padunlock"
                         android:layout_gravity="center"
-                        android:alpha="0.5"/>
+                        />
 
                 </FrameLayout>
 

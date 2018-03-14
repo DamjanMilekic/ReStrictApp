@@ -21,10 +21,10 @@ public class Client {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        builder.addInterceptor(logging);
+        /*if (BuildConfig.DEBUG) {
 
-        if (BuildConfig.DEBUG) {
-            builder.addInterceptor(logging);
-        }
+        }*/
         if (retrofit ==null){
 
             retrofit = new Retrofit.Builder().

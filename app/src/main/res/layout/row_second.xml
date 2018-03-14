@@ -17,7 +17,7 @@
         android:paddingStart="10dp"
         android:textStyle="bold"
         android:textColor="@color/secondLevelText"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
     <ImageView
         android:id="@+id/arrowChild"
@@ -27,7 +27,8 @@
         android:layout_alignParentEnd="true"
         android:background="@color/extendedListBackground"
         android:scaleType="fitXY"
-        android:src="@drawable/right_arrow_blue" />
+        android:src="@drawable/right_arrow_blue"
+        android:layout_marginTop="6dp"/>
 
     <ImageView
         android:id="@+id/arrowChildExpanded"
@@ -36,5 +37,6 @@
         android:layout_alignParentEnd="true"
         android:scaleType="fitXY"
         android:src="@drawable/down_arrow_blue"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:layout_marginTop="6dp"/>
 </LinearLayout>

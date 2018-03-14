@@ -153,6 +153,8 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
 
                 apiService = Client.getApiClient().create(Service.class);
                 Call<ProjectStatusLogin> call = apiService.loginToApp(new LoginRequest(email, password));
+                Log.d("LOGIN", "Step 7");
+
                 call.enqueue(new Callback<ProjectStatusLogin>() {
 
                     @Override
@@ -164,7 +166,7 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
                                 String status = projectStatusLogin.getStatus();
                                 api_token = projectStatusLogin.getToken();
 
-                                if (status != null && status.equals("success")) {
+                                if (status != null) {
 
                                     Fragment newFragment = new HomeFragment();
                                     Bundle args = new Bundle();
@@ -189,49 +191,11 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onFailure(Call<ProjectStatusLogin> call, Throwable t) {
                         Toast.makeText(getContext(), "Problem sa povezivanjem.", Toast.LENGTH_SHORT).show();
+                        Log.d("LOGIN", "Step 6");
+
                     }
                 });
 
-                /*Log.d("ResponseBody", "test0");
-                apiService = Client.getApiClient().create(Service.class);
-                Call<ResponseBody> call = apiService.loginToApplication(new LoginRequest(email, password));
-                call.enqueue(new Callback<ResponseBody>() {
-
-                    String responseBodyJSON;
-
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
-                        Log.d("ResponseBody", "test");
-
-                        if (response.isSuccessful()) {
-                            Gson gson = new Gson();
-
-                            try {
-
-                                responseBodyJSON = response.body().string();
-
-                            } catch (IOException e) {
-
-                                e.printStackTrace();
-
-                            }
-
-                            Log.d("ResponseBody", responseBodyJSON);
-
-                        } else {
-
-                            Toast.makeText(this, response.body().string(), Toast.LENGTH_LONG).show();
-
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                    }
-                });*/
 
 
             } else {

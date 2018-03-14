@@ -121,7 +121,7 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
 */
     }
 
-    private void initFragmentAppSettings(){
+    public void initFragmentAppSettings(){
 
         FragmentAppSettingsActivity fragmentAppSettingsActivity = new FragmentAppSettingsActivity();
 
@@ -139,7 +139,7 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
 
 
 
-    private void actionBarInit()
+    public void actionBarInit()
     {
         mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);

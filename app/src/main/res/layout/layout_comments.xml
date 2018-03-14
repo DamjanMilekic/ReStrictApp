@@ -29,15 +29,18 @@
                 android:id="@+id/commnets"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
+                android:layout_weight="0.5"
                 android:padding="5dp"
                 android:text="COMMENTS"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:alpha="0.6"
+                android:textSize="13sp"
+                android:textColor="@color/buttonsSettings"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.65">
+                android:layout_weight="0.2">
 
                 <EditText
                     android:id="@+id/search"
@@ -45,8 +48,8 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:layout_weight="0.4"
-                    android:hint="Search text"
-                    android:textSize="16sp"
+                    android:hint="Search"
+                    android:textSize="14sp"
                     android:padding="5dp"
                     android:background="@drawable/shape"
                     android:tooltipText="RtlCompat"
@@ -97,6 +100,7 @@
                         android:hint="Add a comment..."
                         android:background="@drawable/shape"
                         android:textAlignment="textStart"
+                        android:textSize="14sp"
                         android:gravity="top"
                         android:padding="5dp"
                         tools:ignore="RtlCompat"

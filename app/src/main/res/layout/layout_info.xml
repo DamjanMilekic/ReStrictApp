@@ -38,7 +38,10 @@
                     android:layout_weight="0.5"
                     android:text="NAME"
                     android:textStyle="bold"
-                    android:layout_gravity="center_vertical"/>
+                    android:textSize="13sp"
+                    android:textColor="@color/buttonsSettings"
+                    android:layout_gravity="center_vertical"
+                    android:alpha="0.6" />
 
                 <TextView
                     android:id="@+id/textName"
@@ -48,8 +51,7 @@
                     android:gravity="right"
                     android:text="Basement plan"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -69,7 +71,10 @@
                     android:layout_weight="0.5"
                     android:text="UPLOADED"
                     android:textStyle="bold"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:alpha="0.6"
+                    android:textSize="13sp"
+                    android:textColor="@color/buttonsSettings"/>
 
                 <TextView
                     android:id="@+id/textUploaded"
@@ -79,8 +84,7 @@
                     android:gravity="right"
                     android:text="26/03/16 16:43"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -89,7 +93,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="5dp"
                 android:background="@color/white">
 
                 <TextView
@@ -99,7 +102,10 @@
                     android:layout_weight="0.5"
                     android:text="ISSUED FOR"
                     android:textStyle="bold"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"
+                    android:alpha="0.6"
+                    android:textSize="13sp"
+                    android:textColor="@color/buttonsSettings"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -114,8 +120,7 @@
                         android:layout_marginRight="5dp"
                         android:text="Preliminary"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
+                        android:textSize="13sp"
                         android:layout_gravity="center_vertical"/>
 
                     <FrameLayout
@@ -174,6 +179,9 @@
                         android:layout_height="match_parent"
                         android:text="APPROVED BY"
                         android:textStyle="bold"
+                        android:alpha="0.6"
+                        android:textSize="13sp"
+                        android:textColor="@color/buttonsSettings"
                         android:padding="5dp"/>
 
                 </LinearLayout>
