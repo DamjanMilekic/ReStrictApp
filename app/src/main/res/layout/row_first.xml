@@ -13,12 +13,12 @@
     <TextView
 
         android:id="@+id/adressNumber"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="10dp"
-        android:text=""
         android:layout_marginTop="3dp"
+        android:text="9999"
         android:layout_marginBottom="3dp"
         android:textColor="@color/addresNumber"
         android:textSize="16sp" />

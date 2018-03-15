@@ -137,12 +137,12 @@ public class HomeFragment extends Fragment {
                 new ThreeLevelListAdapter(getActivity(), parentNumbers,parent, secondLevel,dataNumbers,data);
         expandableListView.setAdapter( threeLevelListAdapterAdapter );
         expandableListView.setGroupIndicator(getResources().getDrawable(R.drawable.expanded_list_indicator));
+        expandableListView.setIndicatorBounds(100,100);
 
         metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         width = metrics.widthPixels;
         expandableListView.setIndicatorBoundsRelative(width-getDipsFromPixel(50),width-getDipsFromPixel(10));
-
 
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().show();

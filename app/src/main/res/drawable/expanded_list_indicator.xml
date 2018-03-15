@@ -1,5 +1,27 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_expanded="false" android:drawable="@drawable/arrow_white"/>
-    <item android:state_expanded="true"  android:drawable="@drawable/arrow_white_d"  />
+
+    <item android:state_expanded="false">
+        <layer-list>
+            <item android:left="10dp"
+                android:right="10dp"
+                android:top="10dp"
+                android:bottom="10dp"
+                android:drawable="@drawable/right_arrow"
+                >
+            </item>
+        </layer-list>
+    </item>
+
+    <item android:state_expanded="true">
+    <layer-list>
+        <item android:left="11dp"
+            android:right="11dp"
+            android:top="8dp"
+            android:bottom="8dp"
+            android:drawable="@drawable/arrow_down"
+            >
+        </item>
+    </layer-list>
+    </item>
     <item android:drawable="@drawable/rigt_arrow_black" />
 </selector>

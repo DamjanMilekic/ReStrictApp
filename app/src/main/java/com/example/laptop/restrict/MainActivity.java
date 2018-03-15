@@ -132,7 +132,7 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
         fragmentTransaction.setCustomAnimations(R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down, R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down);
         fragmentTransaction.addToBackStack(null);
 
-        fragmentTransaction.add(R.id.frame, fragmentAppSettingsActivity).commit();
+        fragmentTransaction.replace(R.id.frame, fragmentAppSettingsActivity).commit();
 
 
     }

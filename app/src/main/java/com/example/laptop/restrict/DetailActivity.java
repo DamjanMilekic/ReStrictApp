@@ -2,6 +2,8 @@ package com.example.laptop.restrict;
 
 import android.app.AlertDialog;
 
+import android.content.Intent;
+import android.media.Image;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +31,7 @@ import com.example.laptop.restrict.Fragments.FragmentAppSettingsActivity;
 import com.example.laptop.restrict.Fragments.InfoFragment;
 import com.example.laptop.restrict.Fragments.LoginFragment;
 import com.example.laptop.restrict.Interfaces.ApiInterfaceDetails;
+import com.example.laptop.restrict.Model.Comment;
 import com.example.laptop.restrict.Model.ProjectStatusData;
 import com.example.laptop.restrict.Model.ProjectStatusShare;
 import com.example.laptop.restrict.Model.Version;
@@ -49,10 +53,23 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private ArrayList<Version> versionList;
     public Version selectedVersion;
 
+    private MainActivity mainActivity;
+
+
     ActionBar actionBar;
-    int rawindex;
     // ImageButton komponente DetailActivity-a
-    ImageButton info, comment, download, share;
+    ImageButton info, comment, download, share, imageButtonAppsettings;
+    ImageView backButton;
+
+    TextView btnNumberNotification;
+    @Override
+    protected void onStart() {
+        super.onStart();
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.hide();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +77,24 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_detail);
 
         // Inicijalizovanje toolbar-a
-        initActionBar();
+        imageButtonAppsettings = (ImageButton) findViewById(R.id.btnProfileActBarSettings);
+
+        backButton = (ImageView) findViewById(R.id.backButtonFullScreenDetail);
+        btnNumberNotification =(TextView) findViewById(R.id.txNumberOfNotif);
+
+        imageButtonAppsettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initFragmentAppSettings();
+            }
+        });
+       // btnNumberNotification.setText(""); TODO ovde ide broj notifikacija
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         // Definisanje RecyclerView-a
         circleRecyclerView = (RecyclerView) findViewById(R.id.circleRecyclerView);
@@ -94,17 +128,21 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 circleRecyclerView.setAdapter(adapter);
 
                 // Projekat cija se podaci trebaju prikazati na prvom pokretanju aktivnosti
-                selectedVersion = versionList.get(0);
 
-
+                for (Version v :versionList) {
+                    selectedVersion = v;
+                }
                 DetailImageFragment detailImageFragment = new DetailImageFragment();
                 InfoFragment infoFragment = new InfoFragment();
+                CommentsFragment commentsFragment = new CommentsFragment();
 
                 Bundle args = new Bundle();
                 args.putParcelable(ProjectAdapter.SELECTED_VERSION, selectedVersion);
 
                 detailImageFragment.setArguments(args);
                 infoFragment.setArguments(args);
+                commentsFragment.setArguments(args);
+
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -129,7 +167,6 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         FragmentTransaction transaction;
         Fragment currentFragment;
 
-        rawindex=v.getId();
         Bundle args = new Bundle();
         args.putParcelable(ProjectAdapter.SELECTED_VERSION, selectedVersion);
         /*holder.circle.setOnClickListener(new View.OnClickListener() {
@@ -167,18 +204,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
                 currentFragment = fragmentManager.findFragmentById(R.id.onClickButtonFragmentContainer);
 
+                infoClicked(info);
 
-                info.setBackgroundColor(getResources().getColor(R.color.buttonsSettings));
-                info.setColorFilter(getResources().getColor(R.color.white));
-
-                comment.setBackgroundColor(getResources().getColor(R.color.white));
-                comment.setColorFilter(getResources().getColor(R.color.buttonsSettings));
-
-                download.setBackgroundColor(getResources().getColor(R.color.white));
-                download.setColorFilter(getResources().getColor(R.color.buttonsSettings));
-
-                share.setBackgroundColor(getResources().getColor(R.color.white));
-                share.setColorFilter(getResources().getColor(R.color.buttonsSettings));
                 if (currentFragment != null && currentFragment instanceof CommentsFragment) {
                     transaction = fragmentManager.beginTransaction();
                     transaction.remove(currentFragment);
@@ -193,17 +220,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
                 currentFragment = fragmentManager.findFragmentById(R.id.onClickButtonFragmentContainer);
 
-                info.setBackgroundColor(getResources().getColor(R.color.white));
-                info.setColorFilter(getResources().getColor(R.color.buttonsSettings));
-
-                comment.setBackgroundColor(getResources().getColor(R.color.buttonsSettings));
-                comment.setColorFilter(getResources().getColor(R.color.white));
-
-                download.setBackgroundColor(getResources().getColor(R.color.white));
-                download.setColorFilter(getResources().getColor(R.color.buttonsSettings));
-
-                share.setBackgroundColor(getResources().getColor(R.color.white));
-                share.setColorFilter(getResources().getColor(R.color.buttonsSettings));
+                comentClicked(comment);
 
                 if (currentFragment != null && currentFragment instanceof InfoFragment) {
                     transaction = fragmentManager.beginTransaction();
@@ -339,4 +356,60 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     public void onBackPressed() {
         super.onBackPressed();
     }
+
+    public void infoClicked(ImageButton btn){
+        info.setBackgroundColor(getResources().getColor(R.color.buttonsSettings));
+        info.setAlpha(0.65f);
+        info.setColorFilter(getResources().getColor(R.color.white));
+
+        comment.setBackgroundColor(getResources().getColor(R.color.white));
+        comment.setColorFilter(getResources().getColor(R.color.buttonsSettings));
+
+        download.setBackgroundColor(getResources().getColor(R.color.white));
+        download.setColorFilter(getResources().getColor(R.color.buttonsSettings));
+
+        share.setBackgroundColor(getResources().getColor(R.color.white));
+        share.setColorFilter(getResources().getColor(R.color.buttonsSettings));
+    }
+    private void comentClicked(ImageButton btn) {
+
+        info.setBackgroundColor(getResources().getColor(R.color.white));
+        info.setColorFilter(getResources().getColor(R.color.buttonsSettings));
+
+        comment.setBackgroundColor(getResources().getColor(R.color.buttonsSettings));
+        comment.setAlpha(0.65f);
+        comment.setColorFilter(getResources().getColor(R.color.white));
+
+        download.setBackgroundColor(getResources().getColor(R.color.white));
+        download.setColorFilter(getResources().getColor(R.color.buttonsSettings));
+
+        share.setBackgroundColor(getResources().getColor(R.color.white));
+        share.setColorFilter(getResources().getColor(R.color.buttonsSettings));
+    }
+
+
+    public void initFragmentAppSettings(){
+
+        FragmentAppSettingsActivity fragmentAppSettingsActivity = new FragmentAppSettingsActivity();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.setCustomAnimations(R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down, R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down);
+        fragmentTransaction.addToBackStack(null);
+
+        fragmentTransaction.replace(R.id.appsettingscontainer, fragmentAppSettingsActivity).commit();
+
+
+    }
+
+    public void destroyFragment(){
+        FragmentAppSettingsActivity fragmentAppSettingsActivity = new FragmentAppSettingsActivity();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.remove(fragmentAppSettingsActivity);
+
+    }
+
 }

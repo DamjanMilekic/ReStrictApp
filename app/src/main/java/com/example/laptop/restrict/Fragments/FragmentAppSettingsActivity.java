@@ -199,8 +199,14 @@ public class FragmentAppSettingsActivity extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainActivity = (MainActivity) getActivity();
-                mainActivity.onBackPressed();
+                /*mainActivity = (MainActivity) getActivity();
+                mainActivity.onBackPressed();*/
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+
+                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                    fm.popBackStack();
+
+                }
 
             }
         });
@@ -484,4 +490,15 @@ public class FragmentAppSettingsActivity extends Fragment {
 
     }
 
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        onDestroy();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
 }

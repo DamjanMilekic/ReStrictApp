@@ -193,6 +193,11 @@ public class CommentsFragment extends Fragment {
                 Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 }
