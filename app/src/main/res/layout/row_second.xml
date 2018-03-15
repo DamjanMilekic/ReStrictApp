@@ -1,42 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/extendedListBackground"
-    android:padding="10dp"
-    android:gravity="end"
-    android:weightSum="1"
-    android:orientation="horizontal">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
 
-    <TextView
-        android:id="@+id/rowSecondText"
-        android:layout_width="wrap_content"
+    android:background="#E7EFF1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="start"
-        android:paddingStart="10dp"
-        android:textStyle="bold"
-        android:textColor="@color/secondLevelText"
-        android:textSize="16sp" />
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/item"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/rowSecondText"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textAlignment="viewStart"
+                android:gravity="center_vertical"
+                android:textColor="#6D8594"
+                android:text=""
+                />
+            <ImageView
+                android:id="@+id/arrowChild"
+                android:layout_marginLeft="-26dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/arrow_right"/>
+            <ImageView
+                android:id="@+id/arrowChildExpanded"
+                android:layout_width="10dp"
+                android:layout_height="6dp"
+                android:layout_alignParentEnd="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/down_arrow_blue"
+                android:visibility="gone" />
+        </LinearLayout>
 
-    <ImageView
-        android:id="@+id/arrowChild"
-        android:layout_width="8dp"
-        android:layout_height="8dp"
-        android:layout_marginEnd="10dp"
-        android:layout_alignParentEnd="true"
-        android:background="@color/extendedListBackground"
-        android:scaleType="fitXY"
-        android:src="@drawable/right_arrow_blue"
-        android:layout_marginTop="6dp"/>
+        <!-- divider -->
+        <!--  <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="#979797"></LinearLayout>-->
 
-    <ImageView
-        android:id="@+id/arrowChildExpanded"
-        android:layout_width="10dp"
-        android:layout_height="6dp"
-        android:layout_alignParentEnd="true"
-        android:scaleType="fitXY"
-        android:src="@drawable/down_arrow_blue"
-        android:visibility="gone"
-        android:layout_marginTop="6dp"/>
-</LinearLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/subitems"
+            android:background="#E7EFF1"
+            android:layout_alignBottom="@id/item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

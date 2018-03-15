@@ -22,6 +22,7 @@ import com.example.laptop.restrict.DetailActivity;
 import com.example.laptop.restrict.Fragments.DetailFragment;
 import com.example.laptop.restrict.Fragments.LoginFragment;
 import com.example.laptop.restrict.MainActivity;
+import com.example.laptop.restrict.Model.Section;
 import com.example.laptop.restrict.R;
 
 import java.util.List;
@@ -40,11 +41,11 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
     List<String[]> dataNumbers;
     List<String[]> data;
 
-    String[] headers;
+    List<Section> headers;
 
     MainActivity mainActivity;
 
-    public SecondLevelAdapter(Context context, String[] headers, List<String[]> data, List<String[]> dataNumbers) {
+    public SecondLevelAdapter(Context context, List<Section> headers, List<String[]> data, List<String[]> dataNumbers) {
         this.context = context;
 
         this.data = data;
@@ -55,13 +56,13 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
     @Override
     public Object getGroup(int groupPosition) {
 
-        return headers[groupPosition];
+        return headers.get(groupPosition);
     }
 
     @Override
     public int getGroupCount() {
 
-        return headers.length;
+        return headers.size();
     }
 
     @Override
@@ -73,6 +74,7 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
 
+        Section section = headers.get(groupPosition);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = inflater.inflate(R.layout.row_second, null);
         TextView text = (TextView) convertView.findViewById(R.id.rowSecondText);
@@ -84,7 +86,7 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(marginLayoutParams);
 
         String groupText = getGroup(groupPosition).toString();
-        text.setText(groupText);
+        text.setText(section.getTitle());
 
         if (ind != null) {
             ImageView indicator = (ImageView) ind;
@@ -104,7 +106,7 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
                     drawable.setState(GROUP_STATE_SETS[stateSetIndex]);
                 } else if (stateSetIndex == 0) {
                     ind.setVisibility(View.VISIBLE);
-                    ind2.setVisibility(View.INVISIBLE);
+                    //   ind2.setVisibility(View.INVISIBLE);
                     Drawable drawable = indicator.getDrawable();
                     drawable.setState(GROUP_STATE_SETS[stateSetIndex]);
                 }
@@ -157,7 +159,7 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
                 initFragment2();
 
 
-               // Toast.makeText(context, "Ovde vezati detalje", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(context, "Ovde vezati detalje", Toast.LENGTH_SHORT).show();
             }
         });
 
