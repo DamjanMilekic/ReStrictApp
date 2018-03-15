@@ -2,13 +2,17 @@ package com.example.laptop.restrict.Adapter;
 
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.laptop.restrict.Model.Section;
 import com.example.laptop.restrict.R;
 import com.example.laptop.restrict.SecondLevelExpandableListView;
 
@@ -21,13 +25,18 @@ public class ThreeLevelListAdapter extends BaseExpandableListAdapter {
 
     String[] parentHeaders;
     String [] parentHeadersNumber;
-    List<String[]> secondLevel;
+    List<List<Section>> secondLevel;
     private Context context;
     List<LinkedHashMap<String, String[]>> data;
     List<LinkedHashMap<String,String[]>> dataNumber;
 
+    private static final int[] EMPTY_STATE_SET = {};
+    private static final int[] GROUP_EXPANDED_STATE_SET = {android.R.attr.state_expanded};
+    private static final int[][] GROUP_STATE_SETS = {EMPTY_STATE_SET, // 0
+            GROUP_EXPANDED_STATE_SET // 1
+    };
 
-    public ThreeLevelListAdapter(Context context,String[] parentHeadersNumber ,String[] parentHeader, List<String[]> secondLevel,List<LinkedHashMap<String,String[]>> dataNumber,List<LinkedHashMap<String,String[]>> data) {
+    public ThreeLevelListAdapter(Context context, String[] parentHeadersNumber , String[] parentHeader, List<List<Section>> secondLevel, List<LinkedHashMap<String,String[]>> dataNumber, List<LinkedHashMap<String,String[]>> data) {
         this.context = context;
 
         this.parentHeaders = parentHeader;
@@ -95,6 +104,42 @@ public class ThreeLevelListAdapter extends BaseExpandableListAdapter {
         text.setText(this.parentHeaders[groupPosition]);
         adressNo.setText(this.parentHeadersNumber[groupPosition]);
 
+       /* View ind = convertView.findViewById(R.id.arrowChild);
+        View ind2 = convertView.findViewById(R.id.arrowChildExpanded);
+
+        ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(ind2.getLayoutParams());
+        marginLayoutParams.setMarginEnd(toPxs(16));
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(marginLayoutParams);
+
+        String groupText = getGroup(groupPosition).toString();
+        text.setText(groupText);
+
+        if (ind != null) {
+            ImageView indicator = (ImageView) ind;
+            if (getChildrenCount(groupPosition) == 0) {
+                indicator.setVisibility(View.INVISIBLE);
+            } else {
+                indicator.setVisibility(View.VISIBLE);
+                int stateSetIndex = (isExpanded ? 1 : 0);
+
+
+                if (stateSetIndex == 1) {
+                    ind.setVisibility(View.INVISIBLE);
+                    ind2.setVisibility(View.VISIBLE);
+                    ind2.setLayoutParams(layoutParams);
+
+                    Drawable drawable = indicator.getDrawable();
+                    drawable.setState(GROUP_STATE_SETS[stateSetIndex]);
+                } else if (stateSetIndex == 0) {
+                    ind.setVisibility(View.VISIBLE);
+                    //   ind2.setVisibility(View.INVISIBLE);
+                    Drawable drawable = indicator.getDrawable();
+                    drawable.setState(GROUP_STATE_SETS[stateSetIndex]);
+                }
+        }    }*/
+
+
+
         return convertView;
     }
 
@@ -103,15 +148,17 @@ public class ThreeLevelListAdapter extends BaseExpandableListAdapter {
 
         final SecondLevelExpandableListView secondLevelELV = new SecondLevelExpandableListView(context);
 
-        String[] headers = secondLevel.get(groupPosition);
+        List<Section> headers = secondLevel.get(groupPosition);
+
+        //  Section head = headers.get(groupPosition);
 
 
-                List<String[]> childData = new ArrayList<>();
+        List<String[]> childData = new ArrayList<>();
         List<String[]> childDataNumber = new ArrayList<>();
 
 
-        HashMap<String, String[]> secondLevelData=data.get(groupPosition);
-        HashMap<String, String[]> secondLevelNumber = dataNumber.get(groupPosition);
+        HashMap<String, String[]> secondLevelData=data.get(childPosition);
+        HashMap<String, String[]> secondLevelNumber = dataNumber.get(childPosition);
 
 
 

@@ -2,6 +2,7 @@ package com.example.laptop.restrict.RetrofitAppSettings;
 
 
 import com.example.laptop.restrict.Model.Approval;
+import com.example.laptop.restrict.Model.DataHome;
 import com.example.laptop.restrict.Model.LoginRequest;
 import com.example.laptop.restrict.Model.Person;
 import com.example.laptop.restrict.Model.ProjectStatusLogin;
@@ -19,14 +20,15 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-/**
- * Created by durma on 14.2.18..
- */
+
 
 public interface Service {
 
     @GET ("api/me")
     Call<Person> getPerson(@Query("api_token") String apiToken);
+
+    @GET ("api/projects")
+    Call<DataHome> getProjects(@Query("api_token") String apiToken);
 
     @GET ("api/approvals/show/{version_id}")
     Call<Approval> getAprovals(@Path("version_id")int versionId , @Query("api_token") String apiToken);
