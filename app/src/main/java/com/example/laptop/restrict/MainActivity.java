@@ -263,7 +263,7 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
 
         int location[] = new int[2];
         int OFFSET_X = 0;
-        int OFFSET_Y = 140;
+        int OFFSET_Y = 90;
 
        // view.getLocationOnScreen(location);
 

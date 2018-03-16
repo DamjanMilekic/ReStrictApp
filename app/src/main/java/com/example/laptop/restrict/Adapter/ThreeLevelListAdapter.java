@@ -2,16 +2,15 @@ package com.example.laptop.restrict.Adapter;
 
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.laptop.restrict.Model.Date;
+import com.example.laptop.restrict.Model.DrawingHome;
 import com.example.laptop.restrict.Model.Section;
 import com.example.laptop.restrict.R;
 import com.example.laptop.restrict.SecondLevelExpandableListView;
@@ -23,12 +22,10 @@ import java.util.List;
 
 public class ThreeLevelListAdapter extends BaseExpandableListAdapter {
 
-    String[] parentHeaders;
-    String [] parentHeadersNumber;
+    List<Date> parentHeader;
     List<List<Section>> secondLevel;
     private Context context;
-    List<LinkedHashMap<String, String[]>> data;
-    List<LinkedHashMap<String,String[]>> dataNumber;
+    ArrayList<List<Section>> data;
 
     private static final int[] EMPTY_STATE_SET = {};
     private static final int[] GROUP_EXPANDED_STATE_SET = {android.R.attr.state_expanded};
@@ -36,25 +33,20 @@ public class ThreeLevelListAdapter extends BaseExpandableListAdapter {
             GROUP_EXPANDED_STATE_SET // 1
     };
 
-    public ThreeLevelListAdapter(Context context, String[] parentHeadersNumber , String[] parentHeader, List<List<Section>> secondLevel, List<LinkedHashMap<String,String[]>> dataNumber, List<LinkedHashMap<String,String[]>> data) {
+    public ThreeLevelListAdapter(Context context, List<Date> parentHeader, List<List<Section>> secondLevel, ArrayList<List<Section>> data) {
         this.context = context;
-
-        this.parentHeaders = parentHeader;
-        this.parentHeadersNumber=parentHeadersNumber;
-
+        this.parentHeader = parentHeader;
         this.secondLevel = secondLevel;
-        this.dataNumber = dataNumber;
         this.data = data;
     }
 
     @Override
     public int getGroupCount() {
-        return parentHeaders.length;
+        return parentHeader.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-
 
         // no idea why this code is working
 
@@ -65,7 +57,7 @@ public class ThreeLevelListAdapter extends BaseExpandableListAdapter {
     @Override
     public Object getGroup(int groupPosition) {
 
-        return groupPosition;
+        return data.get(groupPosition);
     }
 
     @Override
@@ -95,14 +87,17 @@ public class ThreeLevelListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
+        final SecondLevelExpandableListView secondLevelELV = new SecondLevelExpandableListView(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = inflater.inflate(R.layout.row_first, null);
 
         TextView text = (TextView) convertView.findViewById(R.id.rowParentText);
         TextView adressNo = (TextView)convertView.findViewById(R.id.adressNumber);
 
-        text.setText(this.parentHeaders[groupPosition]);
-        adressNo.setText(this.parentHeadersNumber[groupPosition]);
+        Date date = parentHeader.get(groupPosition);
+
+        text.setText(date.getTitle());
+        adressNo.setText(date.getIdentifier());
 
        /* View ind = convertView.findViewById(R.id.arrowChild);
         View ind2 = convertView.findViewById(R.id.arrowChildExpanded);
@@ -137,6 +132,16 @@ public class ThreeLevelListAdapter extends BaseExpandableListAdapter {
                     drawable.setState(GROUP_STATE_SETS[stateSetIndex]);
                 }
         }    }*/
+        secondLevelELV.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            int previousGroup = -1;
+
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                if(groupPosition != previousGroup)
+                    secondLevelELV.collapseGroup(previousGroup);
+                previousGroup = groupPosition;
+            }
+        });
 
 
 
@@ -150,34 +155,7 @@ public class ThreeLevelListAdapter extends BaseExpandableListAdapter {
 
         List<Section> headers = secondLevel.get(groupPosition);
 
-        //  Section head = headers.get(groupPosition);
-
-
-        List<String[]> childData = new ArrayList<>();
-        List<String[]> childDataNumber = new ArrayList<>();
-
-
-        HashMap<String, String[]> secondLevelData=data.get(childPosition);
-        HashMap<String, String[]> secondLevelNumber = dataNumber.get(childPosition);
-
-
-
-
-
-        for(String key : secondLevelData.keySet())
-        {
-
-
-            childData.add(secondLevelData.get(key));
-
-        }
-
-        for(String key2 :secondLevelNumber.keySet())
-        {
-            childDataNumber.add(secondLevelNumber.get(key2));
-        }
-
-        secondLevelELV.setAdapter(new SecondLevelAdapter(context, headers,childData,childDataNumber));
+        secondLevelELV.setAdapter(new SecondLevelAdapter(context, headers));
 
         secondLevelELV.setGroupIndicator(null);
 
