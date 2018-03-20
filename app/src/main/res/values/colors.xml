@@ -19,4 +19,6 @@
     <color name="strictBlue">#1B3F59</color>
     <color name="extendedListBackground">#E7EFF1</color>
     <color name="secondLevelText">#6E8595</color>
+    <color name="userIDColor">#7ba5a7</color>
+
 </resources>

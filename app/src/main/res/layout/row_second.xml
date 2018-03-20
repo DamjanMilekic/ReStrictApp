@@ -36,6 +36,7 @@
         android:layout_width="19dp"
         android:layout_height="18dp"
         android:rotation="90"
+        android:visibility="gone"
         android:scaleType="fitXY"
         android:src="@drawable/right_arrow"
         android:alpha="0.4"/>

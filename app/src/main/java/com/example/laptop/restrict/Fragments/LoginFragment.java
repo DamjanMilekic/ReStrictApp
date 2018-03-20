@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,6 +100,7 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
         emailEdit = (EditText) view.findViewById(R.id.email);
         passwordEdit = (EditText) view.findViewById(R.id.password);
         btnLogin = (Button) view.findViewById(R.id.login_btn);
+        passwordEdit.setTransformationMethod(new AsteriskPasswordTransformationMethod());
 
         btnLogin.setOnClickListener(this);
     }
@@ -207,4 +209,26 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
 
     }
 
+    public class AsteriskPasswordTransformationMethod extends PasswordTransformationMethod {
+        @Override
+        public CharSequence getTransformation(CharSequence source, View view) {
+            return new PasswordCharSequence(source);
+        }
+
+        private class PasswordCharSequence implements CharSequence {
+            private CharSequence mSource;
+            public PasswordCharSequence(CharSequence source) {
+                mSource = source; // Store char sequence
+            }
+            public char charAt(int index) {
+                return '*'; // This is the important part
+            }
+            public int length() {
+                return mSource.length(); // Return default
+            }
+            public CharSequence subSequence(int start, int end) {
+                return mSource.subSequence(start, end); // Return default
+            }
+        }
+    }
 }

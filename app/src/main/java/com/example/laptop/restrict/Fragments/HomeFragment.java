@@ -64,39 +64,8 @@ public class HomeFragment extends Fragment {
 
 
 
-
-
-        //  thirdLevelMovies.put(moviesSecLevel[1], chelseaThirdLvl2);
-        //thirdLevelMovies.put(moviesSecLevel[2], chelseaThirdLvl3);
-
-
-
-        // thirdLevelDataNumbersMovies.put(moviesSecLevel[1],planNumbers2Chelsea);
-        //  thirdLevelDataNumbersMovies.put(moviesSecLevel[2],planNumbers3Chelsea);
-
-        //thirdLevelGames.put(gamesSecLeve[0], hoxtonThirdLvl);
-        //thirdLevelGames.put(gamesSecLeve[1], hoxtonThirdLvl2);
-        //thirdLevelDataNumbersGames.put(gamesSecLeve[0],planNumbersHoxton);
-        // thirdLevelDataNumbersGames.put(gamesSecLeve[1],planNumbers2Hoxton);
-
-
-
-
-        //data.add(thirdLevelGames);
-
-        //  dataNumbers.add(thirdLevelDataNumbersGames);
-
-
-
         expandableListView = (ExpandableListView) view.findViewById(R.id.expandible_listview);
         getProjects();
-
-        expandableListView = (ExpandableListView) view.findViewById(R.id.expandible_listview);
-        ThreeLevelListAdapter threeLevelListAdapterAdapter =
-                new ThreeLevelListAdapter(getActivity(), parentNumbers,parent, secondLevel,dataNumbers,data);
-        expandableListView.setAdapter( threeLevelListAdapterAdapter );
-        expandableListView.setGroupIndicator(getResources().getDrawable(R.drawable.expanded_list_indicator));
-        expandableListView.setIndicatorBounds(100,100);
 
         metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
