@@ -22,6 +22,8 @@ import com.example.laptop.restrict.DetailActivity;
 import com.example.laptop.restrict.Fragments.DetailFragment;
 import com.example.laptop.restrict.Fragments.LoginFragment;
 import com.example.laptop.restrict.MainActivity;
+import com.example.laptop.restrict.Model.Drawing;
+import com.example.laptop.restrict.Model.DrawingHome;
 import com.example.laptop.restrict.Model.Section;
 import com.example.laptop.restrict.R;
 
@@ -38,18 +40,10 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
             GROUP_EXPANDED_STATE_SET // 1
     };
     LoginFragment loginFr;
-    List<String[]> dataNumbers;
-    List<String[]> data;
-
     List<Section> headers;
 
-    MainActivity mainActivity;
-
-    public SecondLevelAdapter(Context context, List<Section> headers, List<String[]> data, List<String[]> dataNumbers) {
+    public SecondLevelAdapter(Context context, List<Section> headers){//, List<String[]> dataNumbers) {
         this.context = context;
-
-        this.data = data;
-        this.dataNumbers = dataNumbers;
         this.headers = headers;
     }
 
@@ -75,6 +69,8 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
 
 
         Section section = headers.get(groupPosition);
+
+
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = inflater.inflate(R.layout.row_second, null);
         TextView text = (TextView) convertView.findViewById(R.id.rowSecondText);
@@ -85,7 +81,6 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         marginLayoutParams.setMargins(toPxs(0),toPxs(0),toPxs(19),0);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(marginLayoutParams);
 
-        String groupText = getGroup(groupPosition).toString();
         text.setText(section.getTitle());
 
         if (ind != null) {
@@ -120,14 +115,8 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
     @Override
     public Object getChild(int groupPosition, int childPosition) {
 
-    /*    String[] childData;
-        String [] numberData;
+         return childPosition;
 
-        childData = data.get(groupPosition);
-        //numberData = dataNumbers.get(groupPosition);*/
-
-        // return childData[childPosition];
-        return childPosition;
     }
 
     @Override
@@ -144,20 +133,18 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         TextView textView = (TextView) convertView.findViewById(R.id.rowThirdText);
         TextView basePlanNumber = (TextView) convertView.findViewById(R.id.basePlanNumber);
 
-        String[] childArray = data.get(groupPosition);
-        String[] childNumber = dataNumbers.get(groupPosition);
 
-        String text = childArray[childPosition];
-        String number = childNumber[childPosition];
+        Section child = headers.get(groupPosition);
+        List<DrawingHome> childDrawings = child.getDrawings();
 
-        textView.setText(text);
-        basePlanNumber.setText(number);
+        DrawingHome drawing = childDrawings.get(childPosition);
+        textView.setText(drawing.getTitle());
+        basePlanNumber.setText(drawing.getIdentifier());
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 initFragment2();
-
 
                 // Toast.makeText(context, "Ovde vezati detalje", Toast.LENGTH_SHORT).show();
             }
@@ -166,6 +153,28 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
 
         return convertView;
     }
+
+
+
+    @Override
+    public int getChildrenCount(int groupPosition) {
+
+        Section child = headers.get(groupPosition);
+        List<DrawingHome> childDrawings = child.getDrawings();
+
+        return childDrawings.size();
+    }
+
+    @Override
+    public boolean hasStableIds() {
+        return true;
+    }
+
+    @Override
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
+        return true;
+    }
+
 
     public void setFragment(Fragment frag) {
         FragmentManager fm = ((Activity) context).getFragmentManager();
@@ -181,25 +190,6 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
     public interface IThirdLevelClick {
         public void onThirdLevelClick(View view, int position);
     }
-
-    @Override
-    public int getChildrenCount(int groupPosition) {
-        String[] children = data.get(groupPosition);
-
-
-        return children.length;
-    }
-
-    @Override
-    public boolean hasStableIds() {
-        return true;
-    }
-
-    @Override
-    public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return true;
-    }
-
     private void initFragment2() {
 
         /*DetailFragment detailFragment = new DetailFragment();

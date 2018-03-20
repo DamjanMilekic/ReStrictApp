@@ -32,81 +32,16 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
 
-    ArrayList<Date> projects;
-
-    Point p;
-    View menuButton;
 
     ExpandableListView expandableListView;
 
-
-    String[] parent = new String[]{"Chelsea Barracks", "Hoxton"};
-    String [] parentNumbers = new String[]{"9472","4493"};
-
-    String[] moviesSecLevel = new String[]{"Floor 1", "Floor 2", "Floor 3"};
-
-    //  String[] planNumbersChelsea = new String[]{"280","281"};
-    // String[] chelseaThirdLvl = new String[]{"chelsea1 base", "chelsea 2 base"};
-
-
-
-
-
-
-
-
-
-    List<LinkedHashMap<String, String[]>> data = new ArrayList<>();
-    List<LinkedHashMap<String, String[]>> dataNumbers = new ArrayList<>();
-
     List<List<Section>> secondLevel = new ArrayList<List<Section>>();
-
-    LinkedHashMap<String, String[]> thirdLevelMovies = new LinkedHashMap<>();
-    LinkedHashMap<String, String[]> thirdLevelDataNumbersMovies = new LinkedHashMap<>();
-
-
-    String[] parentMock,parentMockNumbers,secondMock,thirdMock,thirdMockNumbers;
-
-
-    //  String[] gamesSecLeve = new String[]{"Floor 1", "Floor 2"};
-
-
-
-    // String[] chelseaThirdLvl2 = new String[]{"Floor 2 chelsea 2 base"};
-    // String[] chelseaThirdLvl3 = new String[]{"Floor 3 chelsea 3 base", "Floor 3 chelsea3 base", "Floor 3 chelsea 3 base"};
-
-
-
-    //  String[] planNumbers2Chelsea = new String[]{"180"};
-    //  String[] planNumbers3Chelsea = new String[]{"380","381","382"};
-    //Hoxton
-    //  String[] hoxtonThirdLvl = new String[]{"Ground floor 1 Hoxton ", "Ground floor 2 Hoxton"};
-    //  String[] hoxtonThirdLvl2 = new String[]{"Ground floor 2 Hoxton"};
-
-    //  String[] planNumbersHoxton = new String[]{"008","009"};
-    //  String[] planNumbers2Hoxton = new String[]{"118a"};
-
-
-
-
-
-
-    //  LinkedHashMap<String, String[]> thirdLevelGames = new LinkedHashMap<>();
-    //  LinkedHashMap<String, String[]> thirdLevelDataNumbersGames = new LinkedHashMap<>();
-
-
-
-
-
-
-
 
     private DisplayMetrics metrics;
     public int width;
 
     public HomeFragment() {
     }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -152,6 +87,8 @@ public class HomeFragment extends Fragment {
         //  dataNumbers.add(thirdLevelDataNumbersGames);
 
 
+
+        expandableListView = (ExpandableListView) view.findViewById(R.id.expandible_listview);
         getProjects();
 
         expandableListView = (ExpandableListView) view.findViewById(R.id.expandible_listview);
@@ -165,8 +102,6 @@ public class HomeFragment extends Fragment {
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         width = metrics.widthPixels;
         expandableListView.setIndicatorBoundsRelative(width-getDipsFromPixel(0),width-getDipsFromPixel(5));
-
-
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().show();
 
@@ -189,27 +124,11 @@ public class HomeFragment extends Fragment {
                 {
                     DataHome home = response.body();
 
-                    //FirstLevel
                     List<Date> dateList = home.getData();
-                    ArrayList<String> title = new ArrayList<>();
-                    ArrayList<String> identifier = new ArrayList<>();
-                    ArrayList<String> secLevelTitle = new ArrayList<>();
-                    ArrayList<String> thirdLevelTitle = new ArrayList<>();
-                    ArrayList<String> thirdLevelIdentifier = new ArrayList<>();
-
                     ArrayList<List<Section>> sectionLists = new ArrayList<>();
                     List<Section> subSectionLists =new ArrayList<>();
 
-                    ArrayList<List<DrawingHome>> drawingList = new ArrayList<>();
-                    List<DrawingHome> subDrawingList = new ArrayList<>();
-
-
                     for (Date dt:dateList) {
-
-                        title.add(dt.getTitle());
-                        identifier.add(dt.getIdentifier());
-                        parentMock = title.toArray(new String[0]) ;
-                        parentMockNumbers= identifier.toArray(new String[0]);
 
                         sectionLists.add(dt.getSections());
 
@@ -219,68 +138,17 @@ public class HomeFragment extends Fragment {
                             subSectionLists = sections;
 
                         }
-                        for(Section s:subSectionLists)
-                        {
 
-                            secLevelTitle.add(s.getTitle());
-                            secondMock = secLevelTitle.toArray(new String[0]);
-
-                            drawingList.add(s.getDrawings());
-                            for(List<DrawingHome> d:drawingList)
-                            {
-                                subDrawingList = d;
-                            }
-                            for(DrawingHome drawingHome:subDrawingList)
-                            {
-                                thirdLevelTitle.add(drawingHome.getTitle());
-                                thirdLevelIdentifier.add(drawingHome.getIdentifier());
-
-                                thirdMock = thirdLevelTitle.toArray(new String[0]);
-                                thirdMockNumbers = thirdLevelIdentifier.toArray(new String[0]);
-
-                            }
-
-                            thirdLevelMovies.put(secondMock[0],thirdMock);
-                            thirdLevelDataNumbersMovies.put(secondMock[0],thirdMockNumbers);
-
-
-                            secondLevel.add(subSectionLists);
-
-                            secLevelTitle.clear();
-                            secondMock=null;
-
-                            thirdLevelTitle.clear();
-                            thirdLevelIdentifier.clear();
-
-
-                            thirdMock=null;
-                            thirdMockNumbers=null;
-                        }
-
-
+                        secondLevel.add(subSectionLists);
 
                     }
 
-
-
-
-                    //   secondLevel.add(secondMock);
-                    //secondLevel.add(gamesSecLeve);
-
-
-
-                    data.add(thirdLevelMovies);
-
-                    dataNumbers.add(thirdLevelDataNumbersMovies);
-
-
                     ThreeLevelListAdapter threeLevelListAdapterAdapter =
-                            new ThreeLevelListAdapter(getActivity(), parentMockNumbers,parentMock, secondLevel,dataNumbers,data);
+                            new ThreeLevelListAdapter(getActivity(), dateList, secondLevel,sectionLists);
                     expandableListView.setAdapter( threeLevelListAdapterAdapter );
 
                 }
 
-                // Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
