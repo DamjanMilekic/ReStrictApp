@@ -9,8 +9,7 @@
 
         android:id="@+id/expandible_listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:groupIndicator="@drawable/right_arrow">
+        android:layout_height="match_parent">
 
     </ExpandableListView>
 </android.support.constraint.ConstraintLayout>

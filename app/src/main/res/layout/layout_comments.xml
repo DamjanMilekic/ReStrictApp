@@ -7,7 +7,8 @@
     android:layout_marginStart="7dp"
     android:layout_marginEnd="7dp"
     android:background="@color/detail_fragment_background"
-    app:cardCornerRadius="5dp">
+    app:cardCornerRadius="5dp"
+    app:cardElevation="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,7 +43,7 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:background="@drawable/shape">
+                android:background="@drawable/shape_rounded_corners">
 
                 <EditText
                     android:id="@+id/search"
@@ -86,58 +87,69 @@
             android:layout_height="match_parent"
             android:background="#F2F2F2">
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_below="@id/recyclerViewComments">
-
-                <FrameLayout
-                    android:paddingTop="4dp"
-                    android:paddingStart="10dp"
-                    android:layout_width="wrap_content"
+                android:elevation="0dp"
+                app:cardCornerRadius="3dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.8"
-                    android:background="@color/white"
-                    >
+                    android:orientation="horizontal"
+                    android:layout_below="@id/recyclerViewComments">
 
-                    <EditText
-                        android:id="@+id/write_comment"
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:layout_weight="0.15"
-                        android:hint="Add a comment..."
-                        android:background="@android:color/transparent"
-                        android:textAlignment="textStart"
-                        android:textSize="16sp"
-                        android:gravity="top"
-                        android:padding="5dp"
-                        tools:ignore="RtlCompat"
-                        android:cursorVisible="false"
-                        android:alpha="0.5"/>
+                    <FrameLayout
+                        android:paddingTop="4dp"
+                        android:paddingStart="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"
+                        android:background="@color/white"
+                        >
 
-                </FrameLayout>
+                        <EditText
+                            android:id="@+id/write_comment"
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:layout_weight="0.15"
+                            android:hint="Add a comment..."
+                            android:background="@android:color/transparent"
+                            android:textAlignment="textStart"
+                            android:textSize="16sp"
+                            android:gravity="top"
+                            android:padding="5dp"
+                            tools:ignore="RtlCompat"
+                            android:cursorVisible="false"
+                            android:alpha="0.5"/>
 
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.01"
-                    android:layout_marginLeft="2dp"
-                    android:background="@color/white">
+                    </FrameLayout>
+                    <FrameLayout
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/detail_fragment_background">
 
-                    <ImageView
-                        android:id="@+id/send_button"
-                        android:layout_width="33dp"
-                        android:layout_height="35dp"
-                        android:layout_weight="0.85"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:src="@drawable/plane"
-                        android:layout_gravity="center" />
+                    </FrameLayout>
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.01"
+                        android:background="@color/white">
 
-                </FrameLayout>
+                        <ImageView
+                            android:id="@+id/send_button"
+                            android:layout_width="33dp"
+                            android:layout_height="35dp"
+                            android:layout_weight="0.85"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:src="@drawable/plane"
+                            android:layout_gravity="center" />
 
-            </LinearLayout>
+                    </FrameLayout>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
 
         </LinearLayout>
 

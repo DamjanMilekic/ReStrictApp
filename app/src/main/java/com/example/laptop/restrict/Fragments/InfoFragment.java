@@ -25,7 +25,10 @@ import com.example.laptop.restrict.R;
 import com.example.laptop.restrict.Model.Version;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,7 +53,7 @@ public class InfoFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+        String stringName, stringUploaded, stringIssuedFor;
         // Ucitavanje layout-a
         View view = inflater.inflate(R.layout.layout_info, container, false);
 
@@ -63,9 +66,28 @@ public class InfoFragment extends Fragment {
 
         if (getArguments() != null) {
             selectedVersion = (Version) getArguments().getParcelable(ProjectAdapter.SELECTED_VERSION);
-            name.setText(selectedVersion.getLabel());
-            uploaded.setText(selectedVersion.getUpdatedAt());
-            issuedFor.setText(selectedVersion.getIssuedFor());
+
+            stringName= selectedVersion.getLabel();
+            name.setText(stringName);
+
+
+            /*stringUploaded=selectedVersion.getUpdatedAt();
+            uploaded.setText(stringUploaded);*/
+            /*SimpleDateFormat sdf = new SimpleDateFormat("yy/mm/dd hh:mm");
+            uploaded.setText(sdf.format(selectedVersion.getUpdatedAt()));*/
+            stringUploaded=selectedVersion.getUpdatedAt();
+
+            try {
+                Date date = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse(stringUploaded);
+                String formatedDate = new SimpleDateFormat("yy/mm/dd hh:mm").format(date);
+                uploaded.setText(formatedDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+
+            stringIssuedFor = selectedVersion.getIssuedFor();
+            issuedFor.setText(stringIssuedFor);
         }
 
         String issuedForText = issuedFor.getText().toString().trim();
