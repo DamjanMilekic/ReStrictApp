@@ -65,7 +65,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
         });
         if(raw_index==position){
            // holder.circle.setColorFilter(context.getResources().getColor(R.color.strictBlue));
-            holder.circle.setBackground(context.getDrawable(R.drawable.circle_selected));
+            holder.circle.setBackground(context.getResources().getDrawable(R.drawable.circle_selected));
         }
         else {
             holder.circle.setBackground(null);

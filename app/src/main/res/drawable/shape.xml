@@ -2,5 +2,5 @@
     <shape xmlns:android="http://schemas.android.com/apk/res/android">
         <stroke
             android:width="1dp"
-            android:color="@color/fontAppSettings" />
+            android:color="@color/detail_fragment_background" />
     </shape>

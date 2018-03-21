@@ -15,7 +15,7 @@
         android:orientation="vertical"
         android:background="@color/detail_fragment_background">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/search_linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,7 +29,6 @@
                 android:id="@+id/commnets"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
                 android:padding="5dp"
                 android:text="COMMENTS"
                 android:textStyle="bold"
@@ -37,35 +36,43 @@
                 android:textSize="13sp"
                 android:textColor="@color/buttonsSettings"/>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+
+            <RelativeLayout
+                android:id="@+id/searchbox"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.2">
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/shape">
 
                 <EditText
                     android:id="@+id/search"
-                    android:layout_width="142dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:layout_weight="0.4"
+                    android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@+id/imageView3"
+                    android:background="@android:color/transparent"
                     android:hint="Search"
-                    android:textSize="14sp"
+                    android:maxLines="1"
                     android:padding="5dp"
-                    android:background="@drawable/shape"
-                    android:tooltipText="RtlCompat"
-                    android:cursorVisible="false"/>
+                    android:textColor="@color/detail_fragment_tint_color"
+                    android:textSize="14sp" />
 
-                <ImageButton
-                    android:id="@+id/search_comments"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:backgroundTint="@color/white"
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
                     android:src="@mipmap/search"
-                    android:tint="@color/colorPrimary" />
+                    android:tint="@color/detail_fragment_tint_color"
+                    android:id="@+id/imageView3" />
+            </RelativeLayout>
 
-            </LinearLayout>
 
-        </LinearLayout>
+
+
+
+        </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewComments"
@@ -83,14 +90,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_margin="5dp"
                 android:layout_below="@id/recyclerViewComments">
 
                 <FrameLayout
+                    android:paddingTop="4dp"
+                    android:paddingStart="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.8"
-                    android:background="@color/white">
+                    android:background="@color/white"
+                    >
 
                     <EditText
                         android:id="@+id/write_comment"
@@ -98,13 +107,14 @@
                         android:layout_height="100dp"
                         android:layout_weight="0.15"
                         android:hint="Add a comment..."
-                        android:background="@drawable/shape"
+                        android:background="@android:color/transparent"
                         android:textAlignment="textStart"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:gravity="top"
                         android:padding="5dp"
                         tools:ignore="RtlCompat"
-                        android:cursorVisible="false"/>
+                        android:cursorVisible="false"
+                        android:alpha="0.5"/>
 
                 </FrameLayout>
 
@@ -117,12 +127,12 @@
 
                     <ImageView
                         android:id="@+id/send_button"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="33dp"
+                        android:layout_height="35dp"
                         android:layout_weight="0.85"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
-                        android:src="@mipmap/telegram_logo"
+                        android:src="@drawable/plane"
                         android:layout_gravity="center" />
 
                 </FrameLayout>

@@ -16,6 +16,8 @@
             android:id="@+id/imgLogo"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_centerInParent="true"
             android:src="@drawable/mid_act_bar_btn"
             android:scaleType="fitCenter" />

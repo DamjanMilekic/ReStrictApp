@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignBottom="@id/image"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="65dp"
         android:layout_marginRight="15dp">
 
         <ImageView
@@ -24,7 +24,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/circle_selected"
-            android:alpha="0.7"/>
+            android:alpha="0.6"/>
 
         <ImageView
             android:id="@+id/imgResizeFront"
@@ -49,14 +49,15 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/circle_selected"
-            android:alpha="0.7"/>
+            android:alpha="0.6"/>
 
         <ImageView
             android:id="@+id/imgLockFront"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:src="@mipmap/padunlock"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:backgroundTint="@color/green"/>
 
     </FrameLayout>
 

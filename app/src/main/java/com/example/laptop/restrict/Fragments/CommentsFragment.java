@@ -61,7 +61,7 @@ public class CommentsFragment extends Fragment {
         // Ucitavanje layout-a
         View view = inflater.inflate(R.layout.layout_comments, container, false);
 
-        handler = new Handler();
+/*        handler = new Handler();
 
         // Omogucuje kucanje teksta u EditText komponenti u jednom redu
         search = (EditText) view.findViewById(R.id.search);
@@ -79,6 +79,7 @@ public class CommentsFragment extends Fragment {
                         public void onResponse(Call<ProjectStatusComment> call, Response<ProjectStatusComment> response) {
                             // Ucitavanje komentara sa API-a, dodavanje u adapter i prikaz u recyclerview-u
                             comments = response.body().getComments();
+
                             final ArrayList<Comment> searchedComment = new ArrayList<>();
                             if (comments.size() > 0) {
                                 for (int i = 0; i <comments.size(); i++) {
@@ -110,7 +111,8 @@ public class CommentsFragment extends Fragment {
                 }
 
             }
-        });
+        });*/
+
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewComments);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -200,4 +202,6 @@ public class CommentsFragment extends Fragment {
     public void onResume() {
         super.onResume();
     }
+
+
 }

@@ -87,6 +87,7 @@ public class DetailFragment extends Fragment {
             public void onResponse(Call<ProjectStatusData> call, Response<ProjectStatusData> response) {
                 versionList = response.body().getData().getVersions();
                 // Punjenje Project dela
+
                 adapter = new ProjectAdapter(getContext(), versionList);
                 Log.e("PROJECT ADAPTER", "List size: " + versionList.size());
                 recyclerView.setAdapter(adapter);

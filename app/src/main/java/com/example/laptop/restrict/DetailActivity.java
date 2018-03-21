@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import com.example.laptop.restrict.Adapter.CommentAdapter;
 import com.example.laptop.restrict.Adapter.ProjectAdapter;
 import com.example.laptop.restrict.Fragments.CommentsFragment;
 import com.example.laptop.restrict.Fragments.DetailImageFragment;
@@ -52,16 +53,17 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private ProjectAdapter adapter;
     private ArrayList<Version> versionList;
     public Version selectedVersion;
+    public Comment mComment;
 
     private MainActivity mainActivity;
 
-
+    private CommentAdapter commentAdapter;
     ActionBar actionBar;
     // ImageButton komponente DetailActivity-a
     ImageButton info, comment, download, share, imageButtonAppsettings;
     ImageView backButton;
 
-    TextView btnNumberNotification;
+    TextView btnNumberNotification, numberOfComments;
     @Override
     protected void onStart() {
         super.onStart();
@@ -81,6 +83,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
         backButton = (ImageView) findViewById(R.id.backButtonFullScreenDetail);
         btnNumberNotification =(TextView) findViewById(R.id.txNumberOfNotif);
+
+        numberOfComments = (TextView)findViewById(R.id.numberOfComments);
 
         imageButtonAppsettings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,6 +147,10 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 infoFragment.setArguments(args);
                 commentsFragment.setArguments(args);
 
+                int size = args.size();
+                String t = String.valueOf(size);
+
+                numberOfComments.setText(t);
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -204,7 +212,6 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
                 currentFragment = fragmentManager.findFragmentById(R.id.onClickButtonFragmentContainer);
 
-                infoClicked(info);
 
                 if (currentFragment != null && currentFragment instanceof CommentsFragment) {
                     transaction = fragmentManager.beginTransaction();
@@ -220,7 +227,6 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
                 currentFragment = fragmentManager.findFragmentById(R.id.onClickButtonFragmentContainer);
 
-                comentClicked(comment);
 
                 if (currentFragment != null && currentFragment instanceof InfoFragment) {
                     transaction = fragmentManager.beginTransaction();
@@ -357,7 +363,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         super.onBackPressed();
     }
 
-    public void infoClicked(ImageButton btn){
+/*    public void infoClicked(ImageButton btn){
         info.setBackgroundColor(getResources().getColor(R.color.buttonsSettings));
         info.setAlpha(0.65f);
         info.setColorFilter(getResources().getColor(R.color.white));
@@ -385,7 +391,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
         share.setBackgroundColor(getResources().getColor(R.color.white));
         share.setColorFilter(getResources().getColor(R.color.buttonsSettings));
-    }
+    }*/
 
 
     public void initFragmentAppSettings(){
