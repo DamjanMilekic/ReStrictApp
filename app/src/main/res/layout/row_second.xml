@@ -28,6 +28,7 @@
         android:layout_height="16dp"
         android:background="@color/extendedListBackground"
         android:scaleType="fitXY"
+        android:layout_marginEnd="9dp"
         android:src="@drawable/right_arrow"
         android:alpha="0.4"/>
 

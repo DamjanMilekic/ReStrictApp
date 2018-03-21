@@ -67,11 +67,6 @@ public class HomeFragment extends Fragment {
         expandableListView = (ExpandableListView) view.findViewById(R.id.expandible_listview);
         getProjects();
 
-        metrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        width = metrics.widthPixels;
-        expandableListView.setIndicatorBoundsRelative(width-getDipsFromPixel(0),width-getDipsFromPixel(5));
-
         ((AppCompatActivity)getActivity()).getSupportActionBar().show();
 
 
@@ -116,6 +111,12 @@ public class HomeFragment extends Fragment {
                             new ThreeLevelListAdapter(getActivity(), dateList, secondLevel,sectionLists);
                     expandableListView.setAdapter( threeLevelListAdapterAdapter );
 
+                   // expandableListView.setPadding(0,getDipsFromPixel(10),0,getDipsFromPixel(10));
+                    expandableListView.setGroupIndicator(getResources().getDrawable(R.drawable.expanded_list_indicator));
+                    metrics = new DisplayMetrics();
+                    getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+                    width = metrics.widthPixels;
+                    expandableListView.setIndicatorBoundsRelative(width-getDipsFromPixel(39),width-getDipsFromPixel(1));
                 }
 
             }

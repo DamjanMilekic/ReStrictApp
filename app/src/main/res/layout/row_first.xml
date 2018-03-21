@@ -8,6 +8,7 @@
     android:divider="@drawable/divider_vertical"
     android:showDividers="middle"
     android:orientation="horizontal"
+    android:gravity="center_vertical"
     android:background="@color/white">
 
     <TextView
@@ -16,10 +17,10 @@
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginTop="3dp"
         android:text="9999"
-        android:layout_marginBottom="3dp"
         android:textColor="@color/addresNumber"
         android:textSize="16sp" />
 
@@ -27,9 +28,8 @@
         android:id="@+id/rowParentText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:layout_marginStart="10dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginBottom="3dp"
         android:textColor="@color/strictBlue"
         android:textSize="16sp" />
 

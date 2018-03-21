@@ -78,7 +78,7 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         View ind2 = convertView.findViewById(R.id.arrowChildExpanded);
 
         ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(ind2.getLayoutParams());
-        marginLayoutParams.setMargins(toPxs(0),toPxs(0),toPxs(19),0);
+        marginLayoutParams.setMargins(toPxs(0),toPxs(0),toPxs(9),0);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(marginLayoutParams);
 
         text.setText(section.getTitle());
