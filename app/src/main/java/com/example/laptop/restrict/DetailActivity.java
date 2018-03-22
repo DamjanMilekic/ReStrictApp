@@ -2,7 +2,11 @@ package com.example.laptop.restrict;
 
 import android.app.AlertDialog;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +19,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -55,6 +61,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     public Version selectedVersion;
     public Comment mComment;
 
+
+    AlertDialog alertDownload, alertShare;
     private MainActivity mainActivity;
 
     private CommentAdapter commentAdapter;
@@ -255,22 +263,27 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
         builder.setView(download_alert).setCancelable(false);
 
-        final AlertDialog alert = builder.create();
+
+
+        alertDownload = builder.create();
+
+        alertDownload.getWindow().setDimAmount(0.4f);
+
         download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new DownloadFile().execute("http://s.strictapp.com/pdf/drawings/u1xjwIyFm9jz76nMYB2v.pdf" ,"Basement Plan");
-                alert.dismiss();
+                alertDownload.dismiss();
             }
         });
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alert.dismiss();
+                alertDownload.dismiss();
             }
         });
 
-        alert.show();
+        alertDownload.show();
     }
 
     private void showShareAlert() {
@@ -286,7 +299,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
         builder.setView(share_alert).setCancelable(false);
 
-        final AlertDialog alert = builder.create();
+        alertShare.getWindow().setDimAmount(0.4f);
+        alertShare = builder.create();
         /*share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -335,11 +349,11 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alert.dismiss();
+                alertShare.dismiss();
             }
         });
 
-        alert.show();
+        alertShare.show();
     }
 
     private void initActionBar(){
