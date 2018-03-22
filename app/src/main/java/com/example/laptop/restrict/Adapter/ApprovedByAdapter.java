@@ -48,7 +48,7 @@ public class ApprovedByAdapter extends RecyclerView.Adapter<ApprovedByAdapter.Ap
         if (approval.getUploader()) {
 
             Picasso.with(context)
-                    .load(R.drawable.uploader)
+                    .load(R.drawable.oblak)
                     .into(holder.isUploader);
 
             Picasso.with(context)

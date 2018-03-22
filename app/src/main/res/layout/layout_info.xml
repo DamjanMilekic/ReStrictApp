@@ -178,8 +178,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:layout_marginBottom="1dp">
+                    android:background="@color/white">
 
                     <TextView
                         android:id="@+id/approvedby"
@@ -202,7 +201,7 @@
                         android:id="@+id/approvedbyRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="1dp"
                         android:background="@color/detail_fragment_background"/>
 
                 </LinearLayout>

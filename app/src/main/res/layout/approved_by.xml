@@ -24,6 +24,7 @@
                     android:id="@+id/imageFrame"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
                     app:cardCornerRadius="25dp">
 
                     <ImageView
@@ -70,6 +71,7 @@
                     android:maxWidth="200dp"
                     android:layout_below="@id/name"
                     android:text="Android Developer"
+                    android:textColor="@color/placeholder"
                     android:textSize="12sp" />
 
             </RelativeLayout>
@@ -85,11 +87,11 @@
 
             <ImageView
                 android:id="@+id/isUploader"
-                android:layout_width="20dp"
+                android:layout_width="25dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"/>
             <FrameLayout
-                android:layout_width="2dp"
+                android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="@color/detail_fragment_background"/>
         </LinearLayout>
@@ -99,13 +101,14 @@
             android:layout_height="match_parent"
             android:id="@+id/cardView"
             android:background="@color/white"
-            android:layout_marginLeft="2dp"
+            android:layout_marginLeft="1dp"
             android:padding="10dp">
 
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:src="@drawable/oval"
+                android:tint="@color/placeholder"
                 android:layout_gravity="center_vertical"/>
 
             <ImageView

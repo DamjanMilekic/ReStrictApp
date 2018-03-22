@@ -24,13 +24,15 @@
 
         <ImageView
             android:id="@+id/backButtonFullScreen"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:background="@color/actionBarC"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="8dp"
-            android:src="@drawable/left_arrow"
+            android:src="@drawable/arrow_down"
+            android:rotation="90"
+            android:tint="@color/white"
             android:scaleType="fitCenter"/>
 
     </RelativeLayout>
