@@ -14,10 +14,8 @@ import android.widget.TextView;
 
 import com.example.laptop.restrict.DetailActivity;
 import com.example.laptop.restrict.Fragments.CommentsFragment;
-import com.example.laptop.restrict.Fragments.DetailFragment;
 import com.example.laptop.restrict.Fragments.DetailImageFragment;
 import com.example.laptop.restrict.Fragments.InfoFragment;
-import com.example.laptop.restrict.MainActivity;
 import com.example.laptop.restrict.Model.Version;
 
 import com.example.laptop.restrict.R;
@@ -40,6 +38,9 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
     public ProjectAdapter(Context context, ArrayList<Version> versions) {
         this.context = context;
         this.versions = versions;
+        if (versions.size() > 0) {
+            CommentsFragment.version_id = versions.get(0).getId();
+        }
     }
 
     @Override
@@ -56,13 +57,15 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
             @Override
             public void onClick(View v) {
                 raw_index = position;
-                update(raw_index);
-                updateComents(raw_index);
+                updateComments(raw_index);
                 updateInfo(raw_index);
+                updateImage(raw_index);
                 notifyDataSetChanged();
+                CommentsFragment.version_id = versions.get(position).getId();
 
             }
         });
+
         if(raw_index==position){
            // holder.circle.setColorFilter(context.getResources().getColor(R.color.strictBlue));
             holder.circle.setBackground(context.getResources().getDrawable(R.drawable.circle_selected));
@@ -129,6 +132,20 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
         transaction.commit();
     }
 
+    private void updateImage(int position) {
+        DetailImageFragment detailImageFragment = new DetailImageFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(ProjectAdapter.SELECTED_VERSION, versions.get(position));
+        detailImageFragment.setArguments(args);
+        DetailActivity activity = (DetailActivity) context;
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        transaction.replace(R.id.detailImageFragment, detailImageFragment);
+
+        transaction.commit();
+    }
+
     private void updateInfo(int position) {
         InfoFragment infoFragment = new InfoFragment();
 
@@ -147,11 +164,10 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
         transaction.commit();
     }
 
-    private void updateComents(int position) {
+    private void updateComments(int position) {
         CommentsFragment commentsFragment = new CommentsFragment();
         Bundle args = new Bundle();
         args.putParcelable(ProjectAdapter.SELECTED_VERSION, versions.get(position));
-
         commentsFragment.setArguments(args);
         DetailActivity activity = (DetailActivity) context;
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
