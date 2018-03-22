@@ -2,6 +2,7 @@ package com.example.laptop.restrict.Fragments;
 
 
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 
 import android.content.Context;
@@ -19,11 +20,16 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.laptop.restrict.Interfaces.ILoginMain;
+import com.example.laptop.restrict.Model.DatumPopup;
 import com.example.laptop.restrict.Model.LoginRequest;
+import com.example.laptop.restrict.Model.NotificationPopup;
 import com.example.laptop.restrict.Model.ProjectStatusLogin;
 import com.example.laptop.restrict.RetrofitAppSettings.Client;
 import com.example.laptop.restrict.R;
 import com.example.laptop.restrict.RetrofitAppSettings.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,6 +46,7 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
 
     String email = "", password = "";
 
+    List<DatumPopup> datumPopups;
     Client apiClient;
     Service apiService;
     ProjectStatusLogin projectStatusLogin;
@@ -73,6 +80,7 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
         projectStatusLogin = new ProjectStatusLogin();
         handler = new Handler(getContext().getMainLooper());
 
+        datumPopups = new ArrayList<DatumPopup>();
         return view;
     }
 
@@ -144,6 +152,7 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
+
         String email = emailEdit.getText().toString();
         String password = passwordEdit.getText().toString();
 
@@ -160,37 +169,35 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onResponse(Call<ProjectStatusLogin> call, Response<ProjectStatusLogin> response) {
 
-                            if (response.body() != null) {
+                        if (response.body() != null) {
 
-                                projectStatusLogin = (ProjectStatusLogin) response.body();
-                                String status = projectStatusLogin.getStatus();
-                                api_token = projectStatusLogin.getToken();
+                            projectStatusLogin = (ProjectStatusLogin) response.body();
+                            String status = projectStatusLogin.getStatus();
+                            api_token = projectStatusLogin.getToken();
 
-                                if (status != null) {
 
-                                    Fragment newFragment = new HomeFragment();
-                                    Bundle args = new Bundle();
-                                    args.putSerializable("login", projectStatusLogin);
-                                    newFragment.setArguments(args);
-                                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                                    transaction.replace(R.id.frame, newFragment);
-                                    transaction.commit();
 
-                                } else {
-                                    Toast.makeText(getContext(), "Login status: " + status, Toast.LENGTH_LONG).show();
-                                    emailEdit.setText("");
-                                }
+                                Fragment newFragment = new HomeFragment();
+                                Bundle args = new Bundle();
+                                args.putSerializable("login", projectStatusLogin);
+                                args.putParcelableArrayList("notif", (ArrayList<? extends Parcelable>) datumPopups);
+                                newFragment.setArguments(args);
+                                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                                transaction.replace(R.id.frame, newFragment);
+                                transaction.commit();
 
                             } else {
-                                Toast.makeText(getContext(), "Pogresni podaci za logovanje", Toast.LENGTH_LONG).show();
-                                Log.d("LOGIN", "Step 5");
-                            }
+                                Toast.makeText(getContext(), "Login status: " + response, Toast.LENGTH_LONG).show();
+                                emailEdit.setText("");
 
+
+                              //  getNotification();
+
+                        }
                     }
-
                     @Override
                     public void onFailure(Call<ProjectStatusLogin> call, Throwable t) {
-                        Toast.makeText(getContext(), "Problem sa povezivanjem.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Connection error", Toast.LENGTH_SHORT).show();
                         Log.d("LOGIN", "Step 6");
 
                     }
@@ -198,13 +205,65 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
 
 
 
+
+
             } else {
-                Toast.makeText(context, "Pogresan format email-a.", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Wrong email format", Toast.LENGTH_LONG).show();
             }
         } else {
-            Toast.makeText(context, "Morate popuniti sva polja.", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "You need to fill all fields!", Toast.LENGTH_LONG).show();
         }
 
     }
 
+
+    private void getNotification() {
+
+        Service apiService = Client.getApiClient().create(Service.class);
+        Call<NotificationPopup> call = apiService.getNotificationsPopup(api_token);
+
+        call.enqueue(new Callback<NotificationPopup>() {
+            @Override
+            public void onResponse(Call<NotificationPopup> call, Response<NotificationPopup> response) {
+
+                if (response.body() != null)
+                {
+
+                    NotificationPopup notificationPopup = response.body();
+                    datumPopups = notificationPopup.getData();
+
+                    if (response != null) {
+
+                        Fragment newFragment = new HomeFragment();
+                        Bundle args = new Bundle();
+                        args.putSerializable("login", projectStatusLogin);
+                        args.putParcelableArrayList("notif", (ArrayList<? extends Parcelable>) datumPopups);
+                        newFragment.setArguments(args);
+                        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                        transaction.replace(R.id.frame, newFragment);
+                        transaction.commit();
+
+                    } else {
+                        Toast.makeText(getContext(), "Login status: " + response, Toast.LENGTH_LONG).show();
+                        emailEdit.setText("");
+                    }
+
+                } else {
+                    Toast.makeText(getContext(), "Pogresni podaci za logovanje", Toast.LENGTH_LONG).show();
+                    Log.d("LOGIN", "Step 5");
+                }
+
+            }
+
+
+
+
+            @Override
+            public void onFailure(Call<NotificationPopup> call, Throwable t) {
+                Toast.makeText(getActivity(), "Fail on server", Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+    }
 }

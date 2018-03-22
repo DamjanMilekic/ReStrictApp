@@ -12,8 +12,18 @@
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
     </style>
+    <style name="popup_window_animation_phone">
+        <item name="android:windowEnterAnimation">@anim/popup_slide_updown</item>
+        <item name="android:windowExitAnimation">@anim/popup_slide_downup</item>
+    </style>
 
+    <style name="popup_scale_animation">
+        <item name="android:windowEnterAnimation">@anim/popup_scale_up</item>
+        <item name="android:windowExitAnimation">@anim/popup_scale_down</item>
+    </style>
     <style name="SwitchCompatTheme" >
         <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
+
+
 </resources>

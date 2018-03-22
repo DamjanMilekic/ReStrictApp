@@ -2,6 +2,12 @@ package com.example.laptop.restrict;
 
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Parcelable;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,98 +21,64 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroupOverlay;
 import android.view.ViewTreeObserver;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.laptop.restrict.Adapter.PopUpNotifAdapter;
+import com.example.laptop.restrict.Adapter.ThreeLevelListAdapter;
 import com.example.laptop.restrict.Fragments.FragmentAppSettingsActivity;
+import com.example.laptop.restrict.Fragments.HomeFragment;
 import com.example.laptop.restrict.Fragments.LoginFragment;
+
 import com.example.laptop.restrict.Interfaces.ILoginMain;
+import com.example.laptop.restrict.Model.DataHome;
+import com.example.laptop.restrict.Model.Date;
+import com.example.laptop.restrict.Model.DatumPopup;
+import com.example.laptop.restrict.Model.NotificationPopup;
+import com.example.laptop.restrict.Model.Section;
+import com.example.laptop.restrict.RetrofitAppSettings.Client;
+import com.example.laptop.restrict.RetrofitAppSettings.Service;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public  class MainActivity extends AppCompatActivity implements ILoginMain {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public  class MainActivity extends AppCompatActivity implements ILoginMain{
 
     public static final String APP_TOKEN = LoginFragment.api_token;
     android.support.v4.app.Fragment loginFr;
 
-    Point p;
+    List<DatumPopup> datumPopups;
+
     View menuButton;
-
-    ExpandableListView expandableListView;
-    String[] parent = new String[]{"Chelsea Barracks", "Hoxton"};
-    String [] parentNumbers = new String[]{"9472","4493"};
-    //Floors
-    String[] moviesSecLevel = new String[]{"Floor 1", "Floor 2", "Floor 3"};
-    String[] gamesSecLeve = new String[]{"Floor 1", "Floor 2"};
-
-
-    //Chelsea
-    String[] chelseaThirdLvl = new String[]{"chelsea1 base", "chelsea 2 base"};
-    String[] chelseaThirdLvl2 = new String[]{"Floor 2 chelsea 2 base"};
-    String[] chelseaThirdLvl3 = new String[]{"Floor 3 chelsea 3 base", "Floor 3 chelsea3 base", "Floor 3 chelsea 3 base"};
-
-    String[] planNumbersChelsea = new String[]{"280","281"};
-    String[] planNumbers2Chelsea = new String[]{"180"};
-
-    String[] planNumbers3Chelsea = new String[]{"380","381","382"};
-    //Hoxton
-    String[] hoxtonThirdLvl = new String[]{"Ground floor 1 Hoxton ", "Ground floor 2 Hoxton"};
-    String[] hoxtonThirdLvl2 = new String[]{"Ground floor 2 Hoxton"};
-
-    String[] planNumbersHoxton = new String[]{"008","009"};
-    String[] planNumbers2Hoxton = new String[]{"118a"};
-
-
-
-
-
-
-    LinkedHashMap<String, String[]> thirdLevelMovies = new LinkedHashMap<>();
-    LinkedHashMap<String, String[]> thirdLevelGames = new LinkedHashMap<>();
-    LinkedHashMap<String, String[]> thirdLevelDataNumbersMovies = new LinkedHashMap<>();
-    LinkedHashMap<String, String[]> thirdLevelDataNumbersGames = new LinkedHashMap<>();
-
-
-    List<String[]> secondLevel = new ArrayList<>();
-    List<LinkedHashMap<String, String[]>> data = new ArrayList<>();
-    List<LinkedHashMap<String, String[]>> dataNumbers = new ArrayList<>();
-
-    List<String> notificationList;
-
-
+    Point p;
+    Global globalVar;
     ActionBar mActionBar;
-    private DisplayMetrics metrics;
-    public int width;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        notificationList = new ArrayList<>();
-
-        notificationList.add("Lorem ipsum dolor sit amet,consaectetur..");
-        notificationList.add("Test notifictation");
-        notificationList.add("Test notification 2");
-
-
-
-
-        findMenuItem();
-        actionBarInit();
-
         loginFr = new LoginFragment();
         setFragment(loginFr);
+
+        datumPopups = new ArrayList<>();
+       globalVar= (Global)getApplicationContext();
 //optional show one list at a time
      /*   expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             int previousGroup = -1;
@@ -119,60 +91,35 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
             }
         });
 */
-    }
-
-    public void initFragmentAppSettings(){
-
-        FragmentAppSettingsActivity fragmentAppSettingsActivity = new FragmentAppSettingsActivity();
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        fragmentTransaction.setCustomAnimations(R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down, R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down);
-        fragmentTransaction.addToBackStack(null);
-
-        fragmentTransaction.add(R.id.frame, fragmentAppSettingsActivity).commit();
-
+       // actionBarInit();
+      //  findMenuItem();
+            findMenuItem();
 
     }
 
-
-
-    public void actionBarInit()
+    private void findMenuItem( )
     {
-        mActionBar = getSupportActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
-        LayoutInflater mInflater = LayoutInflater.from(this);
-
-        View mCustomView = mInflater.inflate(R.layout.toolbar_layout, null);
-
-        mActionBar.setCustomView(mCustomView);
-        mActionBar.setDisplayShowCustomEnabled(true);
-
-        ImageButton notification = (ImageButton)mCustomView.findViewById(R.id.btnNotificationActBar);
-        ImageButton imgProfile = (ImageButton)mCustomView.findViewById(R.id.btnProfileActBar);
-        TextView numberOfNotif = (TextView)mCustomView.findViewById(R.id.txNumberOfNotif);
-
-        numberOfNotif.setText(String.valueOf(notificationList.size()));
-
-        imgProfile.setOnClickListener(new View.OnClickListener() {
+        final ViewTreeObserver viewTreeObserver = getWindow().getDecorView().getViewTreeObserver();
+        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
-            public void onClick(View v) {
+            public void onGlobalLayout() {
+                menuButton = findViewById(R.id.btnNotificationActBar);
+                if (menuButton != null) {
 
 
-                initFragmentAppSettings();
-                mActionBar.hide();
+                    int[] location = new int[2];
+                    menuButton.getLocationInWindow(location);
 
-            }
-        });
-        notification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                    p = new Point();
+                    p.x = location[0];
+                    p.y = location[1];
 
 
-               showPopUp(MainActivity.this,p,v);
+                    globalVar.setPopupPoint(p);
+                    if(viewTreeObserver.isAlive()) {
+                        viewTreeObserver.removeOnGlobalLayoutListener(this);
+                    }
+                }
             }
         });
     }
@@ -189,7 +136,6 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
         }
 
     }
-
     @Override
     public void onClick() {
 
@@ -202,89 +148,9 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
         startActivity(i);
     }
 
-    private void findMenuItem()
-    {
-        final ViewTreeObserver viewTreeObserver = getWindow().getDecorView().getViewTreeObserver();
-        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                menuButton = findViewById(R.id.btnNotificationActBar);
-                if (menuButton != null) {
-                    // Found it! Do what you need with the button
-                    int[] location = new int[2];
-                    menuButton.getLocationInWindow(location);
-
-                    p = new Point();
-                    p.x = location[0];
-                    p.y = location[1];
-
-                    if(viewTreeObserver.isAlive()) {
-                        viewTreeObserver.removeOnGlobalLayoutListener(this);
-                    }
-                }
-            }
-        });
-    }
-
-    private void showPopUp(final Activity context,Point p,View view)
-    {
-       /* int popupWidth = 400;
-        int popupHeight = 200;
-
-        LinearLayout viewGroup = (LinearLayout) context.findViewById(R.id.popup);
-        LayoutInflater layoutInflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = layoutInflater.inflate(R.layout.popup_notifications, viewGroup);
-
-        final PopupWindow popup = new PopupWindow(layout);
-        popup.setContentView(layout);
-        popup.setWidth(width);
-        popup.setHeight(popupHeight);
-        popup.setFocusable(true);
-        popup.setBackgroundDrawable(new BitmapDrawable());
-
-        int OFFSET_X = 5;
-        int OFFSET_Y = 90;
-
-
-        popup.showAtLocation(view, Gravity.NO_GRAVITY, p.x+OFFSET_X, p.y+OFFSET_Y );
-*/
-
-        View popupView = getLayoutInflater().inflate(R.layout.popup_notifications, null);
-
-        PopupWindow popupWindow = new PopupWindow(popupView,
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        popupWindow.setFocusable(true);
-
-        popupWindow.setContentView(popupView);
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());
-
-
-        int location[] = new int[2];
-        int OFFSET_X = 0;
-        int OFFSET_Y = 90;
-
-       // view.getLocationOnScreen(location);
-
-        popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, p.x+OFFSET_X, p.y+OFFSET_Y );
-
-
-        RecyclerView recyclerView = (RecyclerView)popupView.findViewById(R.id.rvNotify);
-        LinearLayoutManager vertical
-                = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(vertical);
-
-        PopUpNotifAdapter notifAdapter = new PopUpNotifAdapter(this,notificationList);
-        recyclerView.setAdapter(notifAdapter);
-
-    }
-
-
     @Override
     public void onBackPressed() {
         getSupportActionBar().show();
-
         super.onBackPressed();
     }
 

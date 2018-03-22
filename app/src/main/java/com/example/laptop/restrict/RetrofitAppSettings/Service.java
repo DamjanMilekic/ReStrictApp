@@ -4,6 +4,7 @@ package com.example.laptop.restrict.RetrofitAppSettings;
 import com.example.laptop.restrict.Model.Approval;
 import com.example.laptop.restrict.Model.DataHome;
 import com.example.laptop.restrict.Model.LoginRequest;
+import com.example.laptop.restrict.Model.NotificationPopup;
 import com.example.laptop.restrict.Model.Person;
 import com.example.laptop.restrict.Model.ProjectStatusLogin;
 
@@ -29,6 +30,9 @@ public interface Service {
 
     @GET ("api/projects")
     Call<DataHome> getProjects(@Query("api_token") String apiToken);
+
+    @GET ("api/me/notifications")
+    Call<NotificationPopup> getNotificationsPopup(@Query("api_token") String apiToken);
 
     @GET ("api/approvals/show/{version_id}")
     Call<Approval> getAprovals(@Path("version_id")int versionId , @Query("api_token") String apiToken);
