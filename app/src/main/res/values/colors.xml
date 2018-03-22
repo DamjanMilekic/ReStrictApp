@@ -13,12 +13,16 @@
     <color name="gray">#8C8C8C</color>
     <color name="backround">#e9efef</color>
     <color name="fontAppSettings">#8c8c8c</color>
-    <color name="buttonLogout">#ff7700</color>
+    <color name="buttonLogout">#ff9b00</color>
     <color name="buttonsSettings">#1f4868</color>
     <color name="addresNumber">#00C1FF</color>
     <color name="strictBlue">#1B3F59</color>
     <color name="extendedListBackground">#E7EFF1</color>
     <color name="secondLevelText">#6E8595</color>
     <color name="userIDColor">#7ba5a7</color>
+    <color name="headerText">#4b7491</color>
+    <color name="orange">#ff9b00</color>
+    <color name="placeholder">#9cacb7</color>
+
 
 </resources>

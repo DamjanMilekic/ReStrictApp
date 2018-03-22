@@ -45,6 +45,7 @@ import com.example.laptop.restrict.Model.Version;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -293,14 +294,15 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         inputEmail.setSingleLine();
         final EditText inputNotes = (EditText) share_alert.findViewById(R.id.input_notes);
 
-        Button share = (Button) share_alert.findViewById(R.id.share);
-        Button cancel = (Button) share_alert.findViewById(R.id.cancel);
+        TextView share = (TextView) share_alert.findViewById(R.id.share);
+        TextView cancel = (TextView) share_alert.findViewById(R.id.cancel);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
         builder.setView(share_alert).setCancelable(false);
 
-        alertShare.getWindow().setDimAmount(0.4f);
         alertShare = builder.create();
+
+        alertShare.getWindow().setDimAmount(0.4f);
         /*share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -25,8 +25,7 @@
                 android:layout_width="162dp"
                 android:layout_height="match_parent"
                 android:text="Basement plan.pdf"
-                android:textColor="@color/buttonsSettings"
-                android:alpha="0.8"
+                android:textColor="@color/headerText"
                 android:textSize="18sp"/>
 
             <TextView
@@ -65,7 +64,7 @@
                 android:layout_weight="0.5"
                 android:paddingRight="10dp"
                 android:text="Download"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/headerText"
 
                 android:alpha="0.9"
                 android:textSize="16sp" />
@@ -79,7 +78,7 @@
                 android:gravity="left"
                 android:paddingLeft="10dp"
                 android:text="Cancel"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/headerText"
                 android:alpha="0.6"
                 android:textSize="16sp" />
 
