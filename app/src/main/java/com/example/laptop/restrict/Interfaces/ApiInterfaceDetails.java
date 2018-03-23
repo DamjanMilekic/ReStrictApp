@@ -32,7 +32,7 @@ public interface ApiInterfaceDetails {
     Call<ProjectStatusData> getVersions(@Path("id") int drawing_id, @Query("api_token") String api_key);
 
     @GET("api/comments/show/{id}")
-    Call<ProjectStatusComment> getComments(@Path("id") int drawing_id, @Query("api_token") String api_key);
+    Call<ProjectStatusComment> getComments(@Path("id") int version_id, @Query("api_token") String api_key);
 
     @GET("api/approvals/show/{id}")
     Call<ProjectStatusApprovals> getApprovals(@Path("id") int drawing_id, @Query("api_token") String api_key);

@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -39,6 +40,8 @@ import com.example.laptop.restrict.Fragments.InfoFragment;
 import com.example.laptop.restrict.Fragments.LoginFragment;
 import com.example.laptop.restrict.Interfaces.ApiInterfaceDetails;
 import com.example.laptop.restrict.Model.Comment;
+import com.example.laptop.restrict.Model.Drawing;
+import com.example.laptop.restrict.Model.DrawingHome;
 import com.example.laptop.restrict.Model.ProjectStatusData;
 import com.example.laptop.restrict.Model.ProjectStatusShare;
 import com.example.laptop.restrict.Model.Version;
@@ -67,12 +70,15 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private MainActivity mainActivity;
 
     private CommentAdapter commentAdapter;
-    ActionBar actionBar;
-    // ImageButton komponente DetailActivity-a
-    ImageButton info, comment, download, share, imageButtonAppsettings;
-    ImageView backButton;
+    private ActionBar actionBar;
 
-    TextView btnNumberNotification, numberOfComments;
+    // ImageButton komponente DetailActivity-a
+    private ImageButton info, comment, download, share, imageButtonAppsettings;
+    private ImageView backButton;
+
+    private TextView btnNumberNotification;
+    private static TextView numberOfComments;
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -87,94 +93,101 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        // Inicijalizovanje toolbar-a
-        imageButtonAppsettings = (ImageButton) findViewById(R.id.btnProfileActBarSettings);
+        if (getIntent() != null) {
 
-        backButton = (ImageView) findViewById(R.id.backButtonFullScreenDetail);
-        btnNumberNotification =(TextView) findViewById(R.id.txNumberOfNotif);
+            int drawing_id = getIntent().getIntExtra("drawing_id", -1);
 
-        numberOfComments = (TextView)findViewById(R.id.numberOfComments);
+            if (drawing_id != -1) {
+                // Inicijalizovanje toolbar-a
+                imageButtonAppsettings = (ImageButton) findViewById(R.id.btnProfileActBarSettings);
 
-        imageButtonAppsettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                initFragmentAppSettings();
+                backButton = (ImageView) findViewById(R.id.backButtonFullScreenDetail);
+                btnNumberNotification =(TextView) findViewById(R.id.txNumberOfNotif);
+
+                numberOfComments = (TextView) findViewById(R.id.numberOfComments);
+
+                imageButtonAppsettings.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        initFragmentAppSettings();
+                    }
+                });
+                // btnNumberNotification.setText(""); TODO ovde ide broj notifikacija
+                backButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onBackPressed();
+                    }
+                });
+
+                // Definisanje RecyclerView-a
+                circleRecyclerView = (RecyclerView) findViewById(R.id.circleRecyclerView);
+                circleRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                circleRecyclerView.setHasFixedSize(true);
+
+                // Registrovanje ImageButton komponenti
+                info = (ImageButton) findViewById(R.id.infoImageButton);
+                comment = (ImageButton) findViewById(R.id.commentsImageButton);
+                download = (ImageButton) findViewById(R.id.downloadImageButton);
+                share = (ImageButton) findViewById(R.id.shareImageButton);
+
+                // Postavljanje osluskivaca na ImmageButton komponente
+                info.setOnClickListener(this);
+                comment.setOnClickListener(this);
+                download.setOnClickListener(this);
+                share.setOnClickListener(this);
+
+                ApiInterfaceDetails apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
+                Call<ProjectStatusData> call = apiInterfaceDetails.getVersions(drawing_id, LoginFragment.api_token);
+                call.enqueue(new Callback<ProjectStatusData>() {
+                    @Override
+                    public void onResponse(Call<ProjectStatusData> call, Response<ProjectStatusData> response) {
+
+
+                        // Preuzivanje podataka iz JSON-a sa API-a
+
+                        if (response.body() != null) {
+                            versionList = response.body().getData().getVersions();
+
+                            // Ubacivanje podataka
+                            adapter = new ProjectAdapter(DetailActivity.this, versionList);
+                            Log.e("PROJECT ADAPTER", "List size: " + versionList.size());
+                            circleRecyclerView.setAdapter(adapter);
+
+                            // Projekat cija se podaci trebaju prikazati na prvom pokretanju aktivnosti
+
+
+                            selectedVersion = versionList.get(0);
+
+                            DetailImageFragment detailImageFragment = new DetailImageFragment();
+                            InfoFragment infoFragment = new InfoFragment();
+                            CommentsFragment commentsFragment = new CommentsFragment();
+
+                            Bundle args = new Bundle();
+                            args.putParcelable(ProjectAdapter.SELECTED_VERSION, selectedVersion);
+
+                            detailImageFragment.setArguments(args);
+                            infoFragment.setArguments(args);
+                            commentsFragment.setArguments(args);
+
+                            FragmentManager fragmentManager = getSupportFragmentManager();
+                            FragmentTransaction transaction = fragmentManager.beginTransaction();
+                            transaction.replace(R.id.detailImageFragment, detailImageFragment);
+                            transaction.add(R.id.onClickButtonFragmentContainer, infoFragment);
+                            transaction.commit();
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<ProjectStatusData> call, Throwable t) {
+                        // Poruka koja ce se prikazati ukoliko podaci ne budu uspesno preuzeti
+                        Toast.makeText(DetailActivity.this, "Problem sa ucitavanjem podataka", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
-        });
-       // btnNumberNotification.setText(""); TODO ovde ide broj notifikacija
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
 
-        // Definisanje RecyclerView-a
-        circleRecyclerView = (RecyclerView) findViewById(R.id.circleRecyclerView);
-        circleRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-        circleRecyclerView.setHasFixedSize(true);
-
-        // Registrovanje ImageButton komponenti
-        info = (ImageButton) findViewById(R.id.infoImageButton);
-        comment = (ImageButton) findViewById(R.id.commentsImageButton);
-        download = (ImageButton) findViewById(R.id.downloadImageButton);
-        share = (ImageButton) findViewById(R.id.shareImageButton);
-
-        // Postavljanje osluskivaca na ImmageButton komponente
-        info.setOnClickListener(this);
-        comment.setOnClickListener(this);
-        download.setOnClickListener(this);
-        share.setOnClickListener(this);
-
-        ApiInterfaceDetails apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
-        Call<ProjectStatusData> call = apiInterfaceDetails.getVersions(358, LoginFragment.api_token);
-        call.enqueue(new Callback<ProjectStatusData>() {
-            @Override
-            public void onResponse(Call<ProjectStatusData> call, Response<ProjectStatusData> response) {
-
-                // Preuzivanje podataka iz JSON-a sa API-a
-                versionList = response.body().getData().getVersions();
-
-                // Ubacivanje podataka
-                adapter = new ProjectAdapter(DetailActivity.this, versionList);
-                Log.e("PROJECT ADAPTER", "List size: " + versionList.size());
-                circleRecyclerView.setAdapter(adapter);
-
-                // Projekat cija se podaci trebaju prikazati na prvom pokretanju aktivnosti
-
-                for (Version v :versionList) {
-                    selectedVersion = v;
-                }
-                DetailImageFragment detailImageFragment = new DetailImageFragment();
-                InfoFragment infoFragment = new InfoFragment();
-                CommentsFragment commentsFragment = new CommentsFragment();
-
-                Bundle args = new Bundle();
-                args.putParcelable(ProjectAdapter.SELECTED_VERSION, selectedVersion);
-
-                detailImageFragment.setArguments(args);
-                infoFragment.setArguments(args);
-                commentsFragment.setArguments(args);
-
-                int size = args.size();
-                String t = String.valueOf(size);
-
-                numberOfComments.setText(t);
-
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.detailImageFragment, detailImageFragment);
-                transaction.add(R.id.onClickButtonFragmentContainer, infoFragment);
-                transaction.commit();
-
-            }
-
-            @Override
-            public void onFailure(Call<ProjectStatusData> call, Throwable t) {
-                // Poruka koja ce se prikazati ukoliko podaci ne budu uspesno preuzeti
-                Toast.makeText(DetailActivity.this, "Problem sa ucitavanjem podataka", Toast.LENGTH_SHORT).show();
-            }
-        });
+        }
 
     }
 
@@ -273,7 +286,6 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DownloadFile().execute("http://s.strictapp.com/pdf/drawings/u1xjwIyFm9jz76nMYB2v.pdf" ,"Basement Plan");
                 alertDownload.dismiss();
             }
         });
@@ -432,6 +444,10 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.remove(fragmentAppSettingsActivity);
 
+    }
+
+    public static void setNumberOfComments(int number) {
+        numberOfComments.setText("" + number);
     }
 
 }

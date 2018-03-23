@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,15 +19,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.laptop.restrict.Adapter.CommentAdapter;
+import com.example.laptop.restrict.Adapter.ProjectAdapter;
 import com.example.laptop.restrict.ApiClientDetails;
 import com.example.laptop.restrict.DetailActivity;
 import com.example.laptop.restrict.Interfaces.ApiInterfaceDetails;
 import com.example.laptop.restrict.MainActivity;
 import com.example.laptop.restrict.Model.Comment;
+import com.example.laptop.restrict.Model.Version;
 import com.example.laptop.restrict.Model.PostCommentRequest;
 import com.example.laptop.restrict.Model.ProjectStatusComment;
 import com.example.laptop.restrict.Model.ProjectStatusPostComment;
 import com.example.laptop.restrict.R;
+import com.example.laptop.restrict.SecondLevelExpandableListView;
 
 import java.util.ArrayList;
 
@@ -47,7 +52,7 @@ public class CommentsFragment extends Fragment {
 
     // Potrebno za deo pretrage i slanje komentara
     private EditText search, writeComment;
-    private ImageButton searchButton;
+    private ImageView searchButton;
     private ImageView sendButton;
 
     private ApiInterfaceDetails apiInterfaceDetails;
@@ -55,18 +60,76 @@ public class CommentsFragment extends Fragment {
     // Potrebno za update UI-a
     private Handler handler;
 
+    public static int version_id;
+
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 
         // Ucitavanje layout-a
         View view = inflater.inflate(R.layout.layout_comments, container, false);
 
-/*        handler = new Handler();
+        handler = new Handler();
 
         // Omogucuje kucanje teksta u EditText komponenti u jednom redu
         search = (EditText) view.findViewById(R.id.search);
         search.setSingleLine();
-        searchButton = (ImageButton) view.findViewById(R.id.search_comments);
+
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (search.getText().toString() != null) {
+                    apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
+                    Call<ProjectStatusComment> call = apiInterfaceDetails.getComments(version_id, LoginFragment.api_token);
+                    call.enqueue(new Callback<ProjectStatusComment>() {
+                        @Override
+                        public void onResponse(Call<ProjectStatusComment> call, Response<ProjectStatusComment> response) {
+                            // Ucitavanje komentara sa API-a, dodavanje u adapter i prikaz u recyclerview-u
+                            if (response.body() != null) {
+                                comments = response.body().getComments();
+
+                                final ArrayList<Comment> searchedComment = new ArrayList<>();
+                                if (comments.size() > 0) {
+                                    for (int i = 0; i < comments.size(); i++) {
+                                        if (comments.get(i).getText().contains(search.getText().toString())) {
+                                            searchedComment.add(comments.get(i));
+                                        }
+                                    }
+                                }
+                                if (searchedComment.size() > 0) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            adapter = new CommentAdapter(getContext(), searchedComment);
+                                            recyclerView.setAdapter(adapter);
+                                        }
+                                    });
+                                }
+                                DetailActivity.setNumberOfComments(searchedComment.size());
+                            }
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<ProjectStatusComment> call, Throwable t) {
+                            Toast.makeText(getContext(), "Problem sa ucitavanjem komentara", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        /*searchButton = (ImageView) view.findViewById(R.id.search_comments);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,16 +182,19 @@ public class CommentsFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
-        Call<ProjectStatusComment> call = apiInterfaceDetails.getComments(254, LoginFragment.api_token);
+        Call<ProjectStatusComment> call = apiInterfaceDetails.getComments(version_id, LoginFragment.api_token);
         call.enqueue(new Callback<ProjectStatusComment>() {
             @Override
             public void onResponse(Call<ProjectStatusComment> call, Response<ProjectStatusComment> response) {
-
                 // Ucitavanje komentara sa API-a, dodavanje u adapter i prikaz u recyclerview-u
-                comments = response.body().getComments();
-                adapter = new CommentAdapter(getContext(), comments);
-                recyclerView.setAdapter(adapter);
-
+                if (response.body() != null) {
+                    comments = response.body().getComments();
+                    DetailActivity.setNumberOfComments(comments.size());
+                    adapter = new CommentAdapter(getContext(), comments);
+                    recyclerView.setAdapter(adapter);
+                } else {
+                    Toast.makeText(getContext(), "Nema komentara za prikaz", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
@@ -143,18 +209,18 @@ public class CommentsFragment extends Fragment {
 
         // Osluskivac za unos komentara
         sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                postComment();
-            }
-        });
+                @Override
+                public void onClick(View v) {
+                    postComment(version_id);
+                }
+            });
 
         return view;
     }
 
-    public void postComment() {
+    public void postComment(final int version_id) {
         String text = writeComment.getText().toString();
-        PostCommentRequest postCommentRequest = new PostCommentRequest(254, text, LoginFragment.api_token);
+        PostCommentRequest postCommentRequest = new PostCommentRequest(version_id, text, LoginFragment.api_token);
         Call<ProjectStatusPostComment> call = apiInterfaceDetails.setComment(postCommentRequest);
         call.enqueue(new Callback<ProjectStatusPostComment>() {
             @Override
@@ -165,12 +231,13 @@ public class CommentsFragment extends Fragment {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            Call<ProjectStatusComment> reloadComments = apiInterfaceDetails.getComments(254, LoginFragment.api_token);
+                            Call<ProjectStatusComment> reloadComments = apiInterfaceDetails.getComments(version_id, LoginFragment.api_token);
                             reloadComments.enqueue(new Callback<ProjectStatusComment>() {
                                 @Override
                                 public void onResponse(Call<ProjectStatusComment> call, Response<ProjectStatusComment> response) {
                                     // Ucitavanje komentara sa API-a, dodavanje u adapter i prikaz u recyclerview-u
                                     comments = response.body().getComments();
+                                    DetailActivity.setNumberOfComments(comments.size());
                                     adapter = new CommentAdapter(getContext(), comments);
                                     recyclerView.setAdapter(adapter);
                                     writeComment.setText(null);

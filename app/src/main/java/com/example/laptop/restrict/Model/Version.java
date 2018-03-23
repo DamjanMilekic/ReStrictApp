@@ -7,6 +7,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * Created by ivandjordjevic on 13.2.18..
@@ -232,4 +233,24 @@ public class Version implements Parcelable {
         parcel.writeString(updatedAt);
         parcel.writeParcelable(user, i);
     }
+
+    @Override
+    public String toString() {
+        return "Version{" +
+                "id=" + id +
+                ", drawingId='" + drawingId + '\'' +
+                ", parentId=" + parentId +
+                ", userId='" + userId + '\'' +
+                ", type='" + type + '\'' +
+                ", label='" + label + '\'' +
+                ", imageFile='" + imageFile + '\'' +
+                ", pdfFile='" + pdfFile + '\'' +
+                ", issuedFor='" + issuedFor + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
+                ", subVersions=" + Arrays.toString(subVersions) +
+                ", user=" + user +
+                '}';
+    }
+
 }

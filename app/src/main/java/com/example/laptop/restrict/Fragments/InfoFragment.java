@@ -52,6 +52,8 @@ public class InfoFragment extends Fragment {
     private ApprovedByAdapter adapter;
     private ArrayList<Approval> approvals;
 
+    private int drawing_id;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         String stringName, stringUploaded, stringIssuedFor;
@@ -66,6 +68,9 @@ public class InfoFragment extends Fragment {
         textPreliminary = (TextView) view.findViewById(R.id.textPreliminary);
 
         if (getArguments() != null) {
+
+            drawing_id = Integer.parseInt(selectedVersion.getDrawingId());
+
             selectedVersion = (Version) getArguments().getParcelable(ProjectAdapter.SELECTED_VERSION);
 
             stringName= selectedVersion.getLabel();
@@ -105,18 +110,21 @@ public class InfoFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         ApiInterfaceDetails apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
-        Call<ProjectStatusApprovals> call = apiInterfaceDetails.getApprovals(254, LoginFragment.api_token);
+        Call<ProjectStatusApprovals> call = apiInterfaceDetails.getApprovals(drawing_id, LoginFragment.api_token);
         call.enqueue(new Callback<ProjectStatusApprovals>() {
             @Override
             public void onResponse(Call<ProjectStatusApprovals> call, Response<ProjectStatusApprovals> response) {
 
-                ProjectStatusApprovals projectStatusApprovals = response.body();
-                approvals = projectStatusApprovals.getApprovals();
+                if (response.body() != null) {
+                    ProjectStatusApprovals projectStatusApprovals = response.body();
+                    approvals = projectStatusApprovals.getApprovals();
 
-                adapter = new ApprovedByAdapter(getContext(), approvals);
+                    adapter = new ApprovedByAdapter(getContext(), approvals);
 
-                // Punjenje layout-a pomocu ApprovedByAdapter-a
-                recyclerView.setAdapter(adapter);
+                    // Punjenje layout-a pomocu ApprovedByAdapter-a
+                    recyclerView.setAdapter(adapter);
+                }
+
             }
 
             @Override
