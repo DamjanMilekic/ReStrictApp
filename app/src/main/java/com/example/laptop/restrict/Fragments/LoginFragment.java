@@ -154,6 +154,7 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
+        btnLogin.setEnabled(false);
 
         String email = emailEdit.getText().toString();
         String password = passwordEdit.getText().toString();
@@ -187,13 +188,17 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
                                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                                 transaction.replace(R.id.frame, newFragment);
                                 transaction.commit();
+                            btnLogin.setEnabled(true);
 
-                            } else {
+
+                        } else {
                                 Toast.makeText(getContext(), "Login status: " + response, Toast.LENGTH_LONG).show();
                                 emailEdit.setText("");
+                            btnLogin.setEnabled(true);
 
 
-                              //  getNotification();
+
+                            //  getNotification();
 
                         }
                     }
@@ -201,6 +206,8 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
                     public void onFailure(Call<ProjectStatusLogin> call, Throwable t) {
                         Toast.makeText(getContext(), "Connection error", Toast.LENGTH_SHORT).show();
                         Log.d("LOGIN", "Step 6");
+                        btnLogin.setEnabled(true);
+
 
                     }
                 });
@@ -211,9 +218,14 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
 
             } else {
                 Toast.makeText(context, "Wrong email format", Toast.LENGTH_LONG).show();
+                btnLogin.setEnabled(true);
+
+
             }
         } else {
             Toast.makeText(context, "You need to fill all fields!", Toast.LENGTH_LONG).show();
+            btnLogin.setEnabled(true);
+
         }
 
     }

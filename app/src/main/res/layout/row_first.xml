@@ -1,37 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="4dp"
-    android:divider="@drawable/divider_vertical"
-    android:showDividers="middle"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
-    android:background="@color/white">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:background="#ffffff">
 
-    <TextView
+    <!-- divider -->
+  <!--  <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#E7EFF1"></LinearLayout>-->
 
-        android:id="@+id/adressNumber"
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginEnd="10dp"
-        android:text="9999"
-        android:textColor="@color/addresNumber"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/rowParentText"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/item"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/adressNumber"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text=""
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:textColor="#00C3FA"/>
+           <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#E7EFF1">
+            </LinearLayout>
 
-        android:layout_marginStart="10dp"
-        android:textColor="@color/strictBlue"
-        android:textSize="16sp" />
+            <TextView
+                android:id="@+id/rowParentText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="40dp"
+                android:gravity="center_vertical"
+                android:text=""
+                android:textAlignment="viewStart"
+                android:textColor="#183F57"
+                android:textSize="20dp" />
 
+     <!--       <ImageView
+                android:id="@+id/arrow"
+                android:layout_marginLeft="-26dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/arrow_right"/>
+            <ImageView
+                android:id="@+id/arrowChildExpanded"
+                android:layout_width="10dp"
+                android:layout_height="6dp"
+                android:layout_alignParentEnd="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/down_arrow_blue"
+                android:visibility="gone" />-->
+        </LinearLayout>
 
-</LinearLayout>
+        <!--   <LinearLayout
+               android:visibility="gone"
+               android:id="@+id/subitems"
+               android:background="#E7EFF1"
+               android:layout_alignBottom="@id/item"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical">
+           </LinearLayout>-->
+    </LinearLayout>
+
+</RelativeLayout>

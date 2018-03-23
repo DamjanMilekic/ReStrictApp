@@ -2,8 +2,14 @@ package com.example.laptop.restrict.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,10 +19,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroupOverlay;
 import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
@@ -64,10 +74,13 @@ public class HomeFragment extends Fragment {
     private DisplayMetrics metrics;
     public int width;
     Global globalVar;
+    private boolean isShowned=false;
 
     TextView numberOfNotif;
     ImageButton imgProfile;
     ImageButton notification;
+
+    public static int actionBarHeight=0;
 
     public HomeFragment() {
     }
@@ -126,7 +139,19 @@ public class HomeFragment extends Fragment {
 
         actionBarInit();
 
+     getActionBarHeight();
 
+    }
+
+
+
+    private void getActionBarHeight()
+    {
+        TypedValue tv = new TypedValue();
+        if (getActivity().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+        {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+        }
     }
 
     private void getNotification(final View view) {
@@ -144,9 +169,12 @@ public class HomeFragment extends Fragment {
 
 
                     p = globalVar.getPopupPoint();
-                    showPopUp(getActivity(), p, view, notifList);
-                    notifAdapter.notifyDataSetChanged();
 
+
+                   // isShowned=true;
+                    showPopUp(getActivity(), p, view, notifList);
+
+                    notifAdapter.notifyDataSetChanged();
                     notification.setEnabled(true);
                 }
 
@@ -195,10 +223,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+
                 if (notifList.size() > 0) {
                     showPopUp(getActivity(), p, v, notifList);
+
+
                 } else {
                     getNotification(v);
+
                 }
 
 
@@ -214,32 +246,72 @@ public class HomeFragment extends Fragment {
         View popupView = getLayoutInflater().inflate(R.layout.popup_notifications, null);
         RecyclerView recyclerView = (RecyclerView) popupView.findViewById(R.id.rvNotify);
 
-        PopupWindow popupWindow = new PopupWindow(popupView,
+        final PopupWindow popupWindow = new PopupWindow(popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         popupWindow.setFocusable(true);
 
+        popupWindow.setOutsideTouchable(true);
         popupWindow.setContentView(popupView);
-        popupWindow.setBackgroundDrawable(null);
+
 
 
         int location[] = new int[2];
         int OFFSET_X = 0;
-        int OFFSET_Y = -40;
+        int OFFSET_Y = 0;
 
         // view.getLocationOnScreen(location);
-
-
         notifAdapter = new PopUpNotifAdapter(getActivity(), notifList);
         recyclerView.setAdapter(notifAdapter);
         LinearLayoutManager vertical
                 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(vertical);
+        final ViewGroup root = (ViewGroup) getActivity().getWindow().getDecorView().getRootView();
 
+      /*  if(isShowned)
+        {
+            clearDim(root);
+            isShowned=false;
+        }
+        else{
+            applyDim(root,0.3f);
+            isShowned=true;
+        }*/
+            applyDim(root,0.5f);
 
         popupWindow.setAnimationStyle(R.style.popup_scale_animation);
         popupWindow.showAsDropDown(view, p.x + OFFSET_X, p.y + OFFSET_Y);
 
+        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                clearDim(root);
+                popupWindow.dismiss();
+              /*  if(event.getAction()==MotionEvent.ACTION_OUTSIDE){
+
+
+
+                    return true;
+                }*/
+
+                return true;
+            }
+        });
+
+    }
+    public static void applyDim(@NonNull ViewGroup parent, float dimAmount){
+        Drawable dim = new ColorDrawable(Color.BLACK);
+        dim.setBounds(0, actionBarHeight, parent.getWidth(), parent.getHeight());
+        dim.setAlpha((int) (255 * dimAmount));
+
+        ViewGroupOverlay overlay = parent.getOverlay();
+        overlay.add(dim);
+    }
+
+    public static void clearDim(@NonNull ViewGroup parent) {
+        ViewGroupOverlay overlay = parent.getOverlay();
+        overlay.clear();
     }
 
     private void getProjects() {

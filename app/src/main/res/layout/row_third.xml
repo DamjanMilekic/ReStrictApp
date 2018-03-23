@@ -3,6 +3,8 @@
     android:layout_width="match_parent" android:layout_height="wrap_content"
     android:background="#E7EFF1">
 
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,10 +40,10 @@
         </LinearLayout>
 
         <!-- divider -->
-        <LinearLayout
+      <!--  <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#979797"></LinearLayout>
+            android:layout_height="0.5dp"
+            android:background="#979797"></LinearLayout>-->
 
     </LinearLayout>
 
