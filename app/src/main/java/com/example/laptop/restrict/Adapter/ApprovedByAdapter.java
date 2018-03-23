@@ -52,7 +52,7 @@ public class ApprovedByAdapter extends RecyclerView.Adapter<ApprovedByAdapter.Ap
                     .into(holder.isUploader);
 
             Picasso.with(context)
-                    .load(R.drawable.check_symbol)
+                    .load(R.drawable.confirm)
                     .into(holder.isChecked);
 
         } else if (approval.getApproved() == 0) {
@@ -64,7 +64,7 @@ public class ApprovedByAdapter extends RecyclerView.Adapter<ApprovedByAdapter.Ap
         } else if (approval.getApproved() == 1) {
 
             Picasso.with(context)
-                    .load(R.drawable.check_symbol)
+                    .load(R.drawable.confirm)
                     .into(holder.isChecked);
 
         } else if (approval.getApproved() == 2) {

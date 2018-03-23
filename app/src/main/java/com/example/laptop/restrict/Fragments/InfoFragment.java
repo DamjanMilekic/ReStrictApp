@@ -1,5 +1,6 @@
 package com.example.laptop.restrict.Fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -94,7 +95,7 @@ public class InfoFragment extends Fragment {
         if (issuedForText.toUpperCase().equals("PRELIMINARY")) {
 
             circlePreliminary.setImageResource(R.mipmap.circle);
-
+            circlePreliminary.setBackgroundColor(Color.parseColor("#81c6fd"));//dodata boja
             textPreliminary.setText("P");
 
         }
