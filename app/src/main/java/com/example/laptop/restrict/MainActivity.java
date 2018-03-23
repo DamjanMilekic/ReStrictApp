@@ -91,9 +91,27 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain{
             }
         });
 */
+
        // actionBarInit();
-      //  findMenuItem();
+
             findMenuItem();
+
+    }
+
+    public void initFragmentAppSettings(){
+
+        FragmentAppSettingsActivity fragmentAppSettingsActivity = new FragmentAppSettingsActivity();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.setCustomAnimations(R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down, R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down);
+        fragmentTransaction.addToBackStack(null);
+
+        fragmentTransaction.replace(R.id.frame, fragmentAppSettingsActivity).commit();
+
+
 
     }
 

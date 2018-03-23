@@ -30,6 +30,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.laptop.restrict.MainActivity;
@@ -42,6 +43,7 @@ import com.example.laptop.restrict.RetrofitAppSettings.Service;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.io.FileUtils;
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -72,13 +74,14 @@ public class FragmentAppSettingsActivity extends Fragment {
     private static final int CAMERA_REQUEST = 555;
     private static final int PICK_IMAGE_REQUEST = 321;
 
+
     EditText name, lastName, title, eMail, phone;
 
 
     ImageView slikaIme, slikax, slikaRotateLeft, slikaRotateRight, backButton, buttonCheck;
     ImageButton btnNotificationActBar;
 
-    Button logout;
+    TextView logout;
 
     LinearLayout linearLayoutSlicicaIText;
 
@@ -106,7 +109,7 @@ public class FragmentAppSettingsActivity extends Fragment {
         title = (EditText) view.findViewById(R.id.title);
         eMail = (EditText) view.findViewById(R.id.eMail);
         phone = (EditText) view.findViewById(R.id.phone);
-        logout = (Button) view.findViewById(R.id.logoutbutton);
+        logout = (TextView) view.findViewById(R.id.logoutbutton);
         slikaIme = (ImageView) view.findViewById(R.id.sl);
 
         final ImageButton slicicaZaToolbar = (ImageButton)view.findViewById(R.id.btnProfileActBar);
@@ -115,7 +118,7 @@ public class FragmentAppSettingsActivity extends Fragment {
 
         slikax = (ImageView) view.findViewById(R.id.imagex);
         slikaRotateLeft = (ImageView) view.findViewById(R.id.imagerotateLeft);
-        slikaRotateRight = (ImageView) view.findViewById(R.id.imagerotateRight);
+        slikaRotateRight = (ImageView) view.findViewById(R.id.imagexRightt);
 
         //dugmici za actionBar
         buttonCheck = (ImageView) view.findViewById(R.id.buttonCheck);
@@ -199,8 +202,14 @@ public class FragmentAppSettingsActivity extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainActivity = (MainActivity) getActivity();
-                mainActivity.onBackPressed();
+                /*mainActivity = (MainActivity) getActivity();
+                mainActivity.onBackPressed();*/
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+
+                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                    fm.popBackStack();
+
+                }
 
             }
         });
@@ -254,7 +263,6 @@ public class FragmentAppSettingsActivity extends Fragment {
                         call.enqueue(new Callback<Person>() {
                             @Override
                             public void onResponse(Call<Person> call, Response<Person> response) {
-                                Toast.makeText(getContext(), "Sucessfull change", Toast.LENGTH_LONG).show();
                                 mainActivity = (MainActivity) getActivity();
                                 mainActivity.onBackPressed();
                             }
@@ -484,4 +492,15 @@ public class FragmentAppSettingsActivity extends Fragment {
 
     }
 
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        onDestroy();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
 }

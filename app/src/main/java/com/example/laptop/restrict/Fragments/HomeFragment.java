@@ -48,7 +48,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class HomeFragment extends Fragment  {
+public class HomeFragment extends Fragment {
 
 
     ExpandableListView expandableListView;
@@ -77,25 +77,28 @@ public class HomeFragment extends Fragment  {
         super.onAttach(context);
         Activity a;
 
-        if (context instanceof Activity){
-            a=(Activity) context;
+        if (context instanceof Activity) {
+            a = (Activity) context;
         }
 
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(savedInstanceState != null)
+        if (savedInstanceState != null)
 
-        setHasOptionsMenu(true);
+            setHasOptionsMenu(true);
 
         notifList = new ArrayList<>();
     }
+
     @Override
-    public void onSaveInstanceState(Bundle outState){
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -115,10 +118,11 @@ public class HomeFragment extends Fragment  {
 
         getProjects();
 
-        metrics = new DisplayMetrics();
+
+                metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         width = metrics.widthPixels;
-        expandableListView.setIndicatorBoundsRelative(width-getDipsFromPixel(0),width-getDipsFromPixel(5));
+        expandableListView.setIndicatorBoundsRelative(width - getDipsFromPixel(0), width - getDipsFromPixel(5));
 
         actionBarInit();
 
@@ -134,15 +138,13 @@ public class HomeFragment extends Fragment  {
             @Override
             public void onResponse(Call<NotificationPopup> call, Response<NotificationPopup> response) {
 
-                if (response.body() != null)
-                {
+                if (response.body() != null) {
                     NotificationPopup notificationPopup = response.body();
                     notifList = notificationPopup.getData();
 
 
-
                     p = globalVar.getPopupPoint();
-                    showPopUp(getActivity(),p,view,notifList);
+                    showPopUp(getActivity(), p, view, notifList);
                     notifAdapter.notifyDataSetChanged();
 
                     notification.setEnabled(true);
@@ -158,63 +160,59 @@ public class HomeFragment extends Fragment  {
             }
         });
 
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+
 
     }
-   public void actionBarInit()
-   {
-       mActionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
-       mActionBar.setDisplayShowHomeEnabled(false);
-       mActionBar.setDisplayShowTitleEnabled(false);
-       LayoutInflater mInflater = LayoutInflater.from(getActivity());
 
-       View mCustomView = mInflater.inflate(R.layout.toolbar_layout, null);
+    public void actionBarInit() {
+        mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        mActionBar.setDisplayShowHomeEnabled(false);
+        mActionBar.setDisplayShowTitleEnabled(false);
+        LayoutInflater mInflater = LayoutInflater.from(getActivity());
 
-       mActionBar.setCustomView(mCustomView);
-       mActionBar.setDisplayShowCustomEnabled(true);
+        View mCustomView = mInflater.inflate(R.layout.toolbar_layout, null);
 
-      notification = mCustomView.findViewById(R.id.btnNotificationActBar);
-       imgProfile = mCustomView.findViewById(R.id.btnProfileActBar);
-       numberOfNotif = mCustomView.findViewById(R.id.txNumberOfNotif);
+        mActionBar.setCustomView(mCustomView);
+        mActionBar.setDisplayShowCustomEnabled(true);
 
-
+        notification = mCustomView.findViewById(R.id.btnNotificationActBar);
+        imgProfile = mCustomView.findViewById(R.id.btnProfileActBar);
+        numberOfNotif = mCustomView.findViewById(R.id.txNumberOfNotif);
 
 
-       imgProfile.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
+        imgProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
 
-           //    initFragmentAppSettings();
-          //     mActionBar.hide();
+                //    initFragmentAppSettings();
+                //     mActionBar.hide();
 
-           }
-       });
-       notification.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
+            }
+        });
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-               if(notifList.size()>0)
-               {
-                   showPopUp(getActivity(),p,v,notifList);
-               }
-               else {
-                   getNotification(v);
-               }
+                if (notifList.size() > 0) {
+                    showPopUp(getActivity(), p, v, notifList);
+                } else {
+                    getNotification(v);
+                }
 
 
+            }
+        });
 
-           }
-       });
-
-       mActionBar.show();
-   }
+        mActionBar.show();
+    }
 
 
-    private void showPopUp(Context context, Point p, View view, List<DatumPopup> notifList)
-    {
+    private void showPopUp(Context context, Point p, View view, List<DatumPopup> notifList) {
 
         View popupView = getLayoutInflater().inflate(R.layout.popup_notifications, null);
-        RecyclerView recyclerView = (RecyclerView)popupView.findViewById(R.id.rvNotify);
+        RecyclerView recyclerView = (RecyclerView) popupView.findViewById(R.id.rvNotify);
 
         PopupWindow popupWindow = new PopupWindow(popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -225,25 +223,25 @@ public class HomeFragment extends Fragment  {
         popupWindow.setBackgroundDrawable(null);
 
 
-          int location[] = new int[2];
+        int location[] = new int[2];
         int OFFSET_X = 0;
         int OFFSET_Y = -40;
 
         // view.getLocationOnScreen(location);
 
 
-        notifAdapter = new PopUpNotifAdapter(getActivity(),notifList);
+        notifAdapter = new PopUpNotifAdapter(getActivity(), notifList);
         recyclerView.setAdapter(notifAdapter);
         LinearLayoutManager vertical
                 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(vertical);
 
 
-
         popupWindow.setAnimationStyle(R.style.popup_scale_animation);
-        popupWindow.showAsDropDown(view, p.x+OFFSET_X, p.y+OFFSET_Y );
+        popupWindow.showAsDropDown(view, p.x + OFFSET_X, p.y + OFFSET_Y);
 
     }
+
     private void getProjects() {
 
         Service apiService = Client.getApiClient().create(Service.class);
@@ -253,20 +251,19 @@ public class HomeFragment extends Fragment  {
             @Override
             public void onResponse(Call<DataHome> call, Response<DataHome> response) {
 
-                if (response.body() != null)
-                {
+                if (response.body() != null) {
                     DataHome home = response.body();
 
                     List<Date> dateList = home.getData();
                     ArrayList<List<Section>> sectionLists = new ArrayList<>();
-                    List<Section> subSectionLists =new ArrayList<>();
+                    List<Section> subSectionLists = new ArrayList<>();
 
-                    for (Date dt:dateList) {
+                    for (Date dt : dateList) {
 
                         sectionLists.add(dt.getSections());
 
 
-                        for (List<Section> sections :sectionLists) {
+                        for (List<Section> sections : sectionLists) {
 
                             subSectionLists = sections;
 
@@ -277,9 +274,15 @@ public class HomeFragment extends Fragment  {
                     }
 
                     ThreeLevelListAdapter threeLevelListAdapterAdapter =
-                            new ThreeLevelListAdapter(getActivity(), dateList, secondLevel,sectionLists);
-                    expandableListView.setAdapter( threeLevelListAdapterAdapter );
+                            new ThreeLevelListAdapter(getActivity(), dateList, secondLevel, sectionLists);
+                    expandableListView.setAdapter(threeLevelListAdapterAdapter);
 
+                    // expandableListView.setPadding(0,getDipsFromPixel(10),0,getDipsFromPixel(10));
+                    expandableListView.setGroupIndicator(getResources().getDrawable(R.drawable.expanded_list_indicator));
+                    metrics = new DisplayMetrics();
+                    getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+                    width = metrics.widthPixels;
+                    expandableListView.setIndicatorBoundsRelative(width - getDipsFromPixel(39), width - getDipsFromPixel(1));
                 }
 
             }
@@ -291,6 +294,7 @@ public class HomeFragment extends Fragment  {
             }
         });
     }
+
     public int getDipsFromPixel(float pixels) {
         final float scale = getResources().getDisplayMetrics().density;
         return (int) (pixels * scale + 0.5f);
@@ -299,3 +303,4 @@ public class HomeFragment extends Fragment  {
 
 
 }
+

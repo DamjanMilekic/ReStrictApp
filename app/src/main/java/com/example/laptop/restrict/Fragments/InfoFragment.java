@@ -1,5 +1,6 @@
 package com.example.laptop.restrict.Fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,7 +26,10 @@ import com.example.laptop.restrict.R;
 import com.example.laptop.restrict.Model.Version;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,9 +52,11 @@ public class InfoFragment extends Fragment {
     private ApprovedByAdapter adapter;
     private ArrayList<Approval> approvals;
 
+    private int drawing_id;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+        String stringName, stringUploaded, stringIssuedFor;
         // Ucitavanje layout-a
         View view = inflater.inflate(R.layout.layout_info, container, false);
 
@@ -62,17 +68,39 @@ public class InfoFragment extends Fragment {
         textPreliminary = (TextView) view.findViewById(R.id.textPreliminary);
 
         if (getArguments() != null) {
+
             selectedVersion = (Version) getArguments().getParcelable(ProjectAdapter.SELECTED_VERSION);
-            name.setText(selectedVersion.getLabel());
-            uploaded.setText(selectedVersion.getUpdatedAt());
-            issuedFor.setText(selectedVersion.getIssuedFor());
+
+            drawing_id = Integer.parseInt(selectedVersion.getDrawingId());
+
+            stringName= selectedVersion.getLabel();
+            name.setText(stringName);
+
+
+            /*stringUploaded=selectedVersion.getUpdatedAt();
+            uploaded.setText(stringUploaded);*/
+            /*SimpleDateFormat sdf = new SimpleDateFormat("yy/mm/dd hh:mm");
+            uploaded.setText(sdf.format(selectedVersion.getUpdatedAt()));*/
+            stringUploaded=selectedVersion.getUpdatedAt();
+
+            try {
+                Date date = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse(stringUploaded);
+                String formatedDate = new SimpleDateFormat("yy/mm/dd hh:mm").format(date);
+                uploaded.setText(formatedDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+
+            stringIssuedFor = selectedVersion.getIssuedFor();
+            issuedFor.setText(stringIssuedFor);
         }
 
         String issuedForText = issuedFor.getText().toString().trim();
         if (issuedForText.toUpperCase().equals("PRELIMINARY")) {
 
             circlePreliminary.setImageResource(R.mipmap.circle);
-
+            circlePreliminary.setBackgroundColor(Color.parseColor("#81c6fd"));//dodata boja
             textPreliminary.setText("P");
 
         }
@@ -82,18 +110,20 @@ public class InfoFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         ApiInterfaceDetails apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
-        Call<ProjectStatusApprovals> call = apiInterfaceDetails.getApprovals(254, LoginFragment.api_token);
+        Call<ProjectStatusApprovals> call = apiInterfaceDetails.getApprovals(drawing_id, LoginFragment.api_token);
         call.enqueue(new Callback<ProjectStatusApprovals>() {
             @Override
             public void onResponse(Call<ProjectStatusApprovals> call, Response<ProjectStatusApprovals> response) {
 
-                ProjectStatusApprovals projectStatusApprovals = response.body();
-                approvals = projectStatusApprovals.getApprovals();
+                if (response.body() != null) {
+                    ProjectStatusApprovals projectStatusApprovals = response.body();
+                    approvals = projectStatusApprovals.getApprovals();
 
-                adapter = new ApprovedByAdapter(getContext(), approvals);
+                    adapter = new ApprovedByAdapter(getContext(), approvals);
 
-                // Punjenje layout-a pomocu ApprovedByAdapter-a
-                recyclerView.setAdapter(adapter);
+                    // Punjenje layout-a pomocu ApprovedByAdapter-a
+                    recyclerView.setAdapter(adapter);
+                }
             }
 
             @Override

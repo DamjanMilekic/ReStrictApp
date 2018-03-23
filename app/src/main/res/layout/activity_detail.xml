@@ -4,14 +4,105 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/extendedListBackground"
     tools:context="com.example.laptop.restrict.DetailActivity">
 
+    <RelativeLayout
+        android:id="@+id/toolbar2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#172D42">
+
+            <ImageView
+                android:id="@+id/imgLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/mid_act_bar_btn"
+                android:scaleType="fitCenter" />
+
+            <ImageView
+                android:id="@+id/backButtonFullScreenDetail"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="15dp"
+                android:background="@color/actionBarC"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/left_act_bar_btn"
+                android:scaleType="fitCenter"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="45dp"
+                android:layout_marginEnd="3dp"
+                android:backgroundTint="#172D42"
+                android:layout_height="match_parent">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageButton
+                        android:id="@+id/btnNotificationActBar"
+                        android:layout_width="50dp"
+                        android:layout_height="30dp"
+                        android:background="@null"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/notif_act_bar_btn" />
+                </FrameLayout>
+
+
+                <TextView
+                    android:id="@+id/txNumberOfNotif"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="1.5dp"
+                    android:layout_marginStart="7.5dp"
+                    android:textSize="12sp"
+                    android:text="9"
+                    android:textColor="@color/strictBlue" />
+
+            </android.support.v7.widget.CardView>
+
+            <ImageButton
+                android:id="@+id/btnProfileActBarSettings"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:scaleType="fitCenter"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+
+                android:background="@null"
+                android:src="@drawable/profile_act_bar_btn" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+  <!--  gotov toolbar-->
     <ScrollView
+        android:layout_below="@id/toolbar2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:fillViewport="true"
+
+        android:clipToPadding="false"
         android:scrollbars="vertical">
 
         <LinearLayout
@@ -37,17 +128,20 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="5dp"
-                app:cardCornerRadius="5dp">
+                android:layout_marginEnd="7dp"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp">
 
                 <LinearLayout
                     android:id="@+id/buttonsLayout"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:background="@color/white"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    >
 
                     <ImageButton
                         android:id="@+id/infoImageButton"
@@ -65,15 +159,31 @@
                         android:text="|"
                         android:textColor="@color/detail_fragment_background"
                         android:textSize="20sp" />
-
-                    <ImageButton
-                        android:id="@+id/commentsImageButton"
-                        style="@style/Widget.AppCompat.Button.Borderless"
+                    <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:src="@mipmap/comments_icon"
-                        android:tint="@color/colorPrimary"/>
+                        android:gravity="center">
+
+                        <ImageButton
+                            android:id="@+id/commentsImageButton"
+                            style="@style/Widget.AppCompat.Button.Borderless"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/comments_icon"
+                            android:tint="@color/colorPrimary"/>
+
+                        <TextView
+                            android:id="@+id/numberOfComments"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textSize="11sp"
+                            android:textColor="@color/colorPrimary"
+                            android:layout_marginTop="6dp"
+                            android:layout_centerHorizontal="true"/>
+                    </RelativeLayout>
+
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -123,5 +233,12 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <FrameLayout
+        android:id="@+id/appsettingscontainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </FrameLayout>
 
 </RelativeLayout>

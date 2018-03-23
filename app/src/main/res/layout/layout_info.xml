@@ -4,17 +4,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="5dp"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
+    android:clipToPadding="false"
     android:orientation="vertical"
+    android:paddingStart="7dp"
+    android:paddingEnd="7dp"
     android:background="@color/detail_fragment_background">
 
 
     <android.support.v7.widget.CardView
+        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="5dp"
+        app:cardElevation="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,7 +27,7 @@
             <LinearLayout
                 android:id="@+id/linearName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="37dp"
                 android:orientation="horizontal"
                 android:layout_marginBottom="2dp"
                 android:padding="5dp"
@@ -47,18 +49,20 @@
                     android:id="@+id/textName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxWidth="200dp"
                     android:layout_weight="0.5"
                     android:gravity="right"
                     android:text="Basement plan"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="13sp" />
+                    android:textColor="@color/buttonsSettings"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearUploaded"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="37dp"
                 android:orientation="horizontal"
                 android:layout_marginBottom="2dp"
                 android:padding="5dp"
@@ -83,17 +87,19 @@
                     android:layout_weight="0.5"
                     android:gravity="right"
                     android:text="26/03/16 16:43"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="13sp" />
+                    android:textColor="@color/buttonsSettings"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearIssuedfor"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="37dp"
                 android:orientation="horizontal"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:paddingStart="5dp">
 
                 <TextView
                     android:id="@+id/issuedfor"
@@ -111,6 +117,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
+                    android:layout_gravity="center_vertical"
                     android:gravity="right">
 
                     <TextView
@@ -119,8 +126,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
                         android:text="Preliminary"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="13sp"
+                        android:textColor="@color/buttonsSettings"
+                        android:textSize="15sp"
                         android:layout_gravity="center_vertical"/>
 
                     <FrameLayout
@@ -159,7 +166,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="2sp"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="5dp"
+        app:cardElevation="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -170,8 +178,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:layout_marginBottom="1dp">
+                    android:background="@color/white">
 
                     <TextView
                         android:id="@+id/approvedby"
@@ -194,7 +201,7 @@
                         android:id="@+id/approvedbyRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="1dp"
                         android:background="@color/detail_fragment_background"/>
 
                 </LinearLayout>

@@ -19,8 +19,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="60dp"
-                android:layout_marginTop="70dp"
+                android:layout_marginBottom="75dp"
+                android:layout_marginTop="95dp"
                 android:background="#FFF"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal">
@@ -42,40 +42,50 @@
 
             <EditText
                 android:id="@+id/email"
-                android:layout_width="260dp"
+                android:layout_width="290dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
+
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:drawableRight="@mipmap/userid_icon"
-                android:drawableTint="@color/colorPrimary"
-                android:hint="E-mail"
+                android:drawableTint="@color/userIDColor"
+                android:hint="User ID"
                 android:inputType="textEmailAddress"
-                android:paddingBottom="15dp"
+                android:paddingBottom="5dp"
                 android:textSize="16sp"
-                android:backgroundTint="@color/colorPrimary"
+                android:backgroundTint="@android:color/transparent"
                 />
+            <FrameLayout
+                android:layout_width="290dp"
+                android:layout_height="1dp"
+                android:layout_marginBottom="35dp"
+                android:background="@color/userIDColor"/>
 
             <EditText
                 android:id="@+id/password"
-                android:layout_width="260dp"
+                android:layout_width="290dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:drawableRight="@mipmap/pass_icon"
+                android:defaultFocusHighlightEnabled="false"
                 android:hint="Password"
                 android:inputType="textPassword"
-                android:paddingBottom="15dp"
+                android:paddingBottom="5dp"
                 android:textSize="16sp"
-                android:backgroundTint="@color/colorPrimary"/>
-
+                android:backgroundTint="@android:color/transparent" />
+            <FrameLayout
+                android:layout_width="290dp"
+                android:layout_height="1dp"
+                android:layout_marginBottom="25dp"
+                android:background="@color/userIDColor"/>
 
             <Button
                 android:id="@+id/login_btn"
-                android:layout_width="200dp"
-                android:layout_height="35dp"
+                android:layout_width="290dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="115dp"
                 android:width="180dp"
                 android:backgroundTint="@color/colorPrimary"
                 android:text="LOGIN"

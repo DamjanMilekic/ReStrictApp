@@ -3,8 +3,9 @@
     <item>
         <shape android:shape="rectangle">
             <corners android:radius="30dp" />
-            <stroke android:color="@color/buttonLogout"
-                android:width="3dp"/>
+            <stroke
+                android:width="1dp"
+                android:color="@color/buttonLogout" />
         </shape>
     </item>
 </selector>

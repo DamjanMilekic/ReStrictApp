@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.laptop.restrict.DetailActivity;
 import com.example.laptop.restrict.Fragments.DetailFragment;
+import com.example.laptop.restrict.Fragments.InfoFragment;
 import com.example.laptop.restrict.Fragments.LoginFragment;
 import com.example.laptop.restrict.MainActivity;
 import com.example.laptop.restrict.Model.Drawing;
@@ -78,7 +79,7 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         View ind2 = convertView.findViewById(R.id.arrowChildExpanded);
 
         ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(ind2.getLayoutParams());
-        marginLayoutParams.setMarginEnd(toPxs(16));
+        marginLayoutParams.setMargins(toPxs(0),toPxs(0),toPxs(9),0);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(marginLayoutParams);
 
         text.setText(section.getTitle());
@@ -137,15 +138,15 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         Section child = headers.get(groupPosition);
         List<DrawingHome> childDrawings = child.getDrawings();
 
-        DrawingHome drawing = childDrawings.get(childPosition);
+        final DrawingHome drawing = childDrawings.get(childPosition);
         textView.setText(drawing.getTitle());
         basePlanNumber.setText(drawing.getIdentifier());
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initFragment2();
-
+                //initFragment2();
+                sendDrawing(drawing);
                 // Toast.makeText(context, "Ovde vezati detalje", Toast.LENGTH_SHORT).show();
             }
         });
@@ -206,6 +207,17 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         fragmentTransaction.add(R.id.frame, detailFragment).commit();*/
         Intent intent = new Intent(context, DetailActivity.class);
         ((MainActivity) context).startActivity(intent);
+
+    }
+
+    private void sendDrawing(DrawingHome drawing) {
+
+        if (drawing.getVersions().size() > 0) {
+            Intent intent = new Intent(context, DetailActivity.class);
+            intent.putExtra("drawing", drawing);
+            intent.putExtra("drawing_id", drawing.getId());
+            context.startActivity(intent);
+        }
 
     }
 

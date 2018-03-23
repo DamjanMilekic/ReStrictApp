@@ -14,10 +14,8 @@ import android.widget.TextView;
 
 import com.example.laptop.restrict.DetailActivity;
 import com.example.laptop.restrict.Fragments.CommentsFragment;
-import com.example.laptop.restrict.Fragments.DetailFragment;
 import com.example.laptop.restrict.Fragments.DetailImageFragment;
 import com.example.laptop.restrict.Fragments.InfoFragment;
-import com.example.laptop.restrict.MainActivity;
 import com.example.laptop.restrict.Model.Version;
 
 import com.example.laptop.restrict.R;
@@ -31,7 +29,7 @@ import java.util.ArrayList;
 public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder> {
 
     public static final String SELECTED_VERSION = "SELECTED_VERSION";
-
+    public static final String TAG ="PORUKA";
     public int raw_index;
 
     private Context context;
@@ -40,6 +38,9 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
     public ProjectAdapter(Context context, ArrayList<Version> versions) {
         this.context = context;
         this.versions = versions;
+        if (versions.size() > 0) {
+            CommentsFragment.version_id = versions.get(0).getId();
+        }
     }
 
     @Override
@@ -55,15 +56,22 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
         holder.circle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                update(position);
                 raw_index = position;
+                updateComments(raw_index);
+                updateInfo(raw_index);
+                updateImage(raw_index);
                 notifyDataSetChanged();
+                CommentsFragment.version_id = versions.get(position).getId();
+
             }
         });
+
         if(raw_index==position){
-            holder.circle.setColorFilter(R.color.colorPrimary);
+           // holder.circle.setColorFilter(context.getResources().getColor(R.color.strictBlue));
+            holder.circle.setBackground(context.getResources().getDrawable(R.drawable.circle_selected));
         }
-        else {holder.circle.setColorFilter(null);
+        else {
+            holder.circle.setBackground(null);
         }
 
     }
@@ -87,18 +95,86 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
     }
 
     // Metoda koja azurira DetailActivity
-    private void update(int position) {
+  /*  private void update(int position) {
         DetailImageFragment detailImageFragment = new DetailImageFragment();
         InfoFragment infoFragment = new InfoFragment();
+        CommentsFragment commentsFragment = new CommentsFragment();
         Bundle args = new Bundle();
         args.putParcelable(ProjectAdapter.SELECTED_VERSION, versions.get(position));
         detailImageFragment.setArguments(args);
-        infoFragment.setArguments(args);
+       // infoFragment.setArguments(args);
+        commentsFragment.setArguments(args);
         DetailActivity activity = (DetailActivity) context;
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.detailImageFragment, detailImageFragment);
+        *//*if (infoFragment.isAdded()) {
+            transaction.replace(R.id.onClickButtonFragmentContainer, infoFragment);
+        }else if (commentsFragment.isAdded()) {
+            transaction.replace(R.id.onClickButtonFragmentContainer, commentsFragment);
+        }*//*
         transaction.replace(R.id.onClickButtonFragmentContainer, infoFragment);
+
+        transaction.commit();
+    }*/
+
+    private void update(int position) {
+        DetailImageFragment detailImageFragment = new DetailImageFragment();
+        InfoFragment infoFragment = new InfoFragment();
+        CommentsFragment commentsFragment = new CommentsFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(ProjectAdapter.SELECTED_VERSION, versions.get(position));
+        detailImageFragment.setArguments(args);
+        DetailActivity activity = (DetailActivity) context;
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.detailImageFragment, detailImageFragment);
+        transaction.commit();
+    }
+
+    private void updateImage(int position) {
+        DetailImageFragment detailImageFragment = new DetailImageFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(ProjectAdapter.SELECTED_VERSION, versions.get(position));
+        detailImageFragment.setArguments(args);
+        DetailActivity activity = (DetailActivity) context;
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        transaction.replace(R.id.detailImageFragment, detailImageFragment);
+
+        transaction.commit();
+    }
+
+    private void updateInfo(int position) {
+        InfoFragment infoFragment = new InfoFragment();
+
+
+        Bundle args = new Bundle();
+        args.putParcelable(ProjectAdapter.SELECTED_VERSION, versions.get(position));
+
+        infoFragment.setArguments(args);
+
+        DetailActivity activity = (DetailActivity) context;
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        transaction.replace(R.id.onClickButtonFragmentContainer, infoFragment);
+
+        transaction.commit();
+    }
+
+    private void updateComments(int position) {
+        CommentsFragment commentsFragment = new CommentsFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(ProjectAdapter.SELECTED_VERSION, versions.get(position));
+        commentsFragment.setArguments(args);
+        DetailActivity activity = (DetailActivity) context;
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        transaction.replace(R.id.onClickButtonFragmentContainer, commentsFragment);
+
         transaction.commit();
     }
 }
