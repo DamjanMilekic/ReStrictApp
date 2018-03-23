@@ -69,9 +69,9 @@ public class InfoFragment extends Fragment {
 
         if (getArguments() != null) {
 
-            drawing_id = Integer.parseInt(selectedVersion.getDrawingId());
-
             selectedVersion = (Version) getArguments().getParcelable(ProjectAdapter.SELECTED_VERSION);
+
+            drawing_id = Integer.parseInt(selectedVersion.getDrawingId());
 
             stringName= selectedVersion.getLabel();
             name.setText(stringName);
@@ -124,7 +124,6 @@ public class InfoFragment extends Fragment {
                     // Punjenje layout-a pomocu ApprovedByAdapter-a
                     recyclerView.setAdapter(adapter);
                 }
-
             }
 
             @Override
