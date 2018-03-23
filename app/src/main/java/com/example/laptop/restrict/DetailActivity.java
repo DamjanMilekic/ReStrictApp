@@ -272,7 +272,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DownloadFile().execute("http://s.strictapp.com/pdf/drawings/u1xjwIyFm9jz76nMYB2v.pdf" ,"Basement Plan");
+
                 alert.dismiss();
             }
         });
