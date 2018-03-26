@@ -2,6 +2,7 @@ package com.example.laptop.restrict;
 
 
 import android.app.Activity;
+import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -290,12 +291,25 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
         super.onBackPressed();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        String apiToken= LoginFragment.api_token;
+        outState.putString("api",apiToken);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState);
+        savedInstanceState.getString("api");
+    }
 
     @Override
     protected void onStop() {
-       if (LoginFragment.api_token !=null){
+//       if (LoginFragment.api_token !=null){
+//
+//        }
 
-        }
         super.onStop();
         Log.d("aktivnost", "onStop: ");
     }
