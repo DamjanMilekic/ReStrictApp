@@ -93,6 +93,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        Log.d("detail", "onCreate() ");
+
         if (getIntent() != null) {
 
             int drawing_id = getIntent().getIntExtra("drawing_id", -1);
@@ -450,4 +452,31 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         numberOfComments.setText("" + number);
     }
 
+
+    @Override
+    protected void onStop() {
+       /* if (LoginFragment.api_token !=null){
+
+        }*/
+        super.onStop();
+        Log.d("detail", "onStop: ");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("detail", "onResume: ");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("detail", "onRestart: ");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("detail", "onPause: ");
+    }
 }

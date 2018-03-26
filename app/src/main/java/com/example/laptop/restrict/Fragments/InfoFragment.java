@@ -26,6 +26,7 @@ import com.example.laptop.restrict.R;
 import com.example.laptop.restrict.Model.Version;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -76,13 +77,9 @@ public class InfoFragment extends Fragment {
             stringName= selectedVersion.getLabel();
             name.setText(stringName);
 
-
-            /*stringUploaded=selectedVersion.getUpdatedAt();
-            uploaded.setText(stringUploaded);*/
-            /*SimpleDateFormat sdf = new SimpleDateFormat("yy/mm/dd hh:mm");
-            uploaded.setText(sdf.format(selectedVersion.getUpdatedAt()));*/
             stringUploaded=selectedVersion.getUpdatedAt();
 
+            //Konverzija formata datuma i vremena
             try {
                 Date date = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse(stringUploaded);
                 String formatedDate = new SimpleDateFormat("yy/mm/dd hh:mm").format(date);
