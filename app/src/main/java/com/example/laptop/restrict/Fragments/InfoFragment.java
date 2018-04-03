@@ -27,6 +27,7 @@ import com.example.laptop.restrict.R;
 import com.example.laptop.restrict.Model.Version;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

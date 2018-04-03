@@ -77,7 +77,7 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
-    @Override
+/*    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
@@ -91,7 +91,7 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
         {
             throw  new ClassCastException(context.toString()+" must implement LoginFragment.ILoginMain");
         }
-    }
+    }*/
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -169,7 +169,6 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
                                 api_token = projectStatusLogin.getToken();
 
                                 if (status != null) {
-
                                     Fragment newFragment = new HomeFragment();
                                     Bundle args = new Bundle();
                                     args.putSerializable("login", projectStatusLogin);

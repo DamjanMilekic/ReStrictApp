@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DownloadManager;
 import android.content.Context;
+import android.arch.lifecycle.LifecycleObserver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -18,6 +19,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
+import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -582,6 +584,47 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
         }
 
+    }
+
+
+    @Override
+    protected void onStop() {
+       /* if (LoginFragment.api_token !=null){
+
+        }*/
+        super.onStop();
+        Log.d("detail", "onStop: ");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("detail", "onResume: ");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("detail", "onRestart: ");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("detail", "onPause: ");
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        String apiToken= LoginFragment.api_token;
+        outState.putString("api",apiToken);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState);
+        savedInstanceState.getString("api");
     }
 
 }

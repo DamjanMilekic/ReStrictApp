@@ -2,6 +2,7 @@ package com.example.laptop.restrict;
 
 
 import android.app.Activity;
+import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,6 +95,7 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.d("aktivnost", "onCreate() ");
         notificationList = new ArrayList<>();
 
         notificationList.add("Lorem ipsum dolor sit amet,consaectetur..");
@@ -288,6 +291,44 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain {
         super.onBackPressed();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        String apiToken= LoginFragment.api_token;
+        outState.putString("api",apiToken);
+    }
 
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState);
+        savedInstanceState.getString("api");
+    }
 
+    @Override
+    protected void onStop() {
+//       if (LoginFragment.api_token !=null){
+//
+//        }
+
+        super.onStop();
+        Log.d("aktivnost", "onStop: ");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("aktivnost", "onResume: ");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("aktivnost", "onRestart: ");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("aktivnost", "onPause: ");
+    }
 }
