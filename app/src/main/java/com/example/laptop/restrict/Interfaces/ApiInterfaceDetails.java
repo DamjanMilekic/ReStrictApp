@@ -34,13 +34,20 @@ public interface ApiInterfaceDetails {
     @GET("api/comments/show/{id}")
     Call<ProjectStatusComment> getComments(@Path("id") int version_id, @Query("api_token") String api_key);
 
+/*
     @GET("api/approvals/show/{id}")
+*/
+/*
     Call<ProjectStatusApprovals> getApprovals(@Path("id") int drawing_id, @Query("api_token") String api_key);
+*/
 
     @POST("api/comments/store/")
     Call<ProjectStatusPostComment> setComment(@Body PostCommentRequest postCommentRequest);
 
     @POST("angular/share/create/")
     Call<ProjectStatusShare> share(@Body String json);
+
+    @GET("angular/approvals/show/{id}")
+    Call<ProjectStatusApprovals> getApprovals(@Path("id") int drawing_id);
 
 }

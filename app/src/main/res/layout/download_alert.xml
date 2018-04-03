@@ -34,7 +34,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:gravity="right|center_vertical"
-                android:text="12MB"
+                android:text=""
                 android:textColor="#ff0000"
                 android:alpha="0.7"
                 android:textSize="18sp"/>

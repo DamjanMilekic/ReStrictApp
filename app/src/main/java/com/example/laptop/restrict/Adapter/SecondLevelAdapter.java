@@ -216,6 +216,7 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
             Intent intent = new Intent(context, DetailActivity.class);
             intent.putExtra("drawing", drawing);
             intent.putExtra("drawing_id", drawing.getId());
+            intent.putExtra("drawing_title", drawing.getTitle());
             context.startActivity(intent);
         }
 

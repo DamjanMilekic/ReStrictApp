@@ -6,8 +6,6 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.lang.reflect.ParameterizedType;
-
 /**
  * Created by ivandjordjevic on 20.2.18..
  */
@@ -43,7 +41,7 @@ public class Approval implements Parcelable {
     private String phone;
     @SerializedName("client")
     @Expose
-    private Object client;
+    private Boolean client;
     @SerializedName("uploader")
     @Expose
     private Boolean uploader;
@@ -61,7 +59,7 @@ public class Approval implements Parcelable {
 
     }
 
-    public Approval(Integer userId, String email, String title, String firstName, String lastName, String image, String role, String companyName, String phone, Object client, Boolean uploader, Integer approvalId, Integer approved, String compositeKey) {
+    public Approval(Integer userId, String email, String title, String firstName, String lastName, String image, String role, String companyName, String phone, Boolean client, Boolean uploader, Integer approvalId, Integer approved, String compositeKey) {
         this.userId = userId;
         this.email = email;
         this.title = title;
@@ -191,11 +189,11 @@ public class Approval implements Parcelable {
         this.phone = phone;
     }
 
-    public Object getClient() {
+    public Boolean getClient() {
         return client;
     }
 
-    public void setClient(Object client) {
+    public void setClient(Boolean client) {
         this.client = client;
     }
 
