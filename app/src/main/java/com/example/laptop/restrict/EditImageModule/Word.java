@@ -1,10 +1,12 @@
-package com.example.laptop.restrict;
+package com.example.laptop.restrict.EditImageModule;
+
+import com.example.laptop.restrict.EditImageModule.Shape;
 
 /**
  * Created by Laptop on 12/7/2017.
  */
 
-public class Word extends com.example.laptop.restrict.Shape {
+public class Word extends Shape {
 
     private float   x;
     private float    y;

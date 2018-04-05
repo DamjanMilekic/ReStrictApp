@@ -27,25 +27,13 @@
         android:text=""
         />
 
-    <ImageView
-        android:id="@+id/arrowChild"
-        android:layout_width="19dp"
-        android:layout_height="16dp"
-        android:background="@color/extendedListBackground"
-        android:scaleType="fitXY"
-        android:layout_marginEnd="9dp"
-        android:src="@drawable/right_arrow"
-        android:alpha="0.4"/>
-
-    <ImageView
-        android:id="@+id/arrowChildExpanded"
-        android:layout_width="19dp"
-        android:layout_height="18dp"
-        android:rotation="90"
-        android:visibility="gone"
-        android:scaleType="fitXY"
-        android:src="@drawable/right_arrow"
-        android:alpha="0.4"/>
+            <ImageView
+                android:id="@+id/arrowRght"
+                android:layout_marginLeft="-36dp"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/arrow_right"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0.5dp"

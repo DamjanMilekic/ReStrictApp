@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
 
-    android:background="#172D42" >
+    android:background="@color/actionBarC" >
 
     <ImageView
         android:id="@+id/imgLogo"
@@ -50,7 +50,7 @@
                 android:layout_marginTop="1.5dp"
                 android:layout_marginStart="7.5dp"
                 android:textSize="12sp"
-                android:text="9"
+                android:text=""
                 android:textColor="@color/strictBlue" />
 
         </android.support.v7.widget.CardView>

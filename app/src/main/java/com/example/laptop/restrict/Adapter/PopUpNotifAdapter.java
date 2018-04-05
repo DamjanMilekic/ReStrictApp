@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.laptop.restrict.Model.Comment;
 import com.example.laptop.restrict.Model.DatumPopup;
 import com.example.laptop.restrict.Model.NotificationPopup;
+import com.example.laptop.restrict.Model.TypePopup;
 import com.example.laptop.restrict.R;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class PopUpNotifAdapter extends RecyclerView.Adapter<PopUpNotifAdapter.Vi
 
     private Context context;
     private List<DatumPopup> notificationList;
-    private SubscribedMovieItemClickListener subscribedMovieItemClickListener;
+    private PopupItemClickListener subscribedMovieItemClickListener;
 
     public PopUpNotifAdapter(Context context,List<DatumPopup> notificationList) {
 
@@ -35,17 +36,20 @@ public class PopUpNotifAdapter extends RecyclerView.Adapter<PopUpNotifAdapter.Vi
     {
 
         public TextView notification_item;
+        public ImageView notificationIcon;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             notification_item = itemView.findViewById(R.id.txtNotification);
+            notificationIcon = itemView.findViewById(R.id.imgNotification);
+            itemView.setOnClickListener(this);
 
         }
 
         @Override
         public void onClick(View v) {
-            if (subscribedMovieItemClickListener != null) subscribedMovieItemClickListener.onSubsMovieClick(v, getAdapterPosition());
+            if (subscribedMovieItemClickListener != null) subscribedMovieItemClickListener.onPopClick(v, getAdapterPosition());
 
         }
     }
@@ -64,8 +68,27 @@ public class PopUpNotifAdapter extends RecyclerView.Adapter<PopUpNotifAdapter.Vi
 
         final DatumPopup model = notificationList.get(position);
 
-        Comment modelComment = model.getComment();
-        holder.notification_item.setText(modelComment.getText());
+
+
+
+
+        if(model.getTypeId().equals("1"))
+        {
+            holder.notificationIcon.setImageResource(R.drawable.msg_notif);
+            Comment modelComment = model.getComment();
+
+            if(modelComment !=null) {
+                holder.notification_item.setText(modelComment.getText());
+            }
+            else {holder.notification_item.setText("New comment has been created");}
+
+        }
+        else
+        {
+            holder.notificationIcon.setImageResource(R.drawable.projects_icon);
+            TypePopup modelType = model.getType();
+            holder.notification_item.setText(modelType.getText());
+        }
 
 
 
@@ -84,12 +107,12 @@ public class PopUpNotifAdapter extends RecyclerView.Adapter<PopUpNotifAdapter.Vi
         return super.getItemId(position);
     }
 
-    public void setClickListener(SubscribedMovieItemClickListener itemClickListener) {
+    public void setClickListener(PopupItemClickListener itemClickListener) {
         this.subscribedMovieItemClickListener = itemClickListener;
     }
 
-    public interface SubscribedMovieItemClickListener
+    public interface PopupItemClickListener
     {
-        void onSubsMovieClick(View view,int position);
+        void onPopClick(View view,int position);
     }
 }

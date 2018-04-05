@@ -1,14 +1,10 @@
-package com.example.laptop.restrict;
-
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.drawable.shapes.Shape;
+package com.example.laptop.restrict.EditImageModule;
 
 /**
  * Created by Laptop on 11/8/2017.
  */
 
-public class Circle extends com.example.laptop.restrict.Shape {
+public class Circle extends com.example.laptop.restrict.EditImageModule.Shape {
 
     final float mRadius;
     float mScaleFactorCurrent;

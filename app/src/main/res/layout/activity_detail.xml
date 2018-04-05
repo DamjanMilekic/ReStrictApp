@@ -79,6 +79,15 @@
                     android:text="9"
                     android:textColor="@color/strictBlue" />
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/circleRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:background="@color/white"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp" />
+
             </android.support.v7.widget.CardView>
 
             <ImageButton
@@ -109,15 +118,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/circleRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:layout_marginBottom="3dp"
-                android:paddingTop="2dp"
-                android:paddingBottom="2dp" />
 
             <fragment
                 android:id="@+id/detailImageFragment"

@@ -2,6 +2,7 @@ package com.example.laptop.restrict.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
@@ -37,14 +38,18 @@ import android.widget.Toast;
 import com.example.laptop.restrict.Adapter.PopUpNotifAdapter;
 import com.example.laptop.restrict.Adapter.ThreeLevelListAdapter;
 
+import com.example.laptop.restrict.AnimatedExpandableListView;
+import com.example.laptop.restrict.DetailActivity;
 import com.example.laptop.restrict.Global;
 import com.example.laptop.restrict.MainActivity;
+import com.example.laptop.restrict.Model.Comment;
 import com.example.laptop.restrict.Model.DataHome;
 import com.example.laptop.restrict.Model.Date;
 import com.example.laptop.restrict.Model.DatumPopup;
 import com.example.laptop.restrict.Model.DrawingHome;
 import com.example.laptop.restrict.Model.NotificationPopup;
 import com.example.laptop.restrict.Model.Section;
+import com.example.laptop.restrict.Model.TypePopup;
 import com.example.laptop.restrict.R;
 import com.example.laptop.restrict.RetrofitAppSettings.Client;
 import com.example.laptop.restrict.RetrofitAppSettings.Service;
@@ -58,15 +63,17 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements PopUpNotifAdapter.PopupItemClickListener{
 
 
-    ExpandableListView expandableListView;
+
     Point p;
     View menuButton;
 
     public Context context;
     PopUpNotifAdapter notifAdapter;
+     PopUpNotifAdapter.PopupItemClickListener subscribedMovieItemClickListener;
+
     ActionBar mActionBar;
     List<List<Section>> secondLevel = new ArrayList<List<Section>>();
 
@@ -82,6 +89,14 @@ public class HomeFragment extends Fragment {
 
     public static int actionBarHeight=0;
 
+
+    public static final int FIRST_LEVEL_COUNT = 6;
+    public static final int SECOND_LEVEL_COUNT = 4;
+    public static final int THIRD_LEVEL_COUNT = 5;
+    private AnimatedExpandableListView expandableListView;
+
+
+
     public HomeFragment() {
     }
 
@@ -93,6 +108,7 @@ public class HomeFragment extends Fragment {
         if (context instanceof Activity) {
             a = (Activity) context;
         }
+
 
     }
 
@@ -116,10 +132,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-       /* if(getActivity().getIntent().getParcelableArrayListExtra("notif").size()>0)
-        {
-            notifList = getActivity().getIntent().getParcelableArrayListExtra("notif");
-        }*/
+
         return inflater.inflate(R.layout.home_layout, container, false);
     }
 
@@ -127,73 +140,48 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        expandableListView = (ExpandableListView) view.findViewById(R.id.expandible_listview);
+
+            expandableListView = (AnimatedExpandableListView)view.findViewById(R.id.mainList);
+
 
         getProjects();
 
 
-                metrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        width = metrics.widthPixels;
-        expandableListView.setIndicatorBoundsRelative(width - getDipsFromPixel(0), width - getDipsFromPixel(5));
-
-        actionBarInit();
-
-     getActionBarHeight();
-
-    }
-
-
-
-    private void getActionBarHeight()
-    {
-        TypedValue tv = new TypedValue();
-        if (getActivity().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
-        {
-            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
-        }
-    }
-
-    private void getNotification(final View view) {
-        notification.setEnabled(false);
-        Service apiService = Client.getApiClient().create(Service.class);
-        Call<NotificationPopup> call = apiService.getNotificationsPopup(LoginFragment.api_token);
-        globalVar = (Global) getActivity().getApplicationContext();
-        call.enqueue(new Callback<NotificationPopup>() {
+        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
-            public void onResponse(Call<NotificationPopup> call, Response<NotificationPopup> response) {
-
-                if (response.body() != null) {
-                    NotificationPopup notificationPopup = response.body();
-                    notifList = notificationPopup.getData();
-
-
-                    p = globalVar.getPopupPoint();
-
-
-                   // isShowned=true;
-                    showPopUp(getActivity(), p, view, notifList);
-
-                    notifAdapter.notifyDataSetChanged();
-                    notification.setEnabled(true);
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                if (expandableListView.isGroupExpanded(groupPosition)) {
+                    expandableListView.collapseGroupWithAnimation(groupPosition);
+                } else {
+                    expandableListView.expandGroupWithAnimation(groupPosition);
                 }
-
-
-            }
-
-            @Override
-            public void onFailure(Call<NotificationPopup> call, Throwable t) {
-                Toast.makeText(getActivity(), "Fail on server", Toast.LENGTH_LONG).show();
-
+                return true;
             }
         });
 
-        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        actionBarInit(view);
 
+        getActionBarHeight();
 
     }
 
-    public void actionBarInit() {
+    public void initFragmentAppSettings(){
+
+        FragmentAppSettingsActivity fragmentAppSettingsActivity = new FragmentAppSettingsActivity();
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.setCustomAnimations(R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down, R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down);
+        fragmentTransaction.addToBackStack("appsettings");
+
+        fragmentTransaction.replace(R.id.frame, fragmentAppSettingsActivity,"appsettings").commit();
+
+
+
+    }
+    public void actionBarInit(View view) {
         mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
@@ -208,39 +196,54 @@ public class HomeFragment extends Fragment {
         imgProfile = mCustomView.findViewById(R.id.btnProfileActBar);
         numberOfNotif = mCustomView.findViewById(R.id.txNumberOfNotif);
 
+        if(notifList.size()==0)
+        {
+            getNotification(view);
+        }
+
+
 
         imgProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
-                //    initFragmentAppSettings();
-                //     mActionBar.hide();
+                    initFragmentAppSettings();
+                     mActionBar.hide();
 
             }
         });
+  
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
+
+
+             //  notification.setEnabled(false);
                 if (notifList.size() > 0) {
                     showPopUp(getActivity(), p, v, notifList);
 
 
                 } else {
+
+
                     getNotification(v);
 
                 }
+               // notification.setEnabled(true);
 
 
             }
         });
 
+        if (notifList.size() > 0) {
+            numberOfNotif.setText(Integer.toString(notifList.size()));
+        }
         mActionBar.show();
+
     }
-
-
     private void showPopUp(Context context, Point p, View view, List<DatumPopup> notifList) {
 
         View popupView = getLayoutInflater().inflate(R.layout.popup_notifications, null);
@@ -262,44 +265,38 @@ public class HomeFragment extends Fragment {
 
         // view.getLocationOnScreen(location);
         notifAdapter = new PopUpNotifAdapter(getActivity(), notifList);
+        notifAdapter.setClickListener(this);
         recyclerView.setAdapter(notifAdapter);
+
         LinearLayoutManager vertical
                 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(vertical);
         final ViewGroup root = (ViewGroup) getActivity().getWindow().getDecorView().getRootView();
 
-      /*  if(isShowned)
-        {
-            clearDim(root);
-            isShowned=false;
-        }
-        else{
-            applyDim(root,0.3f);
-            isShowned=true;
-        }*/
-            applyDim(root,0.5f);
+            applyDim(root,0.7f);
 
         popupWindow.setAnimationStyle(R.style.popup_scale_animation);
         popupWindow.showAsDropDown(view, p.x + OFFSET_X, p.y + OFFSET_Y);
 
-        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
+
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
+            public void onDismiss() {
                 clearDim(root);
-                popupWindow.dismiss();
-              /*  if(event.getAction()==MotionEvent.ACTION_OUTSIDE){
 
-
-
-                    return true;
-                }*/
-
-                return true;
             }
         });
 
+
     }
+    private void getActionBarHeight(){
+        TypedValue tv = new TypedValue();
+        if (getActivity().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+        {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+        }
+    }
+
     public static void applyDim(@NonNull ViewGroup parent, float dimAmount){
         Drawable dim = new ColorDrawable(Color.BLACK);
         dim.setBounds(0, actionBarHeight, parent.getWidth(), parent.getHeight());
@@ -308,7 +305,6 @@ public class HomeFragment extends Fragment {
         ViewGroupOverlay overlay = parent.getOverlay();
         overlay.add(dim);
     }
-
     public static void clearDim(@NonNull ViewGroup parent) {
         ViewGroupOverlay overlay = parent.getOverlay();
         overlay.clear();
@@ -350,11 +346,11 @@ public class HomeFragment extends Fragment {
                     expandableListView.setAdapter(threeLevelListAdapterAdapter);
 
                     // expandableListView.setPadding(0,getDipsFromPixel(10),0,getDipsFromPixel(10));
-                    expandableListView.setGroupIndicator(getResources().getDrawable(R.drawable.expanded_list_indicator));
+                  //  expandableListView.setGroupIndicator(getResources().getDrawable(R.drawable.expanded_list_indicator));
                     metrics = new DisplayMetrics();
                     getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
                     width = metrics.widthPixels;
-                    expandableListView.setIndicatorBoundsRelative(width - getDipsFromPixel(39), width - getDipsFromPixel(1));
+                   // expandableListView.setIndicatorBoundsRelative(width - getDipsFromPixel(39), width - getDipsFromPixel(1));
                 }
 
             }
@@ -366,11 +362,61 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+    private void getNotification(final View view) {
 
-    public int getDipsFromPixel(float pixels) {
-        final float scale = getResources().getDisplayMetrics().density;
-        return (int) (pixels * scale + 0.5f);
+        Service apiService = Client.getApiClient().create(Service.class);
+        Call<NotificationPopup> call = apiService.getNotificationsPopup(LoginFragment.api_token);
+        globalVar = (Global) getActivity().getApplicationContext();
+        call.enqueue(new Callback<NotificationPopup>() {
+
+            @Override
+            public void onResponse(Call<NotificationPopup> call, Response<NotificationPopup> response) {
+
+                if (response.body() != null) {
+                    NotificationPopup notificationPopup = response.body();
+                    notifList = notificationPopup.getData();
+
+
+                    p = globalVar.getPopupPoint();
+
+                    numberOfNotif.setText(String.valueOf(notifList.size()));
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<NotificationPopup> call, Throwable t) {
+                Toast.makeText(getActivity(), "Fail on server", Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+
+
     }
+
+
+    @Override
+    public void onPopClick(View view, int position) {
+
+        DatumPopup notification = notifList.get(position);
+
+        if(notification.getTypeId().equals(1))
+        {
+            Comment comment = notification.getComment();
+            //ovde treba dodati metodu koja vodi do tog komentara na stranici detalji
+            Toast.makeText(context, "Ovo vodi na komentar", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            TypePopup typeNotif = notification.getType();
+            Toast.makeText(context, "Ovo vodi na crtez", Toast.LENGTH_SHORT).show();
+            //a ovde do crteza
+        }
+    }
+
 
 
 

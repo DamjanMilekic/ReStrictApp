@@ -5,10 +5,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.laptop.restrict.AnimatedExpandableListView;
 import com.example.laptop.restrict.Model.Date;
 import com.example.laptop.restrict.Model.DrawingHome;
 import com.example.laptop.restrict.Model.Section;
@@ -20,7 +24,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class ThreeLevelListAdapter extends BaseExpandableListAdapter {
+import static com.example.laptop.restrict.Fragments.HomeFragment.SECOND_LEVEL_COUNT;
+
+public class ThreeLevelListAdapter extends AnimatedExpandableListView.AnimatedExpandableListAdapter{// BaseExpandableListAdapter {
 
     List<Date> parentHeader;
     List<List<Section>> secondLevel;
@@ -45,14 +51,14 @@ public class ThreeLevelListAdapter extends BaseExpandableListAdapter {
         return parentHeader.size();
     }
 
-    @Override
+  /*  @Override
     public int getChildrenCount(int groupPosition) {
 
         // no idea why this code is working
 
         return 1;
 
-    }
+    }*/
 
     @Override
     public Object getGroup(int groupPosition) {
@@ -93,45 +99,28 @@ public class ThreeLevelListAdapter extends BaseExpandableListAdapter {
 
         TextView text = (TextView) convertView.findViewById(R.id.rowParentText);
         TextView adressNo = (TextView)convertView.findViewById(R.id.adressNumber);
+        ImageView img = (ImageView)convertView.findViewById(R.id.arrowRght);
 
         Date date = parentHeader.get(groupPosition);
 
         text.setText(date.getTitle());
         adressNo.setText(date.getIdentifier());
 
-       /* View ind = convertView.findViewById(R.id.arrowChild);
-        View ind2 = convertView.findViewById(R.id.arrowChildExpanded);
 
-        ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(ind2.getLayoutParams());
-        marginLayoutParams.setMarginEnd(toPxs(16));
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(marginLayoutParams);
+        //za slucaj da i prvi red treba da se rotira
+    /*    if(isExpanded)
+        {
+            img.setImageResource(R.drawable.arrow_down);
 
-        String groupText = getGroup(groupPosition).toString();
-        text.setText(groupText);
+        }
+        else
+        {
 
-        if (ind != null) {
-            ImageView indicator = (ImageView) ind;
-            if (getChildrenCount(groupPosition) == 0) {
-                indicator.setVisibility(View.INVISIBLE);
-            } else {
-                indicator.setVisibility(View.VISIBLE);
-                int stateSetIndex = (isExpanded ? 1 : 0);
+         //   img.startAnimation(AnimationUtils.loadAnimation(context,R.anim.rotate_arrow));
+            img.setImageResource(R.drawable.arrow_right);
 
+        }*/
 
-                if (stateSetIndex == 1) {
-                    ind.setVisibility(View.INVISIBLE);
-                    ind2.setVisibility(View.VISIBLE);
-                    ind2.setLayoutParams(layoutParams);
-
-                    Drawable drawable = indicator.getDrawable();
-                    drawable.setState(GROUP_STATE_SETS[stateSetIndex]);
-                } else if (stateSetIndex == 0) {
-                    ind.setVisibility(View.VISIBLE);
-                    //   ind2.setVisibility(View.INVISIBLE);
-                    Drawable drawable = indicator.getDrawable();
-                    drawable.setState(GROUP_STATE_SETS[stateSetIndex]);
-                }
-        }    }*/
         secondLevelELV.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             int previousGroup = -1;
 
@@ -149,6 +138,37 @@ public class ThreeLevelListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
+    public View getRealChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        final SecondLevelExpandableListView secondLevelELV = new SecondLevelExpandableListView(context);
+
+        List<Section> headers = secondLevel.get(groupPosition);
+
+        secondLevelELV.setAdapter(new SecondLevelAdapter(context, headers));
+
+        secondLevelELV.setGroupIndicator(null);
+
+
+        secondLevelELV.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            int previousGroup = -1;
+
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                if(groupPosition != previousGroup)
+                    secondLevelELV.collapseGroup(previousGroup);
+                previousGroup = groupPosition;
+            }
+        });
+
+
+        return secondLevelELV;
+    }
+
+    @Override
+    public int getRealChildrenCount(int groupPosition) {
+        return 1;
+    }
+
+  /*  @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
         final SecondLevelExpandableListView secondLevelELV = new SecondLevelExpandableListView(context);
@@ -174,7 +194,7 @@ public class ThreeLevelListAdapter extends BaseExpandableListAdapter {
 
         return secondLevelELV;
     }
-
+*/
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;

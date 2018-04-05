@@ -1,61 +1,27 @@
 package com.example.laptop.restrict;
 
 
-import android.app.Activity;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Parcelable;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewGroupOverlay;
 import android.view.ViewTreeObserver;
-import android.widget.ExpandableListView;
-import android.widget.ImageButton;
-import android.widget.PopupWindow;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.laptop.restrict.Adapter.PopUpNotifAdapter;
-import com.example.laptop.restrict.Adapter.ThreeLevelListAdapter;
+import com.example.laptop.restrict.EditImageModule.PinchZoom;
 import com.example.laptop.restrict.Fragments.FragmentAppSettingsActivity;
-import com.example.laptop.restrict.Fragments.HomeFragment;
 import com.example.laptop.restrict.Fragments.LoginFragment;
 
 import com.example.laptop.restrict.Interfaces.ILoginMain;
-import com.example.laptop.restrict.Model.DataHome;
-import com.example.laptop.restrict.Model.Date;
 import com.example.laptop.restrict.Model.DatumPopup;
-import com.example.laptop.restrict.Model.NotificationPopup;
-import com.example.laptop.restrict.Model.Section;
-import com.example.laptop.restrict.RetrofitAppSettings.Client;
-import com.example.laptop.restrict.RetrofitAppSettings.Service;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public  class MainActivity extends AppCompatActivity implements ILoginMain{
 
@@ -79,6 +45,7 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain{
 
         datumPopups = new ArrayList<>();
        globalVar= (Global)getApplicationContext();
+
 //optional show one list at a time
      /*   expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             int previousGroup = -1;
@@ -98,25 +65,9 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain{
 
     }
 
-    public void initFragmentAppSettings(){
-
-        FragmentAppSettingsActivity fragmentAppSettingsActivity = new FragmentAppSettingsActivity();
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        fragmentTransaction.setCustomAnimations(R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down, R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down);
-        fragmentTransaction.addToBackStack(null);
-
-        fragmentTransaction.replace(R.id.frame, fragmentAppSettingsActivity).commit();
 
 
-
-    }
-
-    private void findMenuItem( )
-    {
+    private void findMenuItem( ) {
         final ViewTreeObserver viewTreeObserver = getWindow().getDecorView().getViewTreeObserver();
         viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -142,8 +93,7 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain{
         });
     }
 
-    public void setFragment(Fragment frag)
-    {
+    public void setFragment(Fragment frag) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         if (fm.findFragmentById(R.id.frame) == null) {
@@ -168,8 +118,15 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain{
 
     @Override
     public void onBackPressed() {
-        getSupportActionBar().show();
-        super.onBackPressed();
+       FragmentAppSettingsActivity fragmentAppSettingsActivity = (FragmentAppSettingsActivity)getSupportFragmentManager().findFragmentByTag("appsettings");
+
+        if(fragmentAppSettingsActivity!=null && fragmentAppSettingsActivity.isVisible() || fragmentAppSettingsActivity !=null && fragmentAppSettingsActivity.isVisible())
+        {
+            getSupportFragmentManager().popBackStack();
+        }
+        //  getSupportActionBar().show();
+
+
     }
 
 

@@ -1,4 +1,4 @@
-package com.example.laptop.restrict;
+package com.example.laptop.restrict.EditImageModule;
 
 public class Shape {
 

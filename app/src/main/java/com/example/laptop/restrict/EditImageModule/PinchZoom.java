@@ -1,4 +1,4 @@
-package com.example.laptop.restrict;
+package com.example.laptop.restrict.EditImageModule;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -12,14 +12,11 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PointF;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.view.GestureDetectorCompat;
-import android.text.DynamicLayout;
 import android.text.Editable;
-import android.text.Layout;
 import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -40,6 +37,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.laptop.restrict.R;
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;

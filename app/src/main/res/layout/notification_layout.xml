@@ -9,16 +9,23 @@
     <ImageView
         android:id="@+id/imgNotification"
         android:layout_width="100dp"
-        android:layout_height="15dp"
-        android:paddingLeft="20dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="20dp"
+
         android:layout_weight="1"
         app:srcCompat="@drawable/msg_notif" />
 
     <TextView
         android:id="@+id/txtNotification"
+        android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="32dp"
         android:layout_weight="1"
-        android:textSize="13sp"
-        android:text="TextView" />
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:paddingLeft="20dp"
+        android:text="TextView"
+        android:textColor="@color/actionBarC"
+        android:textSize="20sp" />
 </LinearLayout>

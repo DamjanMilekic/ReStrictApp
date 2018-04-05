@@ -2,10 +2,8 @@ package com.example.laptop.restrict;
 
 
 import android.content.Context;
-import android.widget.ExpandableListView;
 
-public class SecondLevelExpandableListView extends ExpandableListView
-{
+public class SecondLevelExpandableListView extends AnimatedExpandableListView {
 
     public SecondLevelExpandableListView(Context context) {
         super(context);

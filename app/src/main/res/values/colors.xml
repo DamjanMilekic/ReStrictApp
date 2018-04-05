@@ -5,7 +5,7 @@
     <color name="colorAccent">#162D40</color>
     <color name="overscroll">#000000</color>
     <color name="colorDark">#303F9F</color>
-    <color name="actionBarC">#172D42</color>
+    <color name="actionBarC">#172e42</color>
     <color name="detail_fragment_background">#E9EFEF</color>
     <color name="detail_fragment_tint_color">#B9B5BD</color>
     <color name="white">#FFFFFF</color>
@@ -17,14 +17,14 @@
     <color name="buttonsSettings">#1f4868</color>
     <color name="addresNumber">#00C1FF</color>
     <color name="strictBlue">#1B3F59</color>
-    <color name="extendedListBackground">#E7EFF1</color>
-    <color name="secondLevelText">#6E8595</color>
+    <color name="extendedListBackground">#e6f4ff</color>
+    <color name="secondLevelText">#81b6d0</color>
     <color name="userIDColor">#7ba5a7</color>
     <color name="headerText">#4b7491</color>
     <color name="orange">#ff9b00</color>
     <color name="placeholder">#9cacb7</color>
     <color name="greendark">#16b43d</color>
-    8585
-    350350
+    <color name="notificationTextColor">#609dbd</color>
+
 
 </resources>

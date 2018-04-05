@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.laptop.restrict.AnimatedExpandableListView;
 import com.example.laptop.restrict.DetailActivity;
 import com.example.laptop.restrict.Fragments.DetailFragment;
 import com.example.laptop.restrict.Fragments.InfoFragment;
@@ -31,7 +32,7 @@ import com.example.laptop.restrict.R;
 import java.util.List;
 
 
-public class SecondLevelAdapter extends BaseExpandableListAdapter {
+public class SecondLevelAdapter extends AnimatedExpandableListView.AnimatedExpandableListAdapter { // BaseExpandableListAdapter {
 
     private Context context;
 
@@ -75,39 +76,21 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = inflater.inflate(R.layout.row_second, null);
         TextView text = (TextView) convertView.findViewById(R.id.rowSecondText);
-        View ind = convertView.findViewById(R.id.arrowChild);
-        View ind2 = convertView.findViewById(R.id.arrowChildExpanded);
+        ImageView img = convertView.findViewById(R.id.arrowRght);
 
-        ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(ind2.getLayoutParams());
-        marginLayoutParams.setMargins(toPxs(0),toPxs(0),toPxs(9),0);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(marginLayoutParams);
 
         text.setText(section.getTitle());
 
-        if (ind != null) {
-            ImageView indicator = (ImageView) ind;
-            if (getChildrenCount(groupPosition) == 0) {
-                indicator.setVisibility(View.INVISIBLE);
-            } else {
-                indicator.setVisibility(View.VISIBLE);
-                int stateSetIndex = (isExpanded ? 1 : 0);
+        if(isExpanded)
+        {
+            img.setImageResource(R.drawable.arrow_down);
 
+        }
+        else
+        {
 
-                if (stateSetIndex == 1) {
-                    ind.setVisibility(View.INVISIBLE);
-                    ind2.setVisibility(View.VISIBLE);
-                    ind2.setLayoutParams(layoutParams);
-
-                    Drawable drawable = indicator.getDrawable();
-                    drawable.setState(GROUP_STATE_SETS[stateSetIndex]);
-                } else if (stateSetIndex == 0) {
-                    ind.setVisibility(View.VISIBLE);
-                    //   ind2.setVisibility(View.INVISIBLE);
-                    Drawable drawable = indicator.getDrawable();
-                    drawable.setState(GROUP_STATE_SETS[stateSetIndex]);
-                }
-            }
-
+            //   img.startAnimation(AnimationUtils.loadAnimation(context,R.anim.rotate_arrow));
+            img.setImageResource(R.drawable.arrow_right);
 
         }
         return convertView;
@@ -126,8 +109,7 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-
+    public View getRealChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = inflater.inflate(R.layout.row_third, null);
 
@@ -155,11 +137,8 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
-
-
     @Override
-    public int getChildrenCount(int groupPosition) {
-
+    public int getRealChildrenCount(int groupPosition) {
         Section child = headers.get(groupPosition);
         List<DrawingHome> childDrawings = child.getDrawings();
 
@@ -221,7 +200,4 @@ public class SecondLevelAdapter extends BaseExpandableListAdapter {
 
     }
 
-    private int toPxs(float dps) {
-        return (int) (dps * context.getResources().getDisplayMetrics().density);
-    }
 }
