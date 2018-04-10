@@ -52,7 +52,7 @@
                 android:layout_width="21dp"
                 android:layout_height="21dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/arrow_right"/>
+                android:src="@drawable/arrow_right_black"/>
         <!--    <ImageView
                 android:id="@+id/arrowChildExpanded"
                 android:layout_width="10dp"
