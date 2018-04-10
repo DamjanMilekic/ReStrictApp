@@ -2,6 +2,7 @@ package com.example.laptop.restrict.Adapter;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.laptop.restrict.DetailActivity;
 import com.example.laptop.restrict.Model.Comment;
 import com.example.laptop.restrict.Model.DatumPopup;
 import com.example.laptop.restrict.Model.NotificationPopup;
@@ -64,12 +66,19 @@ public class PopUpNotifAdapter extends RecyclerView.Adapter<PopUpNotifAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(PopUpNotifAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(PopUpNotifAdapter.ViewHolder holder, final int position) {
 
         final DatumPopup model = notificationList.get(position);
 
 
-
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DetailActivity.class);
+                intent.putExtra("drawing_id", Integer.parseInt(notificationList.get(position).getDrawingId()));
+                context.startActivity(intent);
+            }
+        });
 
 
         if(model.getTypeId().equals("1"))
