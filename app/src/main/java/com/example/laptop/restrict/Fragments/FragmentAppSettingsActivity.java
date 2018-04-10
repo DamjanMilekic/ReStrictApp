@@ -9,7 +9,9 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -128,7 +130,7 @@ public class FragmentAppSettingsActivity extends Fragment {
         slikax.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                slikaIme.setImageResource(R.drawable.backround_circle);
+                slikaIme.setImageResource(R.drawable.full_circle);
                 linearLayoutSlicicaIText.setVisibility(View.VISIBLE);
             }
         });
@@ -326,7 +328,8 @@ public class FragmentAppSettingsActivity extends Fragment {
 
         //dodavanje ako slika  nema content, i ako ima brise placeholder
         if (slikaIme.getDrawable() == null) {
-            slikaIme.setImageResource(R.drawable.backround_circle);
+            slikaIme.setImageResource(R.drawable.full_circle);
+         //   slikaIme.setBackgroundColor(getResources().getColor(R.color.fotoback));
             Log.d(TAG, "NO PICTURES");
 
         } else {
