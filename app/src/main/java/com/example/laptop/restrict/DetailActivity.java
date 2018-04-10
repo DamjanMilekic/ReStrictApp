@@ -512,6 +512,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         alertShare.show();
     }
 
+/*
     private void initActionBar(){
 
         actionBar = getSupportActionBar();
@@ -527,6 +528,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         TextView numberOfNotif = (TextView)v.findViewById(R.id.txNumberOfNotif);
 
     }
+*/
 
     @Override
     public void onBackPressed() {
