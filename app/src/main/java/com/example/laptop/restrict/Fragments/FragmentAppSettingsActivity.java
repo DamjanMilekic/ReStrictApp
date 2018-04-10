@@ -9,7 +9,9 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -104,7 +106,7 @@ public class FragmentAppSettingsActivity extends Fragment {
         final View view = inflater.inflate(R.layout.app_settings, container, false);
 
         name = (EditText) view.findViewById(R.id.ime);
-        lastName = (EditText)view.findViewById(R.id.prezime);
+    //    lastName = (EditText)view.findViewById(R.id.prezime);
         title = (EditText) view.findViewById(R.id.title);
         eMail = (EditText) view.findViewById(R.id.eMail);
         phone = (EditText) view.findViewById(R.id.phone);
@@ -128,7 +130,8 @@ public class FragmentAppSettingsActivity extends Fragment {
         slikax.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                slikaIme.setImageResource(R.drawable.backround_circle);
+                slikaIme.setImageResource(R.drawable.full_circle);
+               // slikaIme.setForeground(getResources().getColor(R.color.fotoback));
                 linearLayoutSlicicaIText.setVisibility(View.VISIBLE);
             }
         });
@@ -220,7 +223,7 @@ public class FragmentAppSettingsActivity extends Fragment {
                 String ime, prezime, titl, mail, tel;
 
                 ime = name.getText().toString();
-                prezime = lastName.getText().toString();
+                //prezime = lastName.getText().toString();
                 titl = title.getText().toString();
                 mail = eMail.getText().toString();
                 tel = phone.getText().toString();
@@ -230,10 +233,10 @@ public class FragmentAppSettingsActivity extends Fragment {
                     failFlag = true;
                     name.setError("ENTER NAME");
                 }
-                if (prezime.trim().length() == 0) {
+                /*if (prezime.trim().length() == 0) {
                     failFlag = true;
                     lastName.setError("ENTER LASTNAME");
-                }
+                }*/
                 if (titl.trim().length() == 0) {
                     failFlag = true;
                     title.setError("ENTER TITLE");
@@ -258,7 +261,7 @@ public class FragmentAppSettingsActivity extends Fragment {
                         //TODO save states
 
                         Service apiService = Client.getApiClient().create(Service.class);
-                        Call<Person> call = apiService.postPerson(ime, prezime, titl, mail, tel, LoginFragment.api_token);
+                        Call<Person> call = apiService.postPerson(ime, /*prezime,*/ titl, mail, tel, LoginFragment.api_token);
 
                         call.enqueue(new Callback<Person>() {
                             @Override
@@ -280,7 +283,7 @@ public class FragmentAppSettingsActivity extends Fragment {
                         Toast.makeText(getContext(), "ENTER EMAIL FORM CORRECTLY", Toast.LENGTH_LONG).show();
                         eMail.setError("ENTER EMAIL FORM CORRECTLY");
                         name.setError(null);
-                        lastName.setError(null);
+                       // lastName.setError(null);
                         title.setError(null);
                         phone.setError(null);
                     }
@@ -326,7 +329,8 @@ public class FragmentAppSettingsActivity extends Fragment {
 
         //dodavanje ako slika  nema content, i ako ima brise placeholder
         if (slikaIme.getDrawable() == null) {
-            slikaIme.setImageResource(R.drawable.backround_circle);
+            slikaIme.setImageResource(R.drawable.full_circle);
+         //   slikaIme.setBackgroundColor(getResources().getColor(R.color.fotoback));
             Log.d(TAG, "NO PICTURES");
 
         } else {
@@ -345,7 +349,7 @@ public class FragmentAppSettingsActivity extends Fragment {
                     User data = response.body().getUser();
 
                     name.setText(data.getFirstName());
-                    lastName.setText(data.getLastName());
+                    //lastName.setText(data.getLastName());
                     title.setText(data.getTitle());
                     eMail.setText(data.getEmail());
                     phone.setText(data.getProfile().getPhone());
