@@ -85,7 +85,7 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
-    @Override
+/*    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
@@ -99,7 +99,7 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
         {
             throw  new ClassCastException(context.toString()+" must implement LoginFragment.ILoginMain");
         }
-    }
+    }*/
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -179,6 +179,8 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
                             api_token = projectStatusLogin.getToken();
 
 
+                            if (status != null) {
+
 
                                 Fragment newFragment = new HomeFragment();
                                 Bundle args = new Bundle();
@@ -188,18 +190,18 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
                                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                                 transaction.replace(R.id.frame, newFragment);
                                 transaction.commit();
-                            btnLogin.setEnabled(true);
+                                btnLogin.setEnabled(true);
 
 
-                        } else {
+                            } else {
                                 Toast.makeText(getContext(), "Login status: " + response, Toast.LENGTH_LONG).show();
                                 emailEdit.setText("");
-                            btnLogin.setEnabled(true);
+                                btnLogin.setEnabled(true);
 
 
+                                //  getNotification();
 
-                            //  getNotification();
-
+                            }
                         }
                     }
                     @Override

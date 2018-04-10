@@ -15,7 +15,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+
 import android.support.v7.app.ActionBar;
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,11 +40,13 @@ import android.widget.Toast;
 import com.example.laptop.restrict.Adapter.PopUpNotifAdapter;
 import com.example.laptop.restrict.Adapter.ThreeLevelListAdapter;
 
+
 import com.example.laptop.restrict.AnimatedExpandableListView;
 import com.example.laptop.restrict.DetailActivity;
 import com.example.laptop.restrict.Global;
 import com.example.laptop.restrict.MainActivity;
 import com.example.laptop.restrict.Model.Comment;
+
 import com.example.laptop.restrict.Model.DataHome;
 import com.example.laptop.restrict.Model.Date;
 import com.example.laptop.restrict.Model.DatumPopup;
@@ -55,7 +59,7 @@ import com.example.laptop.restrict.RetrofitAppSettings.Client;
 import com.example.laptop.restrict.RetrofitAppSettings.Service;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -350,8 +354,19 @@ public class HomeFragment extends Fragment implements PopUpNotifAdapter.PopupIte
                     metrics = new DisplayMetrics();
                     getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
                     width = metrics.widthPixels;
-                   // expandableListView.setIndicatorBoundsRelative(width - getDipsFromPixel(39), width - getDipsFromPixel(1));
-                }
+
+                 //   expandableListView.setIndicatorBoundsRelative(width-getDipsFromPixel(39),width-getDipsFromPixel(1));
+                }/*else {
+                    MainActivity mainActivity = (MainActivity) getContext();
+                    LoginFragment loginFragment = new LoginFragment();
+                    FragmentManager fm = mainActivity.getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                    fragmentTransaction.commit();
+                    fragmentTransaction.replace(R.id.frame, loginFragment);
+                    onDestroy();
+                    Toast.makeText(getContext(), "Success logout", Toast.LENGTH_LONG).show();
+
+                }*/
 
             }
 

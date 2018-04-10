@@ -1,6 +1,10 @@
 package com.example.laptop.restrict;
 
 
+
+import android.app.Activity;
+import android.os.PersistableBundle;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -10,20 +14,18 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+
 import android.view.View;
 import android.view.ViewTreeObserver;
-
-import com.example.laptop.restrict.EditImageModule.PinchZoom;
 import com.example.laptop.restrict.Fragments.FragmentAppSettingsActivity;
 import com.example.laptop.restrict.Fragments.LoginFragment;
-
 import com.example.laptop.restrict.Interfaces.ILoginMain;
 import com.example.laptop.restrict.Model.DatumPopup;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public  class MainActivity extends AppCompatActivity implements ILoginMain{
+public  class MainActivity extends AppCompatActivity  {
 
     public static final String APP_TOKEN = LoginFragment.api_token;
     android.support.v4.app.Fragment loginFr;
@@ -39,6 +41,11 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+
+        findMenuItem();
 
         loginFr = new LoginFragment();
         setFragment(loginFr);
@@ -104,17 +111,7 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain{
         }
 
     }
-    @Override
-    public void onClick() {
 
-        String pathForIntents= "/storage/emulated/0/CHINAFAIRGALLERY/slika1.jpg";
-        String imageDirPath="/storage/emulated/0/CHINAFAIRGALLERY";
-
-        Intent i = new Intent(MainActivity.this,PinchZoom.class);
-        i.putExtra("bitmapImage",pathForIntents);
-        i.putExtra("url",imageDirPath);
-        startActivity(i);
-    }
 
     @Override
     public void onBackPressed() {
@@ -129,6 +126,42 @@ public  class MainActivity extends AppCompatActivity implements ILoginMain{
 
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        String apiToken= LoginFragment.api_token;
+        outState.putString("api",apiToken);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState);
+        savedInstanceState.getString("api");
+    }
+
+    @Override
+    protected void onStop() {
 
 
+        super.onStop();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+    }
 }

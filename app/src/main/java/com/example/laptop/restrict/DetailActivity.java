@@ -1,14 +1,25 @@
 package com.example.laptop.restrict;
 
+import android.Manifest;
 import android.app.AlertDialog;
 
 import android.app.Dialog;
+import android.app.DownloadManager;
+import android.content.Context;
+import android.arch.lifecycle.LifecycleObserver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Environment;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
+import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -22,6 +33,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.MimeTypeMap;
+import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -29,6 +42,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 import com.example.laptop.restrict.Adapter.CommentAdapter;
@@ -53,18 +75,18 @@ import org.w3c.dom.Text;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.HTTP;
 
 public class DetailActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String STRICTAPP_URL = "https://s.strictapp.com/";
+    private static Handler handler;
 
     // Potrebno za PROJECT DEO AKTIVNOSTI
     private RecyclerView circleRecyclerView;
     private ProjectAdapter adapter;
     private ArrayList<Version> versionList;
     public Version selectedVersion;
-    public Comment mComment;
-
 
     AlertDialog alertDownload, alertShare;
     private MainActivity mainActivity;
@@ -78,6 +100,12 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     private TextView btnNumberNotification;
     private static TextView numberOfComments;
+
+    private TextView projectSize;
+
+    private FragmentManager fragmentManager;
+    private FragmentTransaction transaction;
+    private Fragment currentFragment;
 
     @Override
     protected void onStart() {
@@ -93,9 +121,11 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        handler = new Handler(getMainLooper());
+
         if (getIntent() != null) {
 
-            int drawing_id = getIntent().getIntExtra("drawing_id", -1);
+            final int drawing_id = getIntent().getIntExtra("drawing_id", -1);
 
             if (drawing_id != -1) {
                 // Inicijalizovanje toolbar-a
@@ -120,10 +150,16 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 });
 
-                // Definisanje RecyclerView-a
-                circleRecyclerView = (RecyclerView) findViewById(R.id.circleRecyclerView);
-                circleRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-                circleRecyclerView.setHasFixedSize(true);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Definisanje RecyclerView-a
+                        circleRecyclerView = (RecyclerView) findViewById(R.id.circleRecyclerView);
+                        circleRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                        circleRecyclerView.setHasFixedSize(true);
+                    }
+                });
+
 
                 // Registrovanje ImageButton komponenti
                 info = (ImageButton) findViewById(R.id.infoImageButton);
@@ -137,54 +173,60 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 download.setOnClickListener(this);
                 share.setOnClickListener(this);
 
-                ApiInterfaceDetails apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
-                Call<ProjectStatusData> call = apiInterfaceDetails.getVersions(drawing_id, LoginFragment.api_token);
-                call.enqueue(new Callback<ProjectStatusData>() {
+                handler.post(new Runnable() {
                     @Override
-                    public void onResponse(Call<ProjectStatusData> call, Response<ProjectStatusData> response) {
+                    public void run() {
+                        ApiInterfaceDetails apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
+                        Call<ProjectStatusData> call = apiInterfaceDetails.getVersions(drawing_id, LoginFragment.api_token);
+                        call.enqueue(new Callback<ProjectStatusData>() {
+                            @Override
+                            public void onResponse(Call<ProjectStatusData> call, Response<ProjectStatusData> response) {
 
 
-                        // Preuzivanje podataka iz JSON-a sa API-a
+                                // Preuzivanje podataka iz JSON-a sa API-a
 
-                        if (response.body() != null) {
-                            versionList = response.body().getData().getVersions();
+                                if (response.body() != null) {
+                                    versionList = response.body().getData().getVersions();
 
-                            // Ubacivanje podataka
-                            adapter = new ProjectAdapter(DetailActivity.this, versionList);
-                            Log.e("PROJECT ADAPTER", "List size: " + versionList.size());
-                            circleRecyclerView.setAdapter(adapter);
+                                    // Ubacivanje podataka
+                                    adapter = new ProjectAdapter(DetailActivity.this, versionList);
+                                    Log.e("PROJECT ADAPTER", "List size: " + versionList.size());
+                                    circleRecyclerView.setAdapter(adapter);
 
-                            // Projekat cija se podaci trebaju prikazati na prvom pokretanju aktivnosti
+                                    // Projekat cija se podaci trebaju prikazati na prvom pokretanju aktivnosti
 
 
-                            selectedVersion = versionList.get(0);
+                                    selectedVersion = versionList.get(0);
 
-                            DetailImageFragment detailImageFragment = new DetailImageFragment();
-                            InfoFragment infoFragment = new InfoFragment();
-                            CommentsFragment commentsFragment = new CommentsFragment();
+                                    DetailImageFragment detailImageFragment = new DetailImageFragment();
+                                    InfoFragment infoFragment = new InfoFragment();
+                                    CommentsFragment commentsFragment = new CommentsFragment();
 
-                            Bundle args = new Bundle();
-                            args.putParcelable(ProjectAdapter.SELECTED_VERSION, selectedVersion);
+                                    Bundle args = new Bundle();
+                                    args.putParcelable(ProjectAdapter.SELECTED_VERSION, selectedVersion);
 
-                            detailImageFragment.setArguments(args);
-                            infoFragment.setArguments(args);
-                            commentsFragment.setArguments(args);
+                                    detailImageFragment.setArguments(args);
+                                    infoFragment.setArguments(args);
+                                    commentsFragment.setArguments(args);
 
-                            FragmentManager fragmentManager = getSupportFragmentManager();
-                            FragmentTransaction transaction = fragmentManager.beginTransaction();
-                            transaction.replace(R.id.detailImageFragment, detailImageFragment);
-                            transaction.add(R.id.onClickButtonFragmentContainer, infoFragment);
-                            transaction.commit();
-                        }
+                                    FragmentManager fragmentManager = getSupportFragmentManager();
+                                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                                    transaction.replace(R.id.detailImageFragment, detailImageFragment);
+                                    transaction.add(R.id.onClickButtonFragmentContainer, infoFragment);
+                                    transaction.commit();
+                                }
 
-                    }
+                            }
 
-                    @Override
-                    public void onFailure(Call<ProjectStatusData> call, Throwable t) {
-                        // Poruka koja ce se prikazati ukoliko podaci ne budu uspesno preuzeti
-                        Toast.makeText(DetailActivity.this, "Problem sa ucitavanjem podataka", Toast.LENGTH_SHORT).show();
+                            @Override
+                            public void onFailure(Call<ProjectStatusData> call, Throwable t) {
+                                // Poruka koja ce se prikazati ukoliko podaci ne budu uspesno preuzeti
+                                Toast.makeText(DetailActivity.this, "Problem sa ucitavanjem podataka", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 });
+
             }
 
         }
@@ -193,11 +235,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        FragmentManager fragmentManager;
-        FragmentTransaction transaction;
-        Fragment currentFragment;
-
-        Bundle args = new Bundle();
+        final Bundle args = new Bundle();
         args.putParcelable(ProjectAdapter.SELECTED_VERSION, selectedVersion);
         /*holder.circle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,67 +266,132 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
         switch(v.getId()) {
             case R.id.infoImageButton:
-                InfoFragment infoFragment = new InfoFragment();
-                infoFragment.setArguments(args);
-                fragmentManager = getSupportFragmentManager();
 
-                currentFragment = fragmentManager.findFragmentById(R.id.onClickButtonFragmentContainer);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        InfoFragment infoFragment = new InfoFragment();
+                        infoFragment.setArguments(args);
+                        fragmentManager = getSupportFragmentManager();
+
+                        currentFragment = fragmentManager.findFragmentById(R.id.onClickButtonFragmentContainer);
 
 
-                if (currentFragment != null && currentFragment instanceof CommentsFragment) {
-                    transaction = fragmentManager.beginTransaction();
-                    transaction.remove(currentFragment);
-                    transaction.add(R.id.onClickButtonFragmentContainer, infoFragment);
-                    transaction.commit();
-                }
+                        if (currentFragment != null && currentFragment instanceof CommentsFragment) {
+                            transaction = fragmentManager.beginTransaction();
+                            transaction.remove(currentFragment);
+                            transaction.add(R.id.onClickButtonFragmentContainer, infoFragment);
+                            transaction.commit();
+                        }
+                    }
+                });
+
                 break;
 
             case R.id.commentsImageButton:
-                CommentsFragment commentsFragment = new CommentsFragment();
-                fragmentManager = getSupportFragmentManager();
 
-                currentFragment = fragmentManager.findFragmentById(R.id.onClickButtonFragmentContainer);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        CommentsFragment commentsFragment = new CommentsFragment();
+                        fragmentManager = getSupportFragmentManager();
+
+                        currentFragment = fragmentManager.findFragmentById(R.id.onClickButtonFragmentContainer);
 
 
-                if (currentFragment != null && currentFragment instanceof InfoFragment) {
-                    transaction = fragmentManager.beginTransaction();
-                    transaction.remove(currentFragment);
-                    transaction.add(R.id.onClickButtonFragmentContainer, commentsFragment);
-                    transaction.commit();
-                }
+                        if (currentFragment != null && currentFragment instanceof InfoFragment) {
+                            transaction = fragmentManager.beginTransaction();
+                            transaction.remove(currentFragment);
+                            transaction.add(R.id.onClickButtonFragmentContainer, commentsFragment);
+                            transaction.commit();
+                        }
+                    }
+                });
+
                 break;
 
             case R.id.downloadImageButton:
-                showDownloadAlert();
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        showDownloadAlert();
+                    }
+                });
+
                 break;
 
             case R.id.shareImageButton:
-                showShareAlert();
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        showShareAlert();
+                    }
+                });
+
                 break;
         }
     }
 
     private void showDownloadAlert() {
-        View download_alert = LayoutInflater.from(DetailActivity.this).inflate(R.layout.download_alert, null);
+        final View download_alert = LayoutInflater.from(DetailActivity.this).inflate(R.layout.download_alert, null);
 
+        projectSize = (TextView) download_alert.findViewById(R.id.project_size);
         TextView download = (TextView) download_alert.findViewById(R.id.download);
         TextView cancel = (TextView) download_alert.findViewById(R.id.cancel);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
         builder.setView(download_alert).setCancelable(false);
 
-
-
         alertDownload = builder.create();
 
         alertDownload.getWindow().setDimAmount(0.4f);
 
+        new ReadFileMemory().execute("pdf/drawings/u1xjwIyFm9jz76nMYB2v.pdf");
+
+
+
         download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://s.strictapp.com/pdf/drawings/u1xjwIyFm9jz76nMYB2v.pdf"));
+
+                ActivityCompat.requestPermissions(DetailActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+                    if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                        request.setTitle("Basement plan");
+                        request.setDescription("File is being download.....");
+
+                        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
+                        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE);
+
+                        request.allowScanningByMediaScanner();
+                        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+                        String nameOfFile = URLUtil.guessFileName("https://s.strictapp.com/pdf/drawings/u1xjwIyFm9jz76nMYB2v.pdf", null, MimeTypeMap.getFileExtensionFromUrl("https://s.strictapp.com/pdf/drawings/u1xjwIyFm9jz76nMYB2v.pdf"));
+
+                        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, nameOfFile);
+
+                        DownloadManager manager = (DownloadManager) getApplicationContext().getSystemService(Context.DOWNLOAD_SERVICE);
+                        manager.enqueue(request);
+
+                    } else {
+
+                        Toast.makeText(getApplicationContext(), "Problem sa preuzimanjem fajla.", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }
+
                 alertDownload.dismiss();
+
             }
         });
+
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -300,7 +403,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void showShareAlert() {
-        View share_alert = LayoutInflater.from(DetailActivity.this).inflate(R.layout.share_alert, null);
+        final View share_alert = LayoutInflater.from(DetailActivity.this).inflate(R.layout.share_alert, null);
 
         final EditText inputEmail = (EditText) share_alert.findViewById(R.id.input_email);
         inputEmail.setSingleLine();
@@ -309,12 +412,15 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         TextView share = (TextView) share_alert.findViewById(R.id.share);
         TextView cancel = (TextView) share_alert.findViewById(R.id.cancel);
 
+
         AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
         builder.setView(share_alert).setCancelable(false);
 
         alertShare = builder.create();
 
         alertShare.getWindow().setDimAmount(0.4f);
+
+
         /*share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -391,50 +497,23 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         super.onBackPressed();
     }
 
-/*    public void infoClicked(ImageButton btn){
-        info.setBackgroundColor(getResources().getColor(R.color.buttonsSettings));
-        info.setAlpha(0.65f);
-        info.setColorFilter(getResources().getColor(R.color.white));
-
-        comment.setBackgroundColor(getResources().getColor(R.color.white));
-        comment.setColorFilter(getResources().getColor(R.color.buttonsSettings));
-
-        download.setBackgroundColor(getResources().getColor(R.color.white));
-        download.setColorFilter(getResources().getColor(R.color.buttonsSettings));
-
-        share.setBackgroundColor(getResources().getColor(R.color.white));
-        share.setColorFilter(getResources().getColor(R.color.buttonsSettings));
-    }
-    private void comentClicked(ImageButton btn) {
-
-        info.setBackgroundColor(getResources().getColor(R.color.white));
-        info.setColorFilter(getResources().getColor(R.color.buttonsSettings));
-
-        comment.setBackgroundColor(getResources().getColor(R.color.buttonsSettings));
-        comment.setAlpha(0.65f);
-        comment.setColorFilter(getResources().getColor(R.color.white));
-
-        download.setBackgroundColor(getResources().getColor(R.color.white));
-        download.setColorFilter(getResources().getColor(R.color.buttonsSettings));
-
-        share.setBackgroundColor(getResources().getColor(R.color.white));
-        share.setColorFilter(getResources().getColor(R.color.buttonsSettings));
-    }*/
-
-
     public void initFragmentAppSettings(){
 
-        FragmentAppSettingsActivity fragmentAppSettingsActivity = new FragmentAppSettingsActivity();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                FragmentAppSettingsActivity fragmentAppSettingsActivity = new FragmentAppSettingsActivity();
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentManager fragmentManager = getSupportFragmentManager();
 
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        fragmentTransaction.setCustomAnimations(R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down, R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down);
-        fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.setCustomAnimations(R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down, R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down);
+                fragmentTransaction.addToBackStack(null);
 
-        fragmentTransaction.replace(R.id.appsettingscontainer, fragmentAppSettingsActivity).commit();
-
+                fragmentTransaction.replace(R.id.appsettingscontainer, fragmentAppSettingsActivity).commit();
+            }
+        });
 
     }
 
@@ -446,8 +525,106 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    public static void setNumberOfComments(int number) {
-        numberOfComments.setText("" + number);
+    public static void setNumberOfComments(final int number) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                numberOfComments.setText("" + number);
+            }
+        });
+    }
+
+    private class ReadFileMemory extends AsyncTask<String, Integer, Integer> {
+
+        String url;
+        String base_url = "https://s.strictapp.com/";
+        int byte_memory;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            byte_memory = 0;
+
+        }
+
+        @Override
+        protected Integer doInBackground(String... strings) {
+
+            url = base_url + strings[0];
+
+            URL url_source;
+            HttpURLConnection connection = null;
+
+            try {
+                url_source = new URL(url);
+                connection = (HttpURLConnection) url_source.openConnection();
+                connection.setDoOutput(true);
+                connection.setRequestMethod("GET");
+                byte_memory = connection.getContentLength();
+            } catch (MalformedURLException e) {
+                Toast.makeText(getApplicationContext(), "Pogresan format url andrese.", Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), "Problem sa konektovanjem na url adresu.", Toast.LENGTH_SHORT).show();
+            } finally {
+                connection.disconnect();
+            }
+
+            return byte_memory;
+
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+
+            float size = (float) (integer / 1024);
+
+            projectSize.setText("" + size + " KB");
+
+        }
+
+    }
+
+
+    @Override
+    protected void onStop() {
+       /* if (LoginFragment.api_token !=null){
+
+        }*/
+        super.onStop();
+        Log.d("detail", "onStop: ");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("detail", "onResume: ");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("detail", "onRestart: ");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("detail", "onPause: ");
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        String apiToken= LoginFragment.api_token;
+        outState.putString("api",apiToken);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState);
+        savedInstanceState.getString("api");
     }
 
 }

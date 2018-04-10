@@ -13,7 +13,7 @@ import com.example.laptop.restrict.Adapter.ProjectAdapter;
 import com.example.laptop.restrict.Fragments.ImageFragment;
 import com.example.laptop.restrict.Model.Version;
 
-public class FullScreenImageActivity extends AppCompatActivity implements View.OnClickListener {
+public class FullScreenImageActivity extends AppCompatActivity {
 
     private ActionBar actionBar;
 
@@ -51,14 +51,18 @@ public class FullScreenImageActivity extends AppCompatActivity implements View.O
         backButton = (ImageView) findViewById(R.id.backButtonFullScreen);
 
         // Osluskivac za back dugme koje vrsi povratak u DetailActivity
-        backButton.setOnClickListener(this);
-
+       // backButton.setOnClickListener(this);
+            backButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onBackPressed();
+                }
+            });
     }
+
 
     @Override
-    public void onClick(View v) {
-        Intent intent = new Intent(this, DetailActivity.class);
-        startActivity(intent);
+    public void onBackPressed() {
+        super.onBackPressed();
     }
-
 }
