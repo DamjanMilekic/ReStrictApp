@@ -64,6 +64,7 @@ import com.example.laptop.restrict.Interfaces.ApiInterfaceDetails;
 import com.example.laptop.restrict.Model.Comment;
 import com.example.laptop.restrict.Model.Drawing;
 import com.example.laptop.restrict.Model.DrawingHome;
+import com.example.laptop.restrict.Model.ProjectStatusComment;
 import com.example.laptop.restrict.Model.ProjectStatusData;
 import com.example.laptop.restrict.Model.ProjectStatusShare;
 import com.example.laptop.restrict.Model.Version;
@@ -197,6 +198,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
 
                                     selectedVersion = versionList.get(0);
+                                    loadNumberOfComments(selectedVersion.getId());
 
                                     DetailImageFragment detailImageFragment = new DetailImageFragment();
                                     InfoFragment infoFragment = new InfoFragment();
@@ -625,6 +627,27 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onRestoreInstanceState(savedInstanceState, persistentState);
         savedInstanceState.getString("api");
+    }
+
+    private void loadNumberOfComments(int version_id) {
+        ApiInterfaceDetails apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
+        Call<ProjectStatusComment> call = apiInterfaceDetails.getComments(version_id, LoginFragment.api_token);
+        call.enqueue(new Callback<ProjectStatusComment>() {
+            @Override
+            public void onResponse(Call<ProjectStatusComment> call, Response<ProjectStatusComment> response) {
+                // Ucitavanje komentara sa API-a, dodavanje u adapter i prikaz u recyclerview-u
+                if (response.body() != null) {
+
+                    DetailActivity.setNumberOfComments(response.body().getComments().size());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ProjectStatusComment> call, Throwable t) {
+                Toast.makeText(DetailActivity.this, "Problem sa ucitavanjem komentara", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }
