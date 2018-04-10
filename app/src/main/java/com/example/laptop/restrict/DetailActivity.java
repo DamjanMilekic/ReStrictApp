@@ -10,6 +10,7 @@ import android.arch.lifecycle.LifecycleObserver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
@@ -29,8 +30,10 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
@@ -39,6 +42,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,8 +56,10 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.example.laptop.restrict.Adapter.CommentAdapter;
+import com.example.laptop.restrict.Adapter.PopUpNotifAdapter;
 import com.example.laptop.restrict.Adapter.ProjectAdapter;
 import com.example.laptop.restrict.Fragments.CommentsFragment;
 import com.example.laptop.restrict.Fragments.DetailImageFragment;
@@ -62,12 +68,17 @@ import com.example.laptop.restrict.Fragments.InfoFragment;
 import com.example.laptop.restrict.Fragments.LoginFragment;
 import com.example.laptop.restrict.Interfaces.ApiInterfaceDetails;
 import com.example.laptop.restrict.Model.Comment;
+import com.example.laptop.restrict.Model.DatumPopup;
 import com.example.laptop.restrict.Model.Drawing;
 import com.example.laptop.restrict.Model.DrawingHome;
+import com.example.laptop.restrict.Model.NotificationPopup;
 import com.example.laptop.restrict.Model.ProjectStatusComment;
 import com.example.laptop.restrict.Model.ProjectStatusData;
 import com.example.laptop.restrict.Model.ProjectStatusShare;
+import com.example.laptop.restrict.Model.TypePopup;
 import com.example.laptop.restrict.Model.Version;
+import com.example.laptop.restrict.RetrofitAppSettings.Client;
+import com.example.laptop.restrict.RetrofitAppSettings.Service;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,7 +89,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.http.HTTP;
 
-public class DetailActivity extends AppCompatActivity implements View.OnClickListener {
+import static com.example.laptop.restrict.Fragments.HomeFragment.applyDim;
+import static com.example.laptop.restrict.Fragments.HomeFragment.clearDim;
+
+public class DetailActivity extends AppCompatActivity implements View.OnClickListener, PopUpNotifAdapter.PopupItemClickListener {
 
     public static final String STRICTAPP_URL = "https://s.strictapp.com/";
     private static Handler handler;
@@ -89,7 +103,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private ArrayList<Version> versionList;
     public Version selectedVersion;
 
-    AlertDialog alertDownload, alertShare;
+    private AlertDialog alertDownload, alertShare;
     private MainActivity mainActivity;
 
     private CommentAdapter commentAdapter;
@@ -108,6 +122,16 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private FragmentTransaction transaction;
     private Fragment currentFragment;
 
+    private TextView numberOfNotif;
+    private ImageButton imgProfile;
+    private ImageButton notification;
+
+    private List<DatumPopup> notifList = new ArrayList<>();
+    private Point p;
+    private Global globalVar;
+    private PopUpNotifAdapter notifAdapter;
+    private int actionBarHeight = 0;
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -122,7 +146,16 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+
+
         handler = new Handler(getMainLooper());
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                actionBarInit();
+            }
+        });
 
         if (getIntent() != null) {
 
@@ -133,17 +166,17 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 imageButtonAppsettings = (ImageButton) findViewById(R.id.btnProfileActBarSettings);
 
                 backButton = (ImageView) findViewById(R.id.backButtonFullScreenDetail);
-                btnNumberNotification =(TextView) findViewById(R.id.txNumberOfNotif);
+
 
                 numberOfComments = (TextView) findViewById(R.id.numberOfComments);
 
-                imageButtonAppsettings.setOnClickListener(new View.OnClickListener() {
+                /*imageButtonAppsettings.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         initFragmentAppSettings();
                     }
-                });
-                // btnNumberNotification.setText(""); TODO ovde ide broj notifikacija
+                });*/
+
                 backButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -536,6 +569,27 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
+    @Override
+    public void onPopClick(View view, int position) {
+
+        DatumPopup notification = notifList.get(position);
+
+
+        if(Integer.valueOf(notification.getTypeId()) == 1 )
+        {
+            Comment comment = notification.getComment();
+            //ovde treba dodati metodu koja vodi do tog komentara na stranici detalji
+            Toast.makeText(DetailActivity.this, "Ovo vodi na komentar", Toast.LENGTH_SHORT).show();
+        }
+        else if(Integer.valueOf(notification.getTypeId()) == 2 )
+        {
+            TypePopup typeNotif = notification.getType();
+            Toast.makeText(DetailActivity.this, "Ovo vodi na crtez", Toast.LENGTH_SHORT).show();
+            //a ovde do crteza
+        }
+
+    }
+
     private class ReadFileMemory extends AsyncTask<String, Integer, Integer> {
 
         String url;
@@ -649,5 +703,207 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
     }
+
+    public void actionBarInit() {
+       /* actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
+        LayoutInflater mInflater = LayoutInflater.from(DetailActivity.this);
+
+        View mCustomView = mInflater.inflate(R.layout.toolbar_layout, null);
+
+        actionBar.setCustomView(mCustomView);
+        actionBar.setDisplayShowCustomEnabled(true);
+        notification = findViewById(R.id.btnNotificationActBar);
+        imgProfile = findViewById(R.id.btnProfileActBar);
+        numberOfNotif = findViewById(R.id.txNumberOfNotif);
+
+        if(notifList.size()==0)
+        {
+            getNotification();
+        }
+
+
+
+        imgProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                initFragmentAppSettings();
+                actionBar.hide();
+
+            }
+        });
+
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+
+                //  notification.setEnabled(false);
+                if (notifList.size() > 0) {
+                    showPopUp(DetailActivity.this, p, v, notifList);
+
+
+                } else {
+
+
+                    getNotification();
+
+                }
+                // notification.setEnabled(true);
+
+
+            }
+        });
+
+        if (notifList.size() > 0) {
+            numberOfNotif.setText(Integer.toString(notifList.size()));
+        }
+        *//*actionBar.show();*/
+
+        btnNumberNotification =(TextView) findViewById(R.id.txNumberOfNotif);
+        notification = findViewById(R.id.btnNotificationActBar);
+
+        // imgProfile = findViewById(R.id.btnProfileActBar);
+        if(notifList.size()==0)
+        {
+            getNotification();
+        }
+
+
+
+        imageButtonAppsettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                initFragmentAppSettings();
+                //actionBar.hide();
+
+            }
+        });
+
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+
+                //  notification.setEnabled(false);
+                if (notifList.size() > 0) {
+                    showPopUp(DetailActivity.this, p, v, notifList);
+
+
+                } else {
+
+
+                    getNotification();
+
+                }
+                // notification.setEnabled(true);
+
+
+            }
+        });
+
+        if (notifList.size() > 0) {
+            btnNumberNotification.setText(Integer.toString(notifList.size()));
+        }
+
+    }
+    private void showPopUp(Context context, Point p, View view, List<DatumPopup> notifList) {
+
+        View popupView = getLayoutInflater().inflate(R.layout.popup_notifications, null);
+        RecyclerView recyclerView = (RecyclerView) popupView.findViewById(R.id.rvNotify);
+
+        final PopupWindow popupWindow = new PopupWindow(popupView,
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        popupWindow.setFocusable(true);
+
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setContentView(popupView);
+
+
+
+        int location[] = new int[2];
+        int OFFSET_X = 0;
+        int OFFSET_Y = 0;
+
+        // view.getLocationOnScreen(location);
+        notifAdapter = new PopUpNotifAdapter(DetailActivity.this, notifList);
+        notifAdapter.setClickListener(DetailActivity.this);
+        recyclerView.setAdapter(notifAdapter);
+
+        LinearLayoutManager vertical
+                = new LinearLayoutManager(DetailActivity.this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(vertical);
+        final ViewGroup root = (ViewGroup) getWindow().getDecorView().getRootView();
+
+        applyDim(root,0.7f);
+
+        popupWindow.setAnimationStyle(R.style.popup_scale_animation);
+        popupWindow.showAsDropDown(view, p.x + OFFSET_X, p.y + OFFSET_Y);
+
+
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                clearDim(root);
+
+            }
+        });
+
+
+    }
+
+    private void getActionBarHeight(){
+        TypedValue tv = new TypedValue();
+        if (this.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+        {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+        }
+    }
+
+    private void getNotification() {
+
+        Service apiService = Client.getApiClient().create(Service.class);
+        Call<NotificationPopup> call = apiService.getNotificationsPopup(LoginFragment.api_token);
+        globalVar = (Global) getApplicationContext();
+        call.enqueue(new Callback<NotificationPopup>() {
+
+            @Override
+            public void onResponse(Call<NotificationPopup> call, Response<NotificationPopup> response) {
+
+                if (response.body() != null) {
+                    NotificationPopup notificationPopup = response.body();
+                    notifList = notificationPopup.getData();
+
+
+                    p = globalVar.getPopupPoint();
+
+                    btnNumberNotification.setText(String.valueOf(notifList.size()));
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<NotificationPopup> call, Throwable t) {
+                Toast.makeText(DetailActivity.this, "Fail on server", Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+        //actionBar.show();
+
+    }
+
+
 
 }
