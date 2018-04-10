@@ -82,7 +82,7 @@
                         android:textColorHint="@color/placeholder"
                         android:inputType="textPersonName" />
 
-            <!--        <EditText
+                    <EditText
                         android:id="@+id/prezime"
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
@@ -96,12 +96,11 @@
                         android:hint="Last Name"
                         android:textColorHint="@color/placeholder"
                         android:inputType="textPersonName" />
--->
                     <EditText
                         android:id="@+id/title"
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
-                        android:layout_below="@id/ime"
+                        android:layout_below="@id/prezime"
                         android:layout_marginEnd="30dp"
                         android:layout_marginStart="30dp"
                         android:layout_marginTop="10dp"

@@ -36,7 +36,7 @@ public interface Service {
     @FormUrlEncoded
     @POST("api/me/update")
     Call<Person> postPerson(@Field("first_name") String first_name,
-                            /*@Field("last_name") String last_name,*/
+                            @Field("last_name") String last_name,
                             @Field("title") String title,
                             @Field("email") String email,
                             @Field("phone") String phone,
