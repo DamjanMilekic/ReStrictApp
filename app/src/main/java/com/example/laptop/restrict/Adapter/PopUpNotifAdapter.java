@@ -74,9 +74,9 @@ public class PopUpNotifAdapter extends RecyclerView.Adapter<PopUpNotifAdapter.Vi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, DetailActivity.class);
+          /*      Intent intent = new Intent(context, DetailActivity.class);
                 intent.putExtra("drawing_id", Integer.parseInt(notificationList.get(position).getDrawingId()));
-                context.startActivity(intent);
+                context.startActivity(intent);*/
             }
         });
 
