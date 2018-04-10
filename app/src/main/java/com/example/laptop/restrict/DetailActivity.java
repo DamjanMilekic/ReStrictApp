@@ -130,7 +130,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private Point p;
     private Global globalVar;
     private PopUpNotifAdapter notifAdapter;
-    private int actionBarHeight = 0;
+
+    private int drawing_id = -1;
 
     @Override
     protected void onStart() {
@@ -159,7 +160,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
         if (getIntent() != null) {
 
-            final int drawing_id = getIntent().getIntExtra("drawing_id", -1);
+            drawing_id = getIntent().getIntExtra("drawing_id", -1);
 
             if (drawing_id != -1) {
                 // Inicijalizovanje toolbar-a
@@ -866,7 +867,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         TypedValue tv = new TypedValue();
         if (this.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
         {
-            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+            //actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
         }
     }
 
