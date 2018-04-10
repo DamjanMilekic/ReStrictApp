@@ -14,7 +14,10 @@ import com.example.laptop.restrict.Model.Comment;
 import com.example.laptop.restrict.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by ivandjordjevic on 6.2.18..
@@ -48,6 +51,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.comment.setText(comment.getText());
         holder.dateAndTime.setText(comment.getTime());
 
+        try {
+            Date date = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse(comment.getTime());
+            String formatedDate = new SimpleDateFormat("yy/mm/dd hh:mm").format(date);
+            holder.dateAndTime.setText(formatedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -66,6 +77,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             name = (TextView) itemView.findViewById(R.id.name);
             comment = (TextView) itemView.findViewById(R.id.textComment);
             dateAndTime = (TextView) itemView.findViewById(R.id.date_and_time);
+
+
         }
 
     }
