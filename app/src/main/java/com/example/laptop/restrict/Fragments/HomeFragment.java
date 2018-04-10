@@ -398,23 +398,25 @@ public class HomeFragment extends Fragment implements PopUpNotifAdapter.PopupIte
     }
 
 
-    @Override
+  @Override
     public void onPopClick(View view, int position) {
 
         DatumPopup notification = notifList.get(position);
 
-        if(notification.getTypeId().equals(1))
+
+        if(Integer.valueOf(notification.getTypeId()) == 1 )
         {
             Comment comment = notification.getComment();
             //ovde treba dodati metodu koja vodi do tog komentara na stranici detalji
-            Toast.makeText(context, "Ovo vodi na komentar", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Ovo vodi na komentar", Toast.LENGTH_SHORT).show();
         }
-        else
+        else if(Integer.valueOf(notification.getTypeId()) == 2 )
         {
             TypePopup typeNotif = notification.getType();
-            Toast.makeText(context, "Ovo vodi na crtez", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Ovo vodi na crtez", Toast.LENGTH_SHORT).show();
             //a ovde do crteza
         }
+
     }
 
 
