@@ -152,7 +152,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:src="@mipmap/info_icon"
-                        android:tint="@color/colorPrimary"/>
+                        android:tint="@color/buttonsSettings"
+                        android:alpha="0.6"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -173,7 +174,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@mipmap/comments_icon"
-                            android:tint="@color/colorPrimary"/>
+                            android:tint="@color/buttonsSettings"
+                            android:alpha="0.6"/>
 
                         <TextView
                             android:id="@+id/numberOfComments"
@@ -181,9 +183,11 @@
                             android:layout_height="wrap_content"
                             android:text=""
                             android:textSize="11sp"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/buttonsSettings"
+                            android:alpha="0.6"
                             android:layout_marginTop="6dp"
-                            android:layout_centerHorizontal="true"/>
+                            android:layout_centerHorizontal="true"
+                            android:fontFamily="@font/helvetica_neue"/>
                     </RelativeLayout>
 
 
@@ -202,7 +206,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:src="@mipmap/download_icon"
-                        android:tint="@color/colorPrimary"/>
+                        android:tint="@color/buttonsSettings"
+                        android:alpha="0.6"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -219,7 +224,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:src="@mipmap/share_icon"
-                        android:tint="@color/colorPrimary"/>
+                        android:tint="@color/buttonsSettings"
+                        android:alpha="0.6"/>
 
                 </LinearLayout>
 

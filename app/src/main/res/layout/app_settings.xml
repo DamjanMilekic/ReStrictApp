@@ -80,7 +80,8 @@
                         android:textColor="@color/buttonsSettings"
                         android:hint="Name"
                         android:textColorHint="@color/placeholder"
-                        android:inputType="textPersonName" />
+                        android:inputType="textPersonName"
+                        android:fontFamily="@font/helvetica_neue"/>
 
                     <EditText
                         android:id="@+id/prezime"
@@ -95,7 +96,8 @@
                         android:textColor="@color/buttonsSettings"
                         android:hint="Last Name"
                         android:textColorHint="@color/placeholder"
-                        android:inputType="textPersonName" />
+                        android:inputType="textPersonName"
+                        android:fontFamily="@font/helvetica_neue" />
                     <EditText
                         android:id="@+id/title"
                         android:layout_width="match_parent"
@@ -109,7 +111,8 @@
                         android:gravity="center"
                         android:hint="Title"
                         android:textColorHint="@color/placeholder"
-                        android:inputType="textPersonName" />
+                        android:inputType="textPersonName"
+                        android:fontFamily="@font/helvetica_neue"/>
 
                     <EditText
                         android:id="@+id/eMail"
@@ -123,7 +126,8 @@
                         android:gravity="center"
                         android:hint="E-mail"
                         android:textColorHint="@color/placeholder"
-                        android:textColor="@color/buttonsSettings"/>
+                        android:textColor="@color/buttonsSettings"
+                        android:fontFamily="@font/helvetica_neue"/>
 
                     <EditText
                         android:id="@+id/phone"
@@ -138,7 +142,7 @@
                         android:textColorHint="@color/placeholder"
                         android:hint="Phone"
                         android:textColor="@color/buttonsSettings"
-                        />
+                        android:fontFamily="@font/helvetica_neue"/>
 
                     <FrameLayout
                         android:id="@+id/card"
@@ -230,7 +234,8 @@
                         android:text="NOTIFICATIONS"
                         android:textSize="16sp"
                         android:textColor="@color/placeholder"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:fontFamily="@font/helvetica_neue"/>
 
                     <android.support.v7.widget.SwitchCompat
                        android:layout_width="match_parent"
@@ -241,7 +246,8 @@
                         android:text="Push messages"
                         android:textColor="@color/headerText"
                         android:textSize="18sp"
-                        android:theme="@style/SwitchCompatTheme" />
+                        android:theme="@style/SwitchCompatTheme"
+                        android:fontFamily="@font/helvetica_neue"/>
 
                     <android.support.v7.widget.SwitchCompat
                         android:layout_width="match_parent"
@@ -252,7 +258,8 @@
                         android:layout_marginBottom="10dp"
                         android:text="Email"
                         android:textColor="@color/headerText"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:fontFamily="@font/helvetica_neue"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/downLayoutOfNotification"
@@ -270,7 +277,8 @@
                         android:layout_marginTop="20dp"
                         android:textColor="@color/headerText"
                         android:text="@string/text1ZaappSetings"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp"
+                        android:fontFamily="@font/helvetica_neue"/>
 
                     <android.support.v7.widget.SwitchCompat
                         android:layout_marginStart="20dp"
@@ -282,7 +290,7 @@
                         android:textColor="@color/headerText"
                         android:text="@string/text2ZaappSetings"
                         android:textSize="18sp"
-                        />
+                        android:fontFamily="@font/helvetica_neue"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/layoutZaDugme"
@@ -309,10 +317,15 @@
                             android:textSize="16sp"
                             android:background="@drawable/rounded_corners"
                             android:textColor="@color/white"
-                            android:gravity="center"/>
+                            android:gravity="center"
+                            android:fontFamily="@font/helvetica_neue"/>
+
                     </FrameLayout>
+
                 </LinearLayout>
+
             </LinearLayout>
+
         </ScrollView>
 
 </LinearLayout>

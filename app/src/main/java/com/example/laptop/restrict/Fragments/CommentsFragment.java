@@ -220,48 +220,59 @@ public class CommentsFragment extends Fragment {
 
     public void postComment(final int version_id) {
         String text = writeComment.getText().toString();
-        PostCommentRequest postCommentRequest = new PostCommentRequest(version_id, text, LoginFragment.api_token);
-        Call<ProjectStatusPostComment> call = apiInterfaceDetails.setComment(postCommentRequest);
-        call.enqueue(new Callback<ProjectStatusPostComment>() {
-            @Override
-            public void onResponse(Call<ProjectStatusPostComment> call, Response<ProjectStatusPostComment> response) {
-                ProjectStatusPostComment projectStatusPostComment = response.body();
-                if (projectStatusPostComment != null && projectStatusPostComment.getStatus().equals("success")) {
+        writeComment.setText(null);
 
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Call<ProjectStatusComment> reloadComments = apiInterfaceDetails.getComments(version_id, LoginFragment.api_token);
-                            reloadComments.enqueue(new Callback<ProjectStatusComment>() {
-                                @Override
-                                public void onResponse(Call<ProjectStatusComment> call, Response<ProjectStatusComment> response) {
-                                    // Ucitavanje komentara sa API-a, dodavanje u adapter i prikaz u recyclerview-u
-                                    comments = response.body().getComments();
-                                    DetailActivity.setNumberOfComments(comments.size());
-                                    adapter = new CommentAdapter(getContext(), comments);
-                                    recyclerView.setAdapter(adapter);
-                                    writeComment.setText(null);
-                                }
+        if (text != null && !text.equals("")) {
 
-                                @Override
-                                public void onFailure(Call<ProjectStatusComment> call, Throwable t) {
-                                    Toast.makeText(getContext(), "Problem sa internet konekcijom.", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                    });
+            PostCommentRequest postCommentRequest = new PostCommentRequest(version_id, text, LoginFragment.api_token);
+            Call<ProjectStatusPostComment> call = apiInterfaceDetails.setComment(postCommentRequest);
+            call.enqueue(new Callback<ProjectStatusPostComment>() {
+                @Override
+                public void onResponse(Call<ProjectStatusPostComment> call, Response<ProjectStatusPostComment> response) {
+                    ProjectStatusPostComment projectStatusPostComment = response.body();
+                    if (projectStatusPostComment != null && projectStatusPostComment.getStatus().equals("success")) {
 
-                    Toast.makeText(getContext(), projectStatusPostComment.getMessage(), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getContext(), "Problem sa postavljanjem komentara komentara", Toast.LENGTH_SHORT).show();
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                Call<ProjectStatusComment> reloadComments = apiInterfaceDetails.getComments(version_id, LoginFragment.api_token);
+                                reloadComments.enqueue(new Callback<ProjectStatusComment>() {
+                                    @Override
+                                    public void onResponse(Call<ProjectStatusComment> call, Response<ProjectStatusComment> response) {
+                                        // Ucitavanje komentara sa API-a, dodavanje u adapter i prikaz u recyclerview-u
+                                        comments = response.body().getComments();
+                                        DetailActivity.setNumberOfComments(comments.size());
+                                        adapter = new CommentAdapter(getContext(), comments);
+                                        recyclerView.setAdapter(adapter);
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<ProjectStatusComment> call, Throwable t) {
+                                        Toast.makeText(getContext(), "Problem sa internet konekcijom.", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+                            }
+                        });
+
+                        Toast.makeText(getContext(), projectStatusPostComment.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), "Problem sa postavljanjem komentara komentara", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<ProjectStatusPostComment> call, Throwable t) {
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<ProjectStatusPostComment> call, Throwable t) {
+                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        } else {
+
+            Toast.makeText(getContext(), "Empty field. Please, type comment.", Toast.LENGTH_SHORT).show();
+
+        }
 
     }
 

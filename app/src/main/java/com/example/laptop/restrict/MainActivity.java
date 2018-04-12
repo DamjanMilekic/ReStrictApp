@@ -3,6 +3,7 @@ package com.example.laptop.restrict;
 
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.PersistableBundle;
 
 import android.support.v4.app.Fragment;
@@ -41,9 +42,6 @@ public  class MainActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
 
         findMenuItem();
 

@@ -202,6 +202,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 download = (ImageButton) findViewById(R.id.downloadImageButton);
                 share = (ImageButton) findViewById(R.id.shareImageButton);
 
+                setButtonInFocus(info);
+
                 // Postavljanje osluskivaca na ImmageButton komponente
                 info.setOnClickListener(this);
                 comment.setOnClickListener(this);
@@ -231,7 +233,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                                     // Projekat cija se podaci trebaju prikazati na prvom pokretanju aktivnosti
 
 
-                                    selectedVersion = versionList.get(0);
+                                    selectedVersion = versionList.get(versionList.size()-1);
                                     loadNumberOfComments(selectedVersion.getId());
 
                                     DetailImageFragment detailImageFragment = new DetailImageFragment();
@@ -273,36 +275,13 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         final Bundle args = new Bundle();
         args.putParcelable(ProjectAdapter.SELECTED_VERSION, selectedVersion);
-        /*holder.circle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                update(position);
-                raw_index = position;
-                notifyDataSetChanged();
-            }
-        });
-        if(raw_index==position){
-            holder.circle.setColorFilter(R.color.colorPrimary);
-        }
-        else {holder.circle.setColorFilter(null);
-        }*/
-        /*if (rawindex == v.getId())
-            info.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        else {
-            info.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        }*/
-        /*info.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                rawindex=v.getId();
-
-            }
-        });*/
-
 
         switch(v.getId()) {
             case R.id.infoImageButton:
-
+                setDefaultButtonColor(comment, download, share);
+                setButtonInFocus(info);
+                numberOfComments.setTextColor(getResources().getColor(R.color.buttonsSettings));
+                numberOfComments.setAlpha(0.6f);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -325,7 +304,10 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 break;
 
             case R.id.commentsImageButton:
-
+                setDefaultButtonColor(info, download, share);
+                setButtonInFocus(comment);
+                numberOfComments.setTextColor(getResources().getColor(R.color.colorPrimary));
+                numberOfComments.setAlpha(1.0f);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -904,6 +886,28 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         });
 
         //actionBar.show();
+
+
+
+    }
+
+    private void setDefaultButtonColor(ImageButton imageButton1, ImageButton imageButton2, ImageButton imageButton3) {
+
+        imageButton1.setAlpha(0.6f);
+        imageButton1.setColorFilter(getResources().getColor(R.color.buttonsSettings));
+
+        imageButton2.setAlpha(0.6f);
+        imageButton2.setColorFilter(getResources().getColor(R.color.buttonsSettings));
+
+        imageButton3.setAlpha(0.6f);
+        imageButton3.setColorFilter(getResources().getColor(R.color.buttonsSettings));
+
+    }
+
+    private void setButtonInFocus(ImageButton imageButton) {
+
+        imageButton.setAlpha(1.0f);
+        imageButton.setColorFilter(getResources().getColor(R.color.colorPrimary));
 
     }
 

@@ -25,7 +25,7 @@
         android:gravity="center_vertical"
         android:textColor="#6D8594"
         android:text=""
-        />
+        android:fontFamily="@font/helvetica_neue"/>
 
             <ImageView
                 android:id="@+id/arrowRght"

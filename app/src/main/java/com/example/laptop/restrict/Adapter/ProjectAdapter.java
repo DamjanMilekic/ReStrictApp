@@ -39,8 +39,9 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
         this.context = context;
         this.versions = versions;
         if (versions.size() > 0) {
-            CommentsFragment.version_id = versions.get(0).getId();
+            CommentsFragment.version_id = versions.get(versions.size()-1).getId();
         }
+        raw_index = versions.size()-1;
     }
 
     @Override
@@ -66,7 +67,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
             }
         });
 
-        if(raw_index==position){
+        if(raw_index == position){
            // holder.circle.setColorFilter(context.getResources().getColor(R.color.strictBlue));
             holder.circle.setBackground(context.getResources().getDrawable(R.drawable.circle_selected));
         }

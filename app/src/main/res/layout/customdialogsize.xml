@@ -17,7 +17,8 @@
             android:layout_height="100dp"
             android:layout_gravity="center"
             android:text=""
-            android:textSize="50dp" />
+            android:textSize="50dp"
+            android:fontFamily="@font/helvetica_neue"/>
 
         <SeekBar
             android:id="@+id/seekBar"

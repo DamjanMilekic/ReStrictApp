@@ -51,7 +51,8 @@
                 android:layout_marginStart="7.5dp"
                 android:textSize="12sp"
                 android:text=""
-                android:textColor="@color/strictBlue" />
+                android:textColor="@color/strictBlue"
+                android:fontFamily="@font/helvetica_neue" />
 
         </android.support.v7.widget.CardView>
 
@@ -62,7 +63,6 @@
             android:scaleType="fitCenter"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-
             android:background="@null"
             android:src="@drawable/profile_act_bar_btn" />
 
