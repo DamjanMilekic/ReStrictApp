@@ -40,6 +40,7 @@ import android.webkit.MimeTypeMap;
 import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -135,6 +136,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     private int drawing_id = -1;
 
+    public static FrameLayout frameLayout;
     @Override
     protected void onStart() {
         super.onStart();
@@ -149,8 +151,14 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        frameLayout = (FrameLayout)findViewById(R.id.appsettingscontainer);
 
 
+        /*getFragmentManager().
+                beginTransaction().
+                remove(getFragmentManager().
+                        findFragmentById(R.id.appsettingscontainer)).
+                commit();*/
         handler = new Handler(getMainLooper());
 
         handler.post(new Runnable() {
@@ -190,6 +198,12 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onClick(View view) {
                         onBackPressed();
+                        FragmentManager fm = getSupportFragmentManager();
+
+                        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                            fm.popBackStack();
+
+                        }
                     }
                 });
 
@@ -536,7 +550,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                fragmentTransaction.setCustomAnimations(R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down, R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down);
+               // fragmentTransaction.setCustomAnimations(R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down, R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down);
                 fragmentTransaction.addToBackStack(null);
 
                 fragmentTransaction.replace(R.id.appsettingscontainer, fragmentAppSettingsActivity).commit();
@@ -649,6 +663,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     protected void onResume() {
         super.onResume();
         Log.d("detail", "onResume: ");
+
     }
 
     @Override
