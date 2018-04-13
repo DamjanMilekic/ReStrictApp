@@ -32,6 +32,7 @@ import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,11 +58,14 @@ import com.example.laptop.restrict.Model.TypePopup;
 import com.example.laptop.restrict.R;
 import com.example.laptop.restrict.RetrofitAppSettings.Client;
 import com.example.laptop.restrict.RetrofitAppSettings.Service;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -88,8 +92,7 @@ public class HomeFragment extends Fragment implements PopUpNotifAdapter.PopupIte
     private boolean isShowned=false;
 
     TextView numberOfNotif;
-    ImageButton imgProfile;
-    ImageButton notification;
+    ImageView imgProfile, notification;
 
     public static int actionBarHeight=0;
 
@@ -197,7 +200,16 @@ public class HomeFragment extends Fragment implements PopUpNotifAdapter.PopupIte
         mActionBar.setDisplayShowCustomEnabled(true);
 
         notification = mCustomView.findViewById(R.id.btnNotificationActBar);
+
         imgProfile = mCustomView.findViewById(R.id.btnProfileActBar);
+        //dodavanje slike na home toolbar
+
+        String urlSLika= "https://s.strictapp.com/" + LoginFragment.image_url;
+        Picasso.with(getContext())
+                .load(urlSLika).fit().centerCrop()
+                .into(imgProfile);
+
+
         numberOfNotif = mCustomView.findViewById(R.id.txNumberOfNotif);
 
         if(notifList.size()==0)

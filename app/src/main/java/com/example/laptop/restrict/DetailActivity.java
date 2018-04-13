@@ -79,11 +79,13 @@ import com.example.laptop.restrict.Model.TypePopup;
 import com.example.laptop.restrict.Model.Version;
 import com.example.laptop.restrict.RetrofitAppSettings.Client;
 import com.example.laptop.restrict.RetrofitAppSettings.Service;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -110,7 +112,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private ActionBar actionBar;
 
     // ImageButton komponente DetailActivity-a
-    private ImageButton info, comment, download, share, imageButtonAppsettings;
+    private ImageButton info, comment, download, share;
+    CircleImageView imageButtonAppsettings;
     private ImageView backButton;
 
     private TextView btnNumberNotification;
@@ -122,9 +125,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private FragmentTransaction transaction;
     private Fragment currentFragment;
 
-    private TextView numberOfNotif;
-    private ImageButton imgProfile;
-    private ImageButton notification;
+
+    private ImageView notification;
 
     private List<DatumPopup> notifList = new ArrayList<>();
     private Point p;
@@ -162,9 +164,15 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
             drawing_id = getIntent().getIntExtra("drawing_id", -1);
 
+
             if (drawing_id != -1) {
                 // Inicijalizovanje toolbar-a
-                imageButtonAppsettings = (ImageButton) findViewById(R.id.btnProfileActBarSettings);
+                imageButtonAppsettings = (CircleImageView) findViewById(R.id.btnProfileActBarSettings);
+                //postavljanje slicice na toolbaru
+                String urlSLika= "https://s.strictapp.com/" + LoginFragment.image_url;
+                Picasso.with(this)
+                        .load(urlSLika).fit().centerCrop()
+                        .into(imageButtonAppsettings);
 
                 backButton = (ImageView) findViewById(R.id.backButtonFullScreenDetail);
 
@@ -752,6 +760,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
         btnNumberNotification =(TextView) findViewById(R.id.txNumberOfNotif);
         notification = findViewById(R.id.btnNotificationActBar);
+
 
         // imgProfile = findViewById(R.id.btnProfileActBar);
         if(notifList.size()==0)
