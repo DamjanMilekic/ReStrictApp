@@ -191,7 +191,7 @@ public class CommentsFragment extends Fragment {
                     comments = response.body().getComments();
                     DetailActivity.setNumberOfComments(comments.size());
                     adapter = new CommentAdapter(getContext(), comments);
-                    recyclerView.setAdapter(adapter);
+                    recyclerView.swapAdapter(adapter, false);
                 } else {
                     Toast.makeText(getContext(), "Nema komentara za prikaz", Toast.LENGTH_LONG).show();
                 }
@@ -255,6 +255,13 @@ public class CommentsFragment extends Fragment {
 
                             }
                         });
+
+                        // TODO napraviti posebnu klasu za komentare i izmeniti fragment
+
+                        /*comments.add();
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, comments.size());
+                        notifyDataSetChanged();*/
 
                         Toast.makeText(getContext(), projectStatusPostComment.getMessage(), Toast.LENGTH_SHORT).show();
                     } else {

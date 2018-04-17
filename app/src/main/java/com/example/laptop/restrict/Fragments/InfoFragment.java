@@ -32,6 +32,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,10 +56,18 @@ public class InfoFragment extends Fragment {
     private ApprovedByAdapter adapter;
     private ArrayList<Approval> approvals;
 
-    private int drawing_id;
+    private static int section_id;
     private String stringName, stringUploaded, stringIssuedFor;
 
     private Handler handler;
+
+    private Lock lock;
+
+    public InfoFragment() {
+
+        lock = new ReentrantLock();
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,10 +85,10 @@ public class InfoFragment extends Fragment {
         handler = new Handler();
 
         if (getArguments() != null) {
-
+            lock.lock();
             selectedVersion = (Version) getArguments().getParcelable(ProjectAdapter.SELECTED_VERSION);
+            lock.unlock();
 
-            drawing_id = selectedVersion.getId();
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -141,7 +151,7 @@ public class InfoFragment extends Fragment {
                 recyclerView.setHasFixedSize(true);
 
                 ApiInterfaceDetails apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
-                Call<ProjectStatusApprovals> call = apiInterfaceDetails.getApprovals(selectedVersion.getId(), LoginFragment.api_token);
+                Call<ProjectStatusApprovals> call = apiInterfaceDetails.getApprovals(section_id, LoginFragment.api_token);
                 call.enqueue(new Callback<ProjectStatusApprovals>() {
                     @Override
                     public void onResponse(Call<ProjectStatusApprovals> call, Response<ProjectStatusApprovals> response) {
@@ -168,5 +178,10 @@ public class InfoFragment extends Fragment {
 
         return view;
     }
+
+    public static void setSectionId(int sectionId) {
+        section_id = sectionId;
+    }
+
 
 }

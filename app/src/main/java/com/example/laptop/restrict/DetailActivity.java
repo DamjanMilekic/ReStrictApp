@@ -9,6 +9,7 @@ import android.content.Context;
 import android.arch.lifecycle.LifecycleObserver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
@@ -75,6 +76,7 @@ import com.example.laptop.restrict.Model.NotificationPopup;
 import com.example.laptop.restrict.Model.ProjectStatusComment;
 import com.example.laptop.restrict.Model.ProjectStatusData;
 import com.example.laptop.restrict.Model.ProjectStatusShare;
+import com.example.laptop.restrict.Model.Section;
 import com.example.laptop.restrict.Model.TypePopup;
 import com.example.laptop.restrict.Model.Version;
 import com.example.laptop.restrict.RetrofitAppSettings.Client;
@@ -101,7 +103,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private RecyclerView circleRecyclerView;
     private ProjectAdapter adapter;
     private ArrayList<Version> versionList;
-    public Version selectedVersion;
+    private static Version selectedVersion;
 
     private AlertDialog alertDownload, alertShare;
     private MainActivity mainActivity;
@@ -110,7 +112,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private ActionBar actionBar;
 
     // ImageButton komponente DetailActivity-a
-    private ImageButton info, comment, download, share, imageButtonAppsettings;
+    private static ImageButton info, comment, download, share;
+    private ImageButton /*info, comment, download, share, */imageButtonAppsettings;
     private ImageView backButton;
 
     private TextView btnNumberNotification;
@@ -132,6 +135,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private PopUpNotifAdapter notifAdapter;
 
     private int drawing_id = -1;
+    private TextView projectName;
+
+    private static Resources resources;
 
     @Override
     protected void onStart() {
@@ -140,6 +146,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.hide();
+
+        resources = getResources();
+
     }
 
     @Override
@@ -333,7 +342,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        showDownloadAlert();
+                        showDownloadAlert(selectedVersion.getLabel(), selectedVersion.getPdfFile());
                     }
                 });
 
@@ -352,72 +361,83 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private void showDownloadAlert() {
-        final View download_alert = LayoutInflater.from(DetailActivity.this).inflate(R.layout.download_alert, null);
+    private void showDownloadAlert(final String fileName, final String path) {
 
-        projectSize = (TextView) download_alert.findViewById(R.id.project_size);
-        TextView download = (TextView) download_alert.findViewById(R.id.download);
-        TextView cancel = (TextView) download_alert.findViewById(R.id.cancel);
+        if (path != null && !path.equals("")) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
-        builder.setView(download_alert).setCancelable(false);
+            final View download_alert = LayoutInflater.from(DetailActivity.this).inflate(R.layout.download_alert, null);
 
-        alertDownload = builder.create();
+            projectName = (TextView) download_alert.findViewById(R.id.project_name);
+            projectSize = (TextView) download_alert.findViewById(R.id.project_size);
+            TextView download = (TextView) download_alert.findViewById(R.id.download);
+            TextView cancel = (TextView) download_alert.findViewById(R.id.cancel);
 
-        alertDownload.getWindow().setDimAmount(0.4f);
+            projectName.setText(fileName);
 
-        new ReadFileMemory().execute("pdf/drawings/u1xjwIyFm9jz76nMYB2v.pdf");
+            AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+            builder.setView(download_alert).setCancelable(false);
+
+            alertDownload = builder.create();
+
+            alertDownload.getWindow().setDimAmount(0.4f);
+
+            new ReadFileMemory().execute(path);
 
 
+            download.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-        download.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                    DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://s.strictapp.com/" + path));
 
-                DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://s.strictapp.com/pdf/drawings/u1xjwIyFm9jz76nMYB2v.pdf"));
+                    ActivityCompat.requestPermissions(DetailActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
 
-                ActivityCompat.requestPermissions(DetailActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                            request.setTitle(fileName);
+                            request.setDescription("File is being download.....");
 
-                    if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                        request.setTitle("Basement plan");
-                        request.setDescription("File is being download.....");
+                            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
+                            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE);
 
-                        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
-                        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE);
+                            request.allowScanningByMediaScanner();
+                            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 
-                        request.allowScanningByMediaScanner();
-                        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                            String nameOfFile = URLUtil.guessFileName("https://s.strictapp.com/" + path, null, MimeTypeMap.getFileExtensionFromUrl("https://s.strictapp.com/" + path));
 
-                        String nameOfFile = URLUtil.guessFileName("https://s.strictapp.com/pdf/drawings/u1xjwIyFm9jz76nMYB2v.pdf", null, MimeTypeMap.getFileExtensionFromUrl("https://s.strictapp.com/pdf/drawings/u1xjwIyFm9jz76nMYB2v.pdf"));
+                            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, nameOfFile);
 
-                        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, nameOfFile);
+                            DownloadManager manager = (DownloadManager) getApplicationContext().getSystemService(Context.DOWNLOAD_SERVICE);
+                            manager.enqueue(request);
 
-                        DownloadManager manager = (DownloadManager) getApplicationContext().getSystemService(Context.DOWNLOAD_SERVICE);
-                        manager.enqueue(request);
+                        } else {
 
-                    } else {
+                            Toast.makeText(getApplicationContext(), "Problem sa preuzimanjem fajla.", Toast.LENGTH_SHORT).show();
 
-                        Toast.makeText(getApplicationContext(), "Problem sa preuzimanjem fajla.", Toast.LENGTH_SHORT).show();
+                        }
 
                     }
 
+                    alertDownload.dismiss();
+
                 }
+            });
 
-                alertDownload.dismiss();
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDownload.dismiss();
+                }
+            });
 
-            }
-        });
+            alertDownload.show();
 
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDownload.dismiss();
-            }
-        });
+        } else {
 
-        alertDownload.show();
+            Toast.makeText(DetailActivity.this, "Nothing to download.", Toast.LENGTH_SHORT).show();
+
+        }
     }
 
     private void showShareAlert() {
@@ -911,6 +931,27 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
+    public static void setDefaultColorForAllButtons() {
 
+        info.setAlpha(1.0f);
+        info.setColorFilter(resources.getColor(R.color.colorPrimary));
+
+        comment.setAlpha(0.6f);
+        comment.setColorFilter(resources.getColor(R.color.buttonsSettings));
+
+        numberOfComments.setTextColor(resources.getColor(R.color.buttonsSettings));
+        numberOfComments.setAlpha(0.6f);
+
+        download.setAlpha(0.6f);
+        download.setColorFilter(resources.getColor(R.color.buttonsSettings));
+
+        share.setAlpha(0.6f);
+        share.setColorFilter(resources.getColor(R.color.buttonsSettings));
+
+    }
+
+    public static void setSelectedVersion(Version version) {
+        selectedVersion = version;
+    }
 
 }

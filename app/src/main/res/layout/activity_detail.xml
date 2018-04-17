@@ -181,15 +181,16 @@
                             android:id="@+id/numberOfComments"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="11sp"
-                            android:textColor="@color/buttonsSettings"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginLeft="38.5dp"
+                            android:layout_marginTop="7.5dp"
                             android:alpha="0.6"
-                            android:layout_marginTop="6dp"
-                            android:layout_centerHorizontal="true"
-                            android:fontFamily="@font/helvetica_neue"/>
-                    </RelativeLayout>
+                            android:fontFamily="@font/helvetica_neue"
+                            android:text=""
+                            android:textColor="@color/buttonsSettings"
+                            android:textSize="11sp" />
 
+                    </RelativeLayout>
 
                     <TextView
                         android:layout_width="wrap_content"

@@ -22,6 +22,8 @@ import com.example.laptop.restrict.R;
 
 import java.util.ArrayList;
 
+import static com.example.laptop.restrict.DetailActivity.setSelectedVersion;
+
 /**
  * Created by ivandjordjevic on 5.2.18..
  */
@@ -63,6 +65,8 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
                 updateImage(raw_index);
                 notifyDataSetChanged();
                 CommentsFragment.version_id = versions.get(position).getId();
+                setSelectedVersion(versions.get(position));
+                DetailActivity.setDefaultColorForAllButtons();
 
             }
         });

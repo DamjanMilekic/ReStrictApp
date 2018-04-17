@@ -38,6 +38,8 @@ import retrofit2.Response;
 
 public  class LoginFragment extends Fragment implements View.OnClickListener {
 
+    public static int user_id;
+
     private ILoginMain listenerLoginMain;
     HomeFragment homeFragment;
     EditText  passwordEdit,emailEdit;
@@ -177,6 +179,7 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
                             projectStatusLogin = (ProjectStatusLogin) response.body();
                             String status = projectStatusLogin.getStatus();
                             api_token = projectStatusLogin.getToken();
+                            user_id = projectStatusLogin.getUserId();
 
 
                             if (status != null) {
