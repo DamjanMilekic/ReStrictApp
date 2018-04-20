@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
 import android.widget.BaseExpandableListAdapter;
@@ -106,20 +107,17 @@ public class ThreeLevelListAdapter extends AnimatedExpandableListView.AnimatedEx
         text.setText(date.getTitle());
         adressNo.setText(date.getIdentifier());
 
-
-        //za slucaj da i prvi red treba da se rotira
-    /*    if(isExpanded)
+        if(isExpanded)
         {
-            img.setImageResource(R.drawable.arrow_down);
-
+            //Animation animation = AnimationUtils.loadAnimation(context,R.anim.rotate_arrow);
+          //  img.startAnimation(animation);
+            // img.animate().rotationBy(90).setDuration(500).start();
+            img.setImageResource(R.drawable.ar_down);
         }
         else
         {
-
-         //   img.startAnimation(AnimationUtils.loadAnimation(context,R.anim.rotate_arrow));
-            img.setImageResource(R.drawable.arrow_right);
-
-        }*/
+            img.setImageResource(R.drawable.right_arrow);
+        }
 
         secondLevelELV.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             int previousGroup = -1;
@@ -131,8 +129,6 @@ public class ThreeLevelListAdapter extends AnimatedExpandableListView.AnimatedEx
                 previousGroup = groupPosition;
             }
         });
-
-
 
         return convertView;
     }

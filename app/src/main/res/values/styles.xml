@@ -22,6 +22,10 @@
         <item name="android:windowEnterAnimation">@anim/popup_scale_up</item>
         <item name="android:windowExitAnimation">@anim/popup_scale_down</item>
     </style>
+    <style name="popup_slide_animation">
+        <item name="android:windowEnterAnimation">@anim/slide_from_down_to_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_from_up_to_down</item>
+    </style>
     <style name="SwitchCompatTheme" >
         <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
