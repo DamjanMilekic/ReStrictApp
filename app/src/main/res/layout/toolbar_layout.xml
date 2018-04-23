@@ -32,18 +32,24 @@
             android:layout_alignRight="@id/btnProfileActBar"
             android:layout_marginRight="40dp"
             android:src="@drawable/notif_act_bar_btn"/>
-
-        <TextView
-            android:id="@+id/txNumberOfNotif"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="13.4dp"
-            android:layout_marginTop="3.5dp"
-            android:textSize="12sp"
+        <FrameLayout
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="0.9dp"
             android:layout_alignRight="@id/btnProfileActBar"
-            android:layout_marginRight="43.5dp"
-            android:textColor="@color/strictBlue"
-            android:fontFamily="@font/helvetica_neue" />
+            android:layout_marginRight="43.5dp">
+            <TextView
+                android:layout_marginStart="3.5dp"
+                android:id="@+id/txNumberOfNotif"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_gravity="center"
+                android:text=""
+                android:textColor="@color/strictBlue"
+                android:fontFamily="@font/helvetica_neue" />
+        </FrameLayout>
+
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/btnProfileActBar"
