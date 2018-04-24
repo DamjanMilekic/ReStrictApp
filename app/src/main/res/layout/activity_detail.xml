@@ -90,7 +90,6 @@
                 android:scaleType="fitCenter"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-
                 android:background="@null"
                 android:src="@drawable/profile_act_bar_btn" />
 
@@ -98,12 +97,15 @@
 
     </RelativeLayout>
 
-  <!--  gotov toolbar-->
+    <!--  gotov toolbar-->
     <ScrollView
-        android:layout_below="@id/toolbar2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentStart="false"
+        android:layout_below="@id/toolbar2"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:clipToPadding="false"
         android:scrollbars="vertical">
 
@@ -116,10 +118,15 @@
                 android:id="@+id/circleRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
                 android:background="@color/white"
                 android:paddingBottom="2dp"
                 android:paddingTop="2dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray_shadow"
+                android:alpha="0.6"/>
 
             <fragment
                 android:id="@+id/detailImageFragment"
@@ -127,41 +134,47 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <!--<View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray_shadow"
+                android:alpha="0.6"/>-->
+
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
                 android:layout_marginEnd="7dp"
                 android:layout_marginStart="7dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
                 app:cardCornerRadius="5dp"
                 app:cardElevation="0dp">
 
                 <LinearLayout
                     android:id="@+id/buttonsLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:orientation="horizontal"
-                    >
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp">
 
                     <ImageButton
                         android:id="@+id/infoImageButton"
                         style="@style/Widget.AppCompat.Button.Borderless"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="25dp"
                         android:layout_weight="1"
+                        android:alpha="0.6"
                         android:src="@mipmap/info_icon"
-                        android:tint="@color/buttonsSettings"
-                        android:alpha="0.6"/>
+                        android:tint="@color/buttonsSettings" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="18dp"
                         android:layout_gravity="center"
-                        android:text="|"
-                        android:textColor="@color/detail_fragment_background"
-                        android:textSize="20sp" />
+                        android:background="@color/detail_fragment_background" />
+
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -172,63 +185,68 @@
                             android:id="@+id/commentsImageButton"
                             style="@style/Widget.AppCompat.Button.Borderless"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="25dp"
+                            android:alpha="0.6"
                             android:src="@mipmap/comments_icon"
-                            android:tint="@color/buttonsSettings"
-                            android:alpha="0.6"/>
+                            android:tint="@color/buttonsSettings" />
 
                         <TextView
                             android:id="@+id/numberOfComments"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_marginLeft="38.5dp"
-                            android:layout_marginTop="7.5dp"
+                            android:layout_alignParentTop="false"
+                            android:layout_centerHorizontal="false"
+                            android:layout_marginLeft="38dp"
+                            android:layout_marginTop="3.5dp"
                             android:alpha="0.6"
                             android:fontFamily="@font/helvetica_neue"
-                            android:text=""
+                            android:gravity="center"
+                            android:text="18"
                             android:textColor="@color/buttonsSettings"
                             android:textSize="11sp" />
 
                     </RelativeLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="18dp"
                         android:layout_gravity="center"
-                        android:text="|"
-                        android:textColor="@color/detail_fragment_background"
-                        android:textSize="20sp" />
+                        android:background="@color/detail_fragment_background" />
 
                     <ImageButton
                         android:id="@+id/downloadImageButton"
                         style="@style/Widget.AppCompat.Button.Borderless"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="25dp"
                         android:layout_weight="1"
+                        android:alpha="0.6"
                         android:src="@mipmap/download_icon"
-                        android:tint="@color/buttonsSettings"
-                        android:alpha="0.6"/>
+                        android:tint="@color/buttonsSettings" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="18dp"
                         android:layout_gravity="center"
-                        android:text="|"
-                        android:textColor="@color/detail_fragment_background"
-                        android:textSize="20sp" />
+                        android:background="@color/detail_fragment_background" />
 
                     <ImageButton
                         android:id="@+id/shareImageButton"
                         style="@style/Widget.AppCompat.Button.Borderless"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="25dp"
                         android:layout_weight="1"
+                        android:alpha="0.6"
                         android:src="@mipmap/share_icon"
-                        android:tint="@color/buttonsSettings"
-                        android:alpha="0.6"/>
+                        android:tint="@color/buttonsSettings" />
 
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_gravity="bottom"
+                    android:background="@color/gray_shadow"
+                    android:alpha="0.6"/>
 
             </android.support.v7.widget.CardView>
 

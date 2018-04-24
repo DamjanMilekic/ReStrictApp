@@ -30,7 +30,10 @@
                 android:layout_height="37dp"
                 android:orientation="horizontal"
                 android:layout_marginBottom="2dp"
-                android:padding="5dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:paddingRight="10dp"
                 android:background="@color/white">
 
                 <TextView
@@ -68,7 +71,10 @@
                 android:layout_height="37dp"
                 android:orientation="horizontal"
                 android:layout_marginBottom="2dp"
-                android:padding="5dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:paddingRight="10dp"
                 android:background="@color/white">
 
                 <TextView
@@ -105,7 +111,10 @@
                 android:layout_height="37dp"
                 android:orientation="horizontal"
                 android:background="@color/white"
-                android:paddingStart="5dp">
+                android:paddingLeft="10dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:paddingRight="10dp">
 
                 <TextView
                     android:id="@+id/issuedfor"
@@ -167,6 +176,13 @@
 
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="bottom"
+                android:background="@color/gray_shadow"
+                android:alpha="0.6"/>
+
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
@@ -185,40 +201,51 @@
             android:orientation="vertical"
             android:background="@color/detail_fragment_background">
 
-                <LinearLayout
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingLeft="10dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:id="@+id/approvedby"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="APPROVED BY"
+                    android:textStyle="bold"
+                    android:alpha="0.6"
+                    android:textSize="13sp"
+                    android:textColor="@color/buttonsSettings"
+                    android:padding="5dp"
+                    android:fontFamily="@font/helvetica_neue"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/approvedbyRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white">
+                    android:layout_marginTop="1dp"
+                    android:background="@color/detail_fragment_background"/>
 
-                    <TextView
-                        android:id="@+id/approvedby"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="APPROVED BY"
-                        android:textStyle="bold"
-                        android:alpha="0.6"
-                        android:textSize="13sp"
-                        android:textColor="@color/buttonsSettings"
-                        android:padding="5dp"
-                        android:fontFamily="@font/helvetica_neue"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/approvedbyRecyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="1dp"
-                        android:background="@color/detail_fragment_background"/>
-
-                </LinearLayout>
+            </LinearLayout>
 
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"
+            android:background="@color/gray_shadow"
+            android:alpha="0.6"/>
 
     </android.support.v7.widget.CardView>
 </LinearLayout>
