@@ -192,16 +192,14 @@
 
                         <TextView
                             android:id="@+id/numberOfComments"
-                            android:layout_width="wrap_content"
+                            android:layout_width="40dp"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentTop="false"
-                            android:layout_centerHorizontal="false"
-                            android:layout_marginLeft="38dp"
+                            android:layout_marginLeft="24dp"
                             android:layout_marginTop="3.5dp"
                             android:alpha="0.6"
                             android:fontFamily="@font/helvetica_neue"
                             android:gravity="center"
-                            android:text="18"
+                            android:text="8"
                             android:textColor="@color/buttonsSettings"
                             android:textSize="11sp" />
 
