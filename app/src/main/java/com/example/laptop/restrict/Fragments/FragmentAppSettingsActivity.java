@@ -9,7 +9,9 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -19,6 +21,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
@@ -33,6 +36,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.laptop.restrict.DetailActivity;
 import com.example.laptop.restrict.MainActivity;
 import com.example.laptop.restrict.Model.Data;
 import com.example.laptop.restrict.Model.Person;
@@ -60,10 +64,7 @@ import retrofit2.http.Multipart;
 
 
 public class FragmentAppSettingsActivity extends Fragment {
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
+
 
     private FragmentActivity fragmentContext;
     private FragmentManager fragmentManager;
@@ -86,7 +87,7 @@ public class FragmentAppSettingsActivity extends Fragment {
     LinearLayout linearLayoutSlicicaIText;
 
     private MainActivity mainActivity;
-
+    private DetailActivity detailActivity;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -129,7 +130,7 @@ public class FragmentAppSettingsActivity extends Fragment {
         slikax.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                slikaIme.setImageResource(R.drawable.backround_circle);
+                slikaIme.setImageResource(R.drawable.full_circle);
                 linearLayoutSlicicaIText.setVisibility(View.VISIBLE);
             }
         });
@@ -251,8 +252,9 @@ public class FragmentAppSettingsActivity extends Fragment {
 
                     if (isEmailValid(mail)) {
 
+
                         //executePostRequest(ime,prezime, titl,mail,tel);
-                        //
+
                         // TODO treba upload na server slikaaaaa
                         //Toast.makeText(getContext(), "Changes made successfully", Toast.LENGTH_LONG).show();
                         //TODO save states
@@ -263,8 +265,9 @@ public class FragmentAppSettingsActivity extends Fragment {
                         call.enqueue(new Callback<Person>() {
                             @Override
                             public void onResponse(Call<Person> call, Response<Person> response) {
-                                mainActivity = (MainActivity) getActivity();
-                                mainActivity.onBackPressed();
+                                /*mainActivity = (MainActivity) getActivity();
+                                mainActivity.onBackPressed();*/
+                                fragmentManager.popBackStack();
                             }
 
                             @Override
@@ -303,15 +306,12 @@ public class FragmentAppSettingsActivity extends Fragment {
                     @Override
                     public void onResponse(Call<Person> call, Response<Person> response) {
 
-                        onDestroy();
-                        mainActivity = (MainActivity) getActivity();
-                        LoginFragment loginFragment = new LoginFragment();
-                        FragmentManager fm = mainActivity.getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                        fragmentTransaction.commit();
-                        fragmentTransaction.replace(R.id.frame, loginFragment);
+                            Intent i = new Intent(fragmentContext, MainActivity.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(i);
+                            Toast.makeText(getContext(), "Successfully logout", Toast.LENGTH_SHORT).show();
 
-                        Toast.makeText(getContext(), "Success logout", Toast.LENGTH_LONG).show();
+
                     }
 
                     @Override
@@ -328,7 +328,8 @@ public class FragmentAppSettingsActivity extends Fragment {
 
         //dodavanje ako slika  nema content, i ako ima brise placeholder
         if (slikaIme.getDrawable() == null) {
-            slikaIme.setImageResource(R.drawable.backround_circle);
+            slikaIme.setImageResource(R.drawable.full_circle);
+         //   slikaIme.setBackgroundColor(getResources().getColor(R.color.fotoback));
             Log.d(TAG, "NO PICTURES");
 
         } else {
@@ -342,27 +343,35 @@ public class FragmentAppSettingsActivity extends Fragment {
         call.enqueue(new Callback<Person>() {
             @Override
             public void onResponse(Call<Person> call, Response<Person> response) {
+                if (response.body()!=null){
 
-                User data = response.body().getUser();
+                    User data = response.body().getUser();
 
-                name.setText(data.getFirstName());
-                lastName.setText(data.getLastName());
-                title.setText(data.getTitle());
-                eMail.setText(data.getEmail());
-                phone.setText(data.getProfile().getPhone());
+                    name.setText(data.getFirstName());
+                    lastName.setText(data.getLastName());
+                    title.setText(data.getTitle());
+                    eMail.setText(data.getEmail());
+                    phone.setText(data.getProfile().getPhone());
 
 /*
                 slikaIme.se(data.getProfile().getImage());
 */
-                String urlSlike= "https://s.strictapp.com/" + data.getProfile().getImage();
-                Picasso.with(getContext())
-                        .load(urlSlike).fit().centerCrop()
-                        .into(slikaIme);
+                    String urlSlike= "https://s.strictapp.com/" + data.getProfile().getImage();
+                    Picasso.with(getContext())
+                            .load(urlSlike).fit().centerCrop()
+                            .into(slikaIme);
 
                 /*Picasso.with(mainActivity.getApplicationContext())
                         .load(urlSlike).fit().centerCrop()
                         .into(slicicaZaToolbar);*/
+                }else {
+                    Toast.makeText(fragmentContext, "Your sesion has expired, pleas login again", Toast.LENGTH_SHORT).show();
+                    mainActivity = (MainActivity) getContext();
+                    logOutFromMainActivity(mainActivity);
+                }
+
             }
+
 
             @Override
             public void onFailure(Call<Person> call, Throwable t) {
@@ -383,7 +392,7 @@ public class FragmentAppSettingsActivity extends Fragment {
         return matcher.matches();
     }
 
-    /*private void executePostRequest(String postName, String postLastName, String postTitle
+  /*  private void executePostRequest(String postName, String postLastName, String postTitle
                     ,String postEmail,String postPhone){
 
         Service apiService = Client.getApiClient().create(Service.class);
@@ -503,4 +512,29 @@ public class FragmentAppSettingsActivity extends Fragment {
     public void onStop() {
         super.onStop();
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    public void logOutFromMainActivity(Context context){
+
+        LoginFragment loginFragment = new LoginFragment();
+        FragmentManager fm = mainActivity.getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.frame, loginFragment).commit();
+        onDestroy();
+        Toast.makeText(context, "Success logout", Toast.LENGTH_LONG).show();
+
+    }
+ /*  public void logOutFromDetailActivity(Context context){
+
+        LoginFragment loginFragment = new LoginFragment();
+        FragmentManager fm = detailActivity.getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.appsettingscontainer, loginFragment).commit();
+        Toast.makeText(context, "Success logout", Toast.LENGTH_LONG).show();
+
+    }*/
 }

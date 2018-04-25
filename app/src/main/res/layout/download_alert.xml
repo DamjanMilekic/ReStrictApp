@@ -26,7 +26,8 @@
                 android:layout_height="match_parent"
                 android:text="Basement plan.pdf"
                 android:textColor="@color/headerText"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:fontFamily="@font/helvetica_neue"/>
 
             <TextView
                 android:id="@+id/project_size"
@@ -34,10 +35,11 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:gravity="right|center_vertical"
-                android:text="12MB"
+                android:text=""
                 android:textColor="#ff0000"
                 android:alpha="0.7"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:fontFamily="@font/helvetica_neue"/>
 
         </LinearLayout>
 
@@ -65,9 +67,9 @@
                 android:paddingRight="10dp"
                 android:text="Download"
                 android:textColor="@color/headerText"
-
                 android:alpha="0.9"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:fontFamily="@font/helvetica_neue"/>
 
             <TextView
                 android:id="@+id/cancel"
@@ -80,7 +82,8 @@
                 android:text="Cancel"
                 android:textColor="@color/headerText"
                 android:alpha="0.6"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:fontFamily="@font/helvetica_neue"/>
 
         </LinearLayout>
 

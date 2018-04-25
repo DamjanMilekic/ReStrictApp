@@ -6,8 +6,6 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.lang.reflect.ParameterizedType;
-
 /**
  * Created by ivandjordjevic on 20.2.18..
  */

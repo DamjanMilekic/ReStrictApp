@@ -19,7 +19,8 @@
         android:layout_gravity="center"
         android:text="NOTIFICATION CENTER"
         android:textColor="@color/notificationTextColor"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:fontFamily="@font/helvetica_neue" />
 </LinearLayout>
 
 

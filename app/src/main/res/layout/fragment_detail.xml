@@ -122,7 +122,8 @@
                         android:layout_gravity="center"
                         android:text="|"
                         android:textColor="@color/detail_fragment_background"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"
+                        android:fontFamily="@font/helvetica_neue" />
 
                     <ImageButton
                         android:id="@+id/commentsImageButton"
@@ -138,7 +139,8 @@
                         android:layout_gravity="center"
                         android:text="|"
                         android:textColor="@color/detail_fragment_background"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"
+                        android:fontFamily="@font/helvetica_neue" />
 
                     <ImageButton
                         android:id="@+id/downloadImageButton"
@@ -154,7 +156,8 @@
                         android:layout_gravity="center"
                         android:text="|"
                         android:textColor="@color/detail_fragment_background"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"
+                        android:fontFamily="@font/helvetica_neue" />
 
                     <ImageButton
                         android:id="@+id/shareImageButton"

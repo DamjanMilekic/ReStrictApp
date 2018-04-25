@@ -6,6 +6,7 @@ import com.example.laptop.restrict.Model.PostCommentRequest;
 import com.example.laptop.restrict.Model.ProjectStatusApprovals;
 import com.example.laptop.restrict.Model.ProjectStatusComment;
 import com.example.laptop.restrict.Model.ProjectStatusData;
+import com.example.laptop.restrict.Model.ProjectStatusDeleteComment;
 import com.example.laptop.restrict.Model.ProjectStatusPostComment;
 import com.example.laptop.restrict.Model.ProjectStatusShare;
 
@@ -35,12 +36,19 @@ public interface ApiInterfaceDetails {
     Call<ProjectStatusComment> getComments(@Path("id") int version_id, @Query("api_token") String api_key);
 
     @GET("api/approvals/show/{id}")
-    Call<ProjectStatusApprovals> getApprovals(@Path("id") int drawing_id, @Query("api_token") String api_key);
+    Call<ProjectStatusApprovals> getApprovals(@Path("id") int section_id, @Query("api_token") String api_key);
 
     @POST("api/comments/store/")
     Call<ProjectStatusPostComment> setComment(@Body PostCommentRequest postCommentRequest);
 
-    @POST("angular/share/create/")
-    Call<ProjectStatusShare> share(@Body String json);
+    @GET("api/comments/delete/{comment_id}")
+    Call<ProjectStatusDeleteComment> deleteComment(@Path("comment_id") int comment_id, @Query("api_token") String api_key);
+
+    // Potreban X-XSRF-TOKEN da bi se uradio share
+    /*@POST("api/share/create/")
+    Call<ProjectStatusShare> share(@Body String json);*/
+
+    /*@GET("angular/approvals/show/{id}")
+    Call<ProjectStatusApprovals> getApprovals(@Path("id") int drawing_id);*/
 
 }

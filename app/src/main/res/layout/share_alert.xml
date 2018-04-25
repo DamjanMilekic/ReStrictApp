@@ -19,7 +19,8 @@
             android:layout_gravity="center"
             android:textSize="18dp"
             android:layout_marginTop="5dp"
-            android:textColor="@color/headerText"/>
+            android:textColor="@color/headerText"
+            android:fontFamily="@font/helvetica_neue"/>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -40,7 +41,8 @@
             android:textColorHint="@color/placeholder"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/helvetica_neue"/>
 
         <EditText
             android:id="@+id/input_notes"
@@ -56,7 +58,8 @@
             android:layout_marginEnd="30dp"
             android:textAlignment="textStart"
             android:gravity="top"
-            tools:ignore="RtlCompat" />
+            tools:ignore="RtlCompat"
+            android:fontFamily="@font/helvetica_neue" />
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_marginTop="15dp"
@@ -83,20 +86,20 @@
                 android:textSize="16sp"
                 android:background="@drawable/rounded_corners"
                 android:textColor="@color/white"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:fontFamily="@font/helvetica_neue"/>
 
-
-
-                <TextView
-                    android:id="@+id/cancel"
-                    android:layout_width="90dp"
-                    android:layout_height="30dp"
-                    android:text="Cancel"
-                    android:textSize="16sp"
-                    android:layout_marginStart="7dp"
-                    android:gravity="center"
-                    android:textColor="@color/buttonLogout"
-                    android:background="@drawable/rounded_corners_with_orange_border"/>
+            <TextView
+                android:id="@+id/cancel"
+                android:layout_width="90dp"
+                android:layout_height="30dp"
+                android:text="Cancel"
+                android:textSize="16sp"
+                android:layout_marginStart="7dp"
+                android:gravity="center"
+                android:textColor="@color/buttonLogout"
+                android:background="@drawable/rounded_corners_with_orange_border"
+                android:fontFamily="@font/helvetica_neue"/>
 
 
 

@@ -12,8 +12,10 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.laptop.restrict.AnimatedExpandableListView;
+import com.example.laptop.restrict.Fragments.InfoFragment;
 import com.example.laptop.restrict.Model.Date;
 import com.example.laptop.restrict.Model.DrawingHome;
 import com.example.laptop.restrict.Model.Section;
@@ -134,10 +136,10 @@ public class ThreeLevelListAdapter extends AnimatedExpandableListView.AnimatedEx
     }
 
     @Override
-    public View getRealChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getRealChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         final SecondLevelExpandableListView secondLevelELV = new SecondLevelExpandableListView(context);
 
-        List<Section> headers = secondLevel.get(groupPosition);
+        final List<Section> headers = secondLevel.get(groupPosition);
 
         secondLevelELV.setAdapter(new SecondLevelAdapter(context, headers));
 
@@ -152,7 +154,9 @@ public class ThreeLevelListAdapter extends AnimatedExpandableListView.AnimatedEx
                 if(groupPosition != previousGroup)
                     secondLevelELV.collapseGroup(previousGroup);
                 previousGroup = groupPosition;
+                InfoFragment.setSectionId(headers.get(childPosition).getId());
             }
+
         });
 
 

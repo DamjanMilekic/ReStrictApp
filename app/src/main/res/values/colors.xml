@@ -25,6 +25,8 @@
     <color name="placeholder">#9cacb7</color>
     <color name="greendark">#16b43d</color>
     <color name="notificationTextColor">#609dbd</color>
+    <color name="fotoback">#F5F5F8</color>
+    <color name="gray_shadow">#8C8C8C</color>
 
 
 </resources>
