@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
     android:background="@color/actionBarC" >
 
     <ImageView
@@ -16,7 +15,7 @@
         android:scaleType="fitCenter"
          />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -24,49 +23,45 @@
         android:layout_marginEnd="5dp"
         android:orientation="horizontal">
 
-        <android.support.v7.widget.CardView
-            android:layout_width="45dp"
-            android:backgroundTint="#172D42"
-            android:layout_height="match_parent">
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <ImageButton
-                    android:id="@+id/btnNotificationActBar"
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:background="@null"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/notif_act_bar_btn" />
-            </FrameLayout>
 
 
+        <ImageView
+            android:id="@+id/btnNotificationActBar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignRight="@id/btnProfileActBar"
+            android:layout_marginRight="40dp"
+            android:src="@drawable/notif_act_bar_btn"/>
+        <FrameLayout
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="0.9dp"
+            android:layout_alignRight="@id/btnProfileActBar"
+            android:layout_marginRight="43.5dp">
             <TextView
+                android:layout_marginStart="3.5dp"
                 android:id="@+id/txNumberOfNotif"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginTop="1.5dp"
-                android:layout_marginStart="7.5dp"
+                android:layout_height="wrap_content"
                 android:textSize="12sp"
+                android:layout_gravity="center"
                 android:text=""
                 android:textColor="@color/strictBlue"
                 android:fontFamily="@font/helvetica_neue" />
+        </FrameLayout>
 
-        </android.support.v7.widget.CardView>
 
-        <ImageButton
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/btnProfileActBar"
-            android:layout_width="50dp"
+            android:layout_width="30dp"
             android:layout_height="30dp"
-            android:scaleType="fitCenter"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@null"
             android:src="@drawable/profile_act_bar_btn" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </RelativeLayout>

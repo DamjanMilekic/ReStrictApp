@@ -203,13 +203,15 @@ public class FragmentAppSettingsActivity extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*mainActivity = (MainActivity) getActivity();
-                mainActivity.onBackPressed();*/
+
                 FragmentManager fm = getActivity().getSupportFragmentManager();
 
-                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                /*for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
+                }*/
 
+                while (fragmentManager.getBackStackEntryCount() > 0) {
+                    fragmentManager.popBackStackImmediate();
                 }
 
             }
