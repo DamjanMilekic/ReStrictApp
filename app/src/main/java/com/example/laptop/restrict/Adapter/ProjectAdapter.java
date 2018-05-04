@@ -66,7 +66,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
                 notifyDataSetChanged();
                 CommentsFragment.version_id = versions.get(position).getId();
                 setSelectedVersion(versions.get(position));
-                DetailActivity.setDefaultColorForAllButtons();
+                //DetailActivity.setDefaultColorForAllButtons();
 
             }
         });

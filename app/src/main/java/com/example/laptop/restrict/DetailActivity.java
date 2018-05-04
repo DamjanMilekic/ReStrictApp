@@ -953,6 +953,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
+/*
     public static void setDefaultColorForAllButtons() {
 
         info.setAlpha(1.0f);
@@ -971,6 +972,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         share.setColorFilter(resources.getColor(R.color.buttonsSettings));
 
     }
+*/
 
     public static void setSelectedVersion(Version version) {
         selectedVersion = version;
