@@ -226,13 +226,13 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
 
 
             } else {
-                Toast.makeText(context, "Wrong email format", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Wrong email format", Toast.LENGTH_LONG).show();
                 btnLogin.setEnabled(true);
 
 
             }
         } else {
-            Toast.makeText(context, "You need to fill all fields!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "You need to fill all fields!", Toast.LENGTH_LONG).show();
             btnLogin.setEnabled(true);
 
         }
