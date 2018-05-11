@@ -83,14 +83,14 @@ public class SecondLevelAdapter extends AnimatedExpandableListView.AnimatedExpan
 
         if(isExpanded)
         {
-            img.setImageResource(R.drawable.arrow_down);
+            img.setImageResource(R.drawable.arrdblue);
 
         }
         else
         {
 
             //   img.startAnimation(AnimationUtils.loadAnimation(context,R.anim.rotate_arrow));
-            img.setImageResource(R.drawable.arrow_right);
+            img.setImageResource(R.drawable.arrblue);
 
         }
         return convertView;

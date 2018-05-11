@@ -47,7 +47,7 @@
                 android:layout_width="21dp"
                 android:layout_height="21dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/right_arrow"/>
+                android:src="@drawable/arr"/>
 
         </LinearLayout>
 
