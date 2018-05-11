@@ -57,6 +57,9 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
 
     public static String api_token = "";
 
+    //promena SLIKE na aktivnostima u toolbaru
+    public static String image_url = "";
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -179,6 +182,7 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
                             projectStatusLogin = (ProjectStatusLogin) response.body();
                             String status = projectStatusLogin.getStatus();
                             api_token = projectStatusLogin.getToken();
+                            image_url = projectStatusLogin.getAvatar();
                             user_id = projectStatusLogin.getUserId();
 
 
@@ -222,13 +226,13 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
 
 
             } else {
-                Toast.makeText(context, "Wrong email format", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Wrong email format", Toast.LENGTH_LONG).show();
                 btnLogin.setEnabled(true);
 
 
             }
         } else {
-            Toast.makeText(context, "You need to fill all fields!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "You need to fill all fields!", Toast.LENGTH_LONG).show();
             btnLogin.setEnabled(true);
 
         }

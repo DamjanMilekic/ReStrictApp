@@ -41,6 +41,7 @@ import android.webkit.MimeTypeMap;
 import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -76,16 +77,17 @@ import com.example.laptop.restrict.Model.NotificationPopup;
 import com.example.laptop.restrict.Model.ProjectStatusComment;
 import com.example.laptop.restrict.Model.ProjectStatusData;
 import com.example.laptop.restrict.Model.ProjectStatusShare;
-import com.example.laptop.restrict.Model.Section;
 import com.example.laptop.restrict.Model.TypePopup;
 import com.example.laptop.restrict.Model.Version;
 import com.example.laptop.restrict.RetrofitAppSettings.Client;
 import com.example.laptop.restrict.RetrofitAppSettings.Service;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -112,8 +114,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private ActionBar actionBar;
 
     // ImageButton komponente DetailActivity-a
-    private static ImageButton info, comment, download, share;
-    private ImageButton /*info, comment, download, share, */imageButtonAppsettings;
+    private ImageButton info, comment, download, share;
+    CircleImageView imageButtonAppsettings;
     private ImageView backButton;
 
     private TextView btnNumberNotification;
@@ -125,9 +127,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private FragmentTransaction transaction;
     private Fragment currentFragment;
 
-    private TextView numberOfNotif;
-    private ImageButton imgProfile;
-    private ImageButton notification;
+
+    private ImageView notification;
 
     private List<DatumPopup> notifList = new ArrayList<>();
     private Point p;
@@ -139,6 +140,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     private static Resources resources;
 
+    public static FrameLayout frameLayout;
     @Override
     protected void onStart() {
         super.onStart();
@@ -156,8 +158,14 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        frameLayout = (FrameLayout)findViewById(R.id.appsettingscontainer);
 
 
+        /*getFragmentManager().
+                beginTransaction().
+                remove(getFragmentManager().
+                        findFragmentById(R.id.appsettingscontainer)).
+                commit();*/
         handler = new Handler(getMainLooper());
 
         handler.post(new Runnable() {
@@ -171,9 +179,15 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
             drawing_id = getIntent().getIntExtra("drawing_id", -1);
 
+
             if (drawing_id != -1) {
                 // Inicijalizovanje toolbar-a
-                imageButtonAppsettings = (ImageButton) findViewById(R.id.btnProfileActBarSettings);
+                imageButtonAppsettings = (CircleImageView) findViewById(R.id.btnProfileActBarSettings);
+                //postavljanje slicice na toolbaru
+                String urlSLika= "https://s.strictapp.com/" + LoginFragment.image_url;
+                Picasso.with(this)
+                        .load(urlSLika).fit().centerCrop()
+                        .into(imageButtonAppsettings);
 
                 backButton = (ImageView) findViewById(R.id.backButtonFullScreenDetail);
 
@@ -191,6 +205,12 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onClick(View view) {
                         onBackPressed();
+                        FragmentManager fm = getSupportFragmentManager();
+
+                        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                            fm.popBackStack();
+
+                        }
                     }
                 });
 
@@ -548,7 +568,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                fragmentTransaction.setCustomAnimations(R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down, R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down);
+               // fragmentTransaction.setCustomAnimations(R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down, R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down);
                 fragmentTransaction.addToBackStack(null);
 
                 fragmentTransaction.replace(R.id.appsettingscontainer, fragmentAppSettingsActivity).commit();
@@ -661,6 +681,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     protected void onResume() {
         super.onResume();
         Log.d("detail", "onResume: ");
+
     }
 
     @Override
@@ -772,6 +793,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
         btnNumberNotification =(TextView) findViewById(R.id.txNumberOfNotif);
         notification = findViewById(R.id.btnNotificationActBar);
+
 
         // imgProfile = findViewById(R.id.btnProfileActBar);
         if(notifList.size()==0)
@@ -931,6 +953,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
+/*
     public static void setDefaultColorForAllButtons() {
 
         info.setAlpha(1.0f);
@@ -949,6 +972,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         share.setColorFilter(resources.getColor(R.color.buttonsSettings));
 
     }
+*/
 
     public static void setSelectedVersion(Version version) {
         selectedVersion = version;
