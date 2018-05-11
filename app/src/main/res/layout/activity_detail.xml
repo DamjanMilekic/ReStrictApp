@@ -140,18 +140,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="7dp"
                 android:layout_marginStart="7dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
                 app:cardCornerRadius="5dp"
                 app:cardElevation="0dp">
 
                 <LinearLayout
                     android:id="@+id/buttonsLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="40dp"
                     android:background="@color/white"
                     android:orientation="horizontal"
-                    >
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp">
 
                     <ImageButton
                         android:id="@+id/infoImageButton"
@@ -189,13 +190,14 @@
                             android:id="@+id/numberOfComments"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="11sp"
-                            android:textColor="@color/buttonsSettings"
-                            android:alpha="0.6"
-                            android:layout_marginTop="6dp"
+                            android:layout_alignParentTop="true"
                             android:layout_centerHorizontal="true"
-                            android:fontFamily="@font/helvetica_neue"/>
+                            android:alpha="0.6"
+                            android:fontFamily="@font/helvetica_neue"
+                            android:text="12"
+                            android:layout_marginTop="5dp"
+                            android:textColor="@color/buttonsSettings"
+                            android:textSize="11sp" />
                     </RelativeLayout>
 
 
@@ -236,6 +238,13 @@
                         android:alpha="0.6"/>
 
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_gravity="bottom"
+                    android:background="@color/gray_shadow"
+                    android:alpha="0.6"/>
 
             </android.support.v7.widget.CardView>
 
