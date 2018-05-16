@@ -113,7 +113,7 @@ public class FragmentAppSettingsActivity extends Fragment {
         logout = (TextView) view.findViewById(R.id.logoutbutton);
         slikaIme = (ImageView) view.findViewById(R.id.sl);
 
-        final ImageButton slicicaZaToolbar = (ImageButton)view.findViewById(R.id.btnProfileActBar);
+        final ImageButton slicicaZaToolbar = (ImageButton)view.findViewById(R.id.btnProfileActBarSettings);
         //Slike za manipulaciju sa slikom
 
 

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#162D40</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#162D40</color>
+    <color name="colorPrimary">#172D42</color>
+    <color name="colorPrimaryDark">#255377</color>
+    <color name="colorAccent">#172D42</color>
     <color name="overscroll">#000000</color>
-    <color name="colorDark">#303F9F</color>
-    <color name="actionBarC">#172e42</color>
+    <color name="colorDark">#172D42</color>
+    <color name="actionBarC">#172D42</color>
     <color name="detail_fragment_background">#E9EFEF</color>
     <color name="detail_fragment_tint_color">#B9B5BD</color>
     <color name="white">#FFFFFF</color>
@@ -16,7 +16,7 @@
     <color name="buttonLogout">#ff9b00</color>
     <color name="buttonsSettings">#1f4868</color>
     <color name="addresNumber">#00C1FF</color>
-    <color name="strictBlue">#1B3F59</color>
+    <color name="strictBlue">#172D42</color>
     <color name="extendedListBackground">#e6f4ff</color>
     <color name="secondLevelText">#81b6d0</color>
     <color name="userIDColor">#7ba5a7</color>
@@ -24,7 +24,7 @@
     <color name="orange">#ff9b00</color>
     <color name="placeholder">#9cacb7</color>
     <color name="greendark">#16b43d</color>
-    <color name="notificationTextColor">#609dbd</color>
+    <color name="notificationTextColor">#788EA5</color>
     <color name="fotoback">#F5F5F8</color>
     <color name="gray_shadow">#8C8C8C</color>
 

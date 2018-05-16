@@ -30,17 +30,13 @@
             <ImageView
                 android:id="@+id/arrowRght"
                 android:layout_marginLeft="-36dp"
-                android:layout_width="21dp"
-                android:layout_height="21dp"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/arr"/>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="#979797">
-    </LinearLayout>
+
 
     </LinearLayout>
 

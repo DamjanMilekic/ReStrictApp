@@ -19,7 +19,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="12dp"
                 android:layout_marginTop="7dp"
                 app:cardCornerRadius="25dp"
                 app:cardElevation="0dp">
@@ -27,6 +27,7 @@
                 <ImageView
                     android:id="@+id/image"
                     android:layout_width="50dp"
+
                     android:layout_height="50dp"
                     android:background="@color/white"
                     android:src="@drawable/userid_icon" />
@@ -99,13 +100,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="7dp"
                 android:gravity="top">
 
                 <ImageView
                     android:id="@+id/imageCircle1"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:src="@drawable/first_in_coment"
                     android:background="@color/white"/>
 
@@ -116,13 +117,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="7dp"
                 android:gravity="center_vertical">
 
                 <ImageView
                     android:id="@+id/imageCircle2"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:background="@color/white"
                     android:src="@drawable/pencil"/>
 
@@ -133,13 +134,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="7dp"
                 android:gravity="bottom">
 
                 <ImageView
                     android:id="@+id/imageCircle3"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:background="@color/white"
                     android:src="@drawable/cancel"/>
 

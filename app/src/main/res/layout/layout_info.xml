@@ -217,7 +217,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:paddingLeft="10dp"
-                android:paddingTop="7dp"
+                android:paddingTop="9dp"
                 android:paddingBottom="7dp"
                 android:paddingRight="10dp">
 

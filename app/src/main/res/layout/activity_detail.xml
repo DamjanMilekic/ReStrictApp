@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E9EFEF"
+    android:background="#E7EFF1"
     tools:context="com.example.laptop.restrict.DetailActivity">
 
     <RelativeLayout
@@ -64,11 +64,12 @@
                 android:layout_alignRight="@id/btnNotificationActBar"
                 android:layout_marginRight="3.3dp">
                 <TextView
-                    android:layout_marginStart="3.2dp"
+                    android:layout_marginStart="3.5dp"
                     android:id="@+id/txNumberOfNotif"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
                     android:layout_gravity="center"
                     android:text=""
                     android:textColor="@color/strictBlue"
@@ -151,8 +152,8 @@
                     android:layout_height="40dp"
                     android:background="@color/white"
                     android:orientation="horizontal"
-                    android:paddingTop="7dp"
-                    android:paddingBottom="7dp">
+                    android:paddingTop="8dp"
+                    android:paddingBottom="12dp">
 
                     <ImageButton
                         android:id="@+id/infoImageButton"
@@ -166,11 +167,13 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="38dp"
                         android:layout_gravity="center"
+                        android:typeface="monospace"
                         android:text="|"
                         android:textColor="@color/detail_fragment_background"
-                        android:textSize="20sp" />
+                        android:textSize="30sp" />
+
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -195,7 +198,8 @@
                             android:alpha="0.6"
                             android:fontFamily="@font/helvetica_neue"
                             android:text="12"
-                            android:layout_marginTop="5dp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="2.7dp"
                             android:textColor="@color/buttonsSettings"
                             android:textSize="11sp" />
                     </RelativeLayout>
@@ -203,11 +207,11 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="38dp"
                         android:layout_gravity="center"
                         android:text="|"
                         android:textColor="@color/detail_fragment_background"
-                        android:textSize="20sp" />
+                        android:textSize="30sp" />
 
                     <ImageButton
                         android:id="@+id/downloadImageButton"
@@ -221,11 +225,11 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="38dp"
                         android:layout_gravity="center"
                         android:text="|"
                         android:textColor="@color/detail_fragment_background"
-                        android:textSize="20sp" />
+                        android:textSize="30sp" />
 
                     <ImageButton
                         android:id="@+id/shareImageButton"

@@ -114,7 +114,7 @@ public class ThreeLevelListAdapter extends AnimatedExpandableListView.AnimatedEx
             //Animation animation = AnimationUtils.loadAnimation(context,R.anim.rotate_arrow);
           //  img.startAnimation(animation);
             // img.animate().rotationBy(90).setDuration(500).start();
-            img.setImageResource(R.drawable.arrd);
+           // img.setImageResource(R.drawable.arrd);
         }
         else
         {

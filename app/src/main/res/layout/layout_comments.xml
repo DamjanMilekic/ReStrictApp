@@ -20,23 +20,27 @@
             android:id="@+id/search_linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:background="@color/white"
-            android:paddingTop="5dp"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
             android:paddingRight="5dp"
-            android:paddingBottom="5dp">
+            android:paddingTop="9dp">
 
             <TextView
                 android:id="@+id/commnets"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="COMMENTS"
-                android:textStyle="bold"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
                 android:alpha="0.6"
-                android:textSize="13sp"
+                android:fontFamily="@font/helvetica_neue"
+              android:paddingTop="9dp"
+                android:paddingLeft="11dp"
+                android:paddingBottom="9dp"
+                android:text="COMMENTS"
                 android:textColor="@color/buttonsSettings"
-                android:fontFamily="@font/helvetica_neue"/>
+                android:textSize="11sp"
+                android:textStyle="bold" />
 
 
             <RelativeLayout
@@ -53,26 +57,23 @@
                     android:layout_alignParentStart="true"
                     android:layout_toStartOf="@+id/search_comments"
                     android:background="@android:color/transparent"
+                    android:fontFamily="@font/helvetica_neue"
                     android:hint="Search"
                     android:maxLines="1"
                     android:padding="5dp"
                     android:textColor="@color/detail_fragment_tint_color"
-                    android:textSize="14sp"
-                    android:fontFamily="@font/helvetica_neue" />
+                    android:textSize="14sp" />
 
                 <ImageView
+                    android:id="@+id/search_comments"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_marginEnd="5dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="5dp"
                     android:src="@mipmap/search"
-                    android:tint="@color/detail_fragment_tint_color"
-                    android:id="@+id/search_comments" />
+                    android:tint="@color/detail_fragment_tint_color" />
             </RelativeLayout>
-
-
-
 
 
         </RelativeLayout>
