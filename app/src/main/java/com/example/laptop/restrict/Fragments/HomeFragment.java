@@ -205,7 +205,7 @@ public class HomeFragment extends Fragment implements PopUpNotifAdapter.PopupIte
 
         notification = mCustomView.findViewById(R.id.btnNotificationActBar);
 
-        imgProfile = mCustomView.findViewById(R.id.btnProfileActBar);
+        imgProfile = mCustomView.findViewById(R.id.btnProfileActBarSettings);
         //dodavanje slike na home toolbar
 
         String urlSLika= "https://s.strictapp.com/" + LoginFragment.image_url;

@@ -12,7 +12,6 @@
 
 
     <android.support.v7.widget.CardView
-        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="5dp"
@@ -29,10 +28,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="37dp"
                 android:orientation="horizontal"
-                android:layout_marginBottom="2dp"
                 android:paddingLeft="10dp"
-                android:paddingTop="7dp"
-                android:paddingBottom="7dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:paddingRight="10dp"
                 android:background="@color/white">
 
@@ -65,15 +63,21 @@
 
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="bottom"
+                android:background="@color/detail_fragment_background"
+                android:alpha="0.6"/>
+
             <LinearLayout
                 android:id="@+id/linearUploaded"
                 android:layout_width="match_parent"
                 android:layout_height="37dp"
                 android:orientation="horizontal"
-                android:layout_marginBottom="2dp"
                 android:paddingLeft="10dp"
-                android:paddingTop="7dp"
-                android:paddingBottom="7dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:paddingRight="10dp"
                 android:background="@color/white">
 
@@ -105,6 +109,13 @@
 
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="bottom"
+                android:background="@color/detail_fragment_background"
+                android:alpha="0.6"/>
+
             <LinearLayout
                 android:id="@+id/linearIssuedfor"
                 android:layout_width="match_parent"
@@ -112,8 +123,8 @@
                 android:orientation="horizontal"
                 android:background="@color/white"
                 android:paddingLeft="10dp"
-                android:paddingTop="7dp"
-                android:paddingBottom="7dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:paddingRight="10dp">
 
                 <TextView
@@ -190,8 +201,8 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="2sp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="2dp"
         app:cardCornerRadius="5dp"
         app:cardElevation="0dp">
 
@@ -206,7 +217,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:paddingLeft="10dp"
-                android:paddingTop="7dp"
+                android:paddingTop="9dp"
                 android:paddingBottom="7dp"
                 android:paddingRight="10dp">
 
