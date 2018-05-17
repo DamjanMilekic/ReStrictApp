@@ -209,11 +209,11 @@ public class CommentsFragment extends Fragment {
 
         // Osluskivac za unos komentara
         sendButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    postComment(version_id);
-                }
-            });
+            @Override
+            public void onClick(View v) {
+                postComment(version_id);
+            }
+        });
 
         return view;
     }

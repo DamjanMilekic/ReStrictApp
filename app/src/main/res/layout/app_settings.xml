@@ -236,8 +236,55 @@
                         android:textColor="@color/placeholder"
                         android:textStyle="bold"
                         android:fontFamily="@font/helvetica_neue"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="25dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Push messages"
+                            android:textColor="@color/headerText"
+                            android:textSize="18sp"/>
+                        <ToggleButton
+                            android:id="@+id/chkState1"
+                            android:layout_width="55dp"
+                            android:layout_height="27.5dp"
+                            android:layout_alignParentEnd="true"
+                            android:background="@drawable/toggle_selector"
+                            android:layout_gravity="right"
+                            android:textOff=""
+                            android:textOn=""/>
+                    </RelativeLayout>
 
-                    <android.support.v7.widget.SwitchCompat
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="15dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Email"
+                            android:textColor="@color/headerText"
+                            android:textSize="18sp"/>
+                        <ToggleButton
+                            android:id="@+id/chkState2"
+                            android:layout_width="55dp"
+                            android:layout_height="27.5dp"
+                            android:layout_alignParentEnd="true"
+                            android:background="@drawable/toggle_selector"
+                            android:layout_gravity="right"
+                            android:textOff=""
+                            android:textOn=""/>
+                    </RelativeLayout>
+
+                    <!--<android.support.v7.widget.SwitchCompat
                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
@@ -259,7 +306,7 @@
                         android:text="Email"
                         android:textColor="@color/headerText"
                         android:textSize="18sp"
-                        android:fontFamily="@font/helvetica_neue"/>
+                        android:fontFamily="@font/helvetica_neue"/>-->
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/downLayoutOfNotification"
@@ -268,8 +315,57 @@
                     android:background="@android:color/white"
                     android:layout_marginTop="1dp"
                     android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="5dp">
 
-                    <android.support.v7.widget.SwitchCompat
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:maxWidth="250dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text1ZaappSetings"
+                            android:textColor="@color/headerText"
+                            android:textSize="18sp"/>
+                        <ToggleButton
+                            android:id="@+id/chkState3"
+                            android:layout_width="55dp"
+                            android:layout_height="27.5dp"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentEnd="true"
+                            android:background="@drawable/toggle_selector"
+                            android:textOff=""
+                            android:textOn="" />
+                    </RelativeLayout>
+                   <RelativeLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginLeft="10dp"
+                       android:layout_marginRight="10dp"
+                       android:layout_marginBottom="10dp">
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:maxWidth="250dp"
+
+                           android:layout_height="wrap_content"
+                           android:text="@string/text2ZaappSetings"
+                           android:textColor="@color/headerText"
+                           android:textSize="18sp"/>
+                       <ToggleButton
+                           android:id="@+id/chkState4"
+                           android:layout_width="55dp"
+                           android:layout_height="27.5dp"
+                           android:layout_centerVertical="true"
+                           android:background="@drawable/toggle_selector"
+                           android:layout_alignParentEnd="true"
+                           android:textOff=""
+                           android:textOn=""/>
+                   </RelativeLayout>
+
+                    <!--<android.support.v7.widget.SwitchCompat
                         android:layout_marginStart="20dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -290,7 +386,7 @@
                         android:textColor="@color/headerText"
                         android:text="@string/text2ZaappSetings"
                         android:textSize="18sp"
-                        android:fontFamily="@font/helvetica_neue"/>
+                        android:fontFamily="@font/helvetica_neue"/>-->
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/layoutZaDugme"
