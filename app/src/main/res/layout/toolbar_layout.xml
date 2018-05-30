@@ -71,12 +71,12 @@ tools:context="com.example.laptop.restrict.DetailActivity">
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="2.9dp"
-                    android:layout_marginStart="6dp"
+                    android:layout_marginBottom="3.5dp"
+                    android:layout_marginStart="5.5dp"
                     android:fontFamily="@font/helvetica_neue"
                     android:text=""
                     android:textColor="@color/strictBlue"
-                    android:textSize="11sp"
+                    android:textSize="13sp"
                     android:textStyle="bold" />
             </FrameLayout>
 
