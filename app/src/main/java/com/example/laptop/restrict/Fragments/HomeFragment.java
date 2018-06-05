@@ -62,6 +62,7 @@ import com.example.laptop.restrict.Model.TypePopup;
 import com.example.laptop.restrict.R;
 import com.example.laptop.restrict.RetrofitAppSettings.Client;
 import com.example.laptop.restrict.RetrofitAppSettings.Service;
+import com.example.laptop.restrict.SavedSharedPreferences;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -142,8 +143,6 @@ public class HomeFragment extends Fragment implements PopUpNotifAdapter.PopupIte
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-
         return inflater.inflate(R.layout.home_layout, container, false);
     }
 
@@ -151,12 +150,9 @@ public class HomeFragment extends Fragment implements PopUpNotifAdapter.PopupIte
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-            expandableListView = (AnimatedExpandableListView)view.findViewById(R.id.mainList);
-
+        expandableListView = (AnimatedExpandableListView)view.findViewById(R.id.mainList);
 
         getProjects();
-
 
         expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
@@ -208,7 +204,7 @@ public class HomeFragment extends Fragment implements PopUpNotifAdapter.PopupIte
         imgProfile = mCustomView.findViewById(R.id.btnProfileActBarSettings);
         //dodavanje slike na home toolbar
 
-        String urlSLika= "https://s.strictapp.com/" + LoginFragment.image_url;
+        String urlSLika= "https://s.strictapp.com/" + SavedSharedPreferences.getPrefAvatar(getActivity());
         Picasso.with(getContext())
                 .load(urlSLika).fit().centerCrop()
                 .into(imgProfile);
@@ -351,7 +347,8 @@ public class HomeFragment extends Fragment implements PopUpNotifAdapter.PopupIte
     private void getProjects() {
 
         Service apiService = Client.getApiClient().create(Service.class);
-        Call<DataHome> call = apiService.getProjects(LoginFragment.api_token);
+
+        Call<DataHome> call = apiService.getProjects(SavedSharedPreferences.getAPIToken(getActivity()));
 
         call.enqueue(new Callback<DataHome>() {
             @Override
@@ -414,7 +411,7 @@ public class HomeFragment extends Fragment implements PopUpNotifAdapter.PopupIte
     private void getNotification(final View view) {
 
         Service apiService = Client.getApiClient().create(Service.class);
-        Call<NotificationPopup> call = apiService.getNotificationsPopup(LoginFragment.api_token);
+        Call<NotificationPopup> call = apiService.getNotificationsPopup(SavedSharedPreferences.getAPIToken(getActivity()));
         globalVar = (Global) getActivity().getApplicationContext();
         call.enqueue(new Callback<NotificationPopup>() {
 

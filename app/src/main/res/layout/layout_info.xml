@@ -198,7 +198,7 @@
 
     </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
+    <!--<android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
@@ -258,5 +258,5 @@
             android:background="@color/gray_shadow"
             android:alpha="0.6"/>
 
-    </android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>-->
 </LinearLayout>

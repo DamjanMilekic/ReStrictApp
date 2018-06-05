@@ -18,6 +18,7 @@ import com.example.laptop.restrict.Model.Comment;
 import com.example.laptop.restrict.Model.ProjectStatusApprovals;
 import com.example.laptop.restrict.Model.ProjectStatusDeleteComment;
 import com.example.laptop.restrict.R;
+import com.example.laptop.restrict.SavedSharedPreferences;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -60,23 +61,22 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.comment.setText(comment.getText());
         holder.dateAndTime.setText(comment.getTime());
 
-        if (comment.getUserId() == LoginFragment.user_id) {
+        if (comment.getUserId() == SavedSharedPreferences.getPrefUserid(context)) {
             holder.imageCircle2.setVisibility(View.VISIBLE);
             holder.imageCircle3.setVisibility(View.VISIBLE);
 
-            holder.imageCircle3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    callDeleteComment(comment.getId());
-                    comments.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemRangeChanged(position, comments.size());
-                    notifyDataSetChanged();
-
-                }
-            });
-
         }
+        holder.imageCircle3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callDeleteComment(comment.getId());
+                comments.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, comments.size());
+                notifyDataSetChanged();
+
+            }
+        });
 
         try {
             Date date = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse(comment.getTime());
@@ -115,7 +115,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     private void callDeleteComment(int id) {
         ApiInterfaceDetails apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
-        Call<ProjectStatusDeleteComment> call = apiInterfaceDetails.deleteComment(id, LoginFragment.api_token);
+        Call<ProjectStatusDeleteComment> call = apiInterfaceDetails.deleteComment(id, SavedSharedPreferences.getAPIToken(context));
         call.enqueue(new Callback<ProjectStatusDeleteComment>() {
             @Override
             public void onResponse(Call<ProjectStatusDeleteComment> call, Response<ProjectStatusDeleteComment> response) {

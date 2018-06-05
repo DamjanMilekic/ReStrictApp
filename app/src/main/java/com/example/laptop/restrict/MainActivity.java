@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import com.example.laptop.restrict.Fragments.FragmentAppSettingsActivity;
+import com.example.laptop.restrict.Fragments.HomeFragment;
 import com.example.laptop.restrict.Fragments.LoginFragment;
 import com.example.laptop.restrict.Interfaces.ILoginMain;
 import com.example.laptop.restrict.Model.DatumPopup;
@@ -28,8 +29,8 @@ import java.util.List;
 
 public  class MainActivity extends AppCompatActivity  {
 
-    public static final String APP_TOKEN = LoginFragment.api_token;
-    android.support.v4.app.Fragment loginFr;
+   // public final String APP_TOKEN =SavedSharedPreferences.getAPIToken(MainActivity.this);
+    android.support.v4.app.Fragment loginFr,homeFr;
 
     List<DatumPopup> datumPopups;
 
@@ -45,8 +46,20 @@ public  class MainActivity extends AppCompatActivity  {
 
         findMenuItem();
 
-        loginFr = new LoginFragment();
-        setFragment(loginFr);
+      /*  loginFr = new LoginFragment();
+        setFragment(loginFr);*/
+        if(SavedSharedPreferences.getAPIToken(MainActivity.this)!="")
+        {
+            homeFr = new HomeFragment();
+            setFragment(homeFr);
+
+        }
+        else
+        {
+            loginFr = new LoginFragment();
+            setFragment(loginFr);
+        }
+
 
         datumPopups = new ArrayList<>();
        globalVar= (Global)getApplicationContext();
@@ -127,7 +140,7 @@ public  class MainActivity extends AppCompatActivity  {
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
-        String apiToken= LoginFragment.api_token;
+        String apiToken= SavedSharedPreferences.getAPIToken(MainActivity.this);
         outState.putString("api",apiToken);
     }
 

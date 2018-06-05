@@ -143,7 +143,8 @@ public class InfoFragment extends Fragment {
             }
         });
 
-        handler.post(new Runnable() {
+        //approved by part
+       /* handler.post(new Runnable() {
             @Override
             public void run() {
                 recyclerView = (RecyclerView) view.findViewById(R.id.approvedbyRecyclerView);
@@ -174,7 +175,7 @@ public class InfoFragment extends Fragment {
                 });
             }
         });
-
+*/
 
         return view;
     }

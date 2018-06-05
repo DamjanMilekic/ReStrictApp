@@ -44,6 +44,7 @@ import com.example.laptop.restrict.Model.User;
 import com.example.laptop.restrict.R;
 import com.example.laptop.restrict.RetrofitAppSettings.Client;
 import com.example.laptop.restrict.RetrofitAppSettings.Service;
+import com.example.laptop.restrict.SavedSharedPreferences;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.io.FileUtils;
@@ -262,7 +263,7 @@ public class FragmentAppSettingsActivity extends Fragment {
                         //TODO save states
 
                         Service apiService = Client.getApiClient().create(Service.class);
-                        Call<Person> call = apiService.postPerson(ime, prezime, titl, mail, tel, LoginFragment.api_token);
+                        Call<Person> call = apiService.postPerson(ime, prezime, titl, mail, tel,SavedSharedPreferences.getAPIToken(getActivity()));
 
                         call.enqueue(new Callback<Person>() {
                             @Override
@@ -303,7 +304,7 @@ public class FragmentAppSettingsActivity extends Fragment {
 
 
                 Service apiService = Client.getApiClient().create(Service.class);
-                Call<Person> call = apiService.logout(LoginFragment.api_token);
+                Call<Person> call = apiService.logout(SavedSharedPreferences.getAPIToken(getActivity()));
                 call.enqueue(new Callback<Person>() {
                     @Override
                     public void onResponse(Call<Person> call, Response<Person> response) {
@@ -312,6 +313,8 @@ public class FragmentAppSettingsActivity extends Fragment {
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(i);
                             Toast.makeText(getContext(), "Successfully logout", Toast.LENGTH_SHORT).show();
+
+                            SavedSharedPreferences.clearSharedPreferences(getActivity());
 
 
                     }
@@ -341,7 +344,7 @@ public class FragmentAppSettingsActivity extends Fragment {
         //Retrofit postavljanje tekstfildova sa servera
         Service service = Client.getApiClient().create(Service.class);
 
-        Call<Person> call = service.getPerson(LoginFragment.api_token);
+        Call<Person> call = service.getPerson(SavedSharedPreferences.getAPIToken(getActivity()));
         call.enqueue(new Callback<Person>() {
             @Override
             public void onResponse(Call<Person> call, Response<Person> response) {
@@ -427,7 +430,7 @@ public class FragmentAppSettingsActivity extends Fragment {
 
         MultipartBody.Part body = MultipartBody.Part.createFormData("picture", file.getName(), filePart);
 
-        Call<Person> call = apiService.postPicture(body, MainActivity.APP_TOKEN);
+        Call<Person> call = apiService.postPicture(body, SavedSharedPreferences.getAPIToken(getActivity()));
         call.enqueue(new Callback<Person>() {
             @Override
             public void onResponse(Call<Person> call, Response<Person> response) {

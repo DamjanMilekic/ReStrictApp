@@ -28,6 +28,7 @@ import com.example.laptop.restrict.Model.ProjectStatusLogin;
 import com.example.laptop.restrict.RetrofitAppSettings.Client;
 import com.example.laptop.restrict.R;
 import com.example.laptop.restrict.RetrofitAppSettings.Service;
+import com.example.laptop.restrict.SavedSharedPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ import retrofit2.Response;
 
 public  class LoginFragment extends Fragment implements View.OnClickListener {
 
-    public static int user_id;
+  //  public static int user_id;
 
     private ILoginMain listenerLoginMain;
     HomeFragment homeFragment;
@@ -53,12 +54,13 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
     Client apiClient;
     Service apiService;
     ProjectStatusLogin projectStatusLogin;
+
     Handler handler;
 
-    public static String api_token = "";
+  //  public static String api_token = "";
 
     //promena SLIKE na aktivnostima u toolbaru
-    public static String image_url = "";
+   // public static String image_url = "";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -120,22 +122,22 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putString("emailEdit", emailEdit.getText().toString());
+     /*   outState.putString("emailEdit", emailEdit.getText().toString());
         outState.putString("passwordEdit", passwordEdit.getText().toString());
         outState.putString("email", email);
-        outState.putString("password", password);
+        outState.putString("password", password);*/
 
     }
 
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState != null) {
+      /*  if (savedInstanceState != null) {
             emailEdit.setText(savedInstanceState.getString("emailEdit"));
             passwordEdit.setText(savedInstanceState.getString("passwordEdit"));
             email = savedInstanceState.getString("email");
             password = savedInstanceState.getString("password");
-        }
+        }*/
     }
 
 
@@ -144,8 +146,8 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
 
-        emailEdit.setText(email);
-        passwordEdit.setText(password);
+ /*       emailEdit.setText(email);
+        passwordEdit.setText(password);*/
 
     }
 
@@ -181,10 +183,13 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
 
                             projectStatusLogin = (ProjectStatusLogin) response.body();
                             String status = projectStatusLogin.getStatus();
-                            api_token = projectStatusLogin.getToken();
-                            image_url = projectStatusLogin.getAvatar();
-                            user_id = projectStatusLogin.getUserId();
+                            //api_token = projectStatusLogin.getToken();
+                           // image_url = projectStatusLogin.getAvatar();
+                         //   user_id = projectStatusLogin.getUserId();
 
+                            SavedSharedPreferences.setAPIToken(getActivity(),projectStatusLogin.getToken());
+                            SavedSharedPreferences.setPrefAvatar(getActivity(),projectStatusLogin.getAvatar());
+                            SavedSharedPreferences.setPrefUserid(getActivity(),projectStatusLogin.getUserId());
 
                             if (status != null) {
 
@@ -239,8 +244,35 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
 
     }
 
+        public class AsteriskPasswordTransformationMethod extends PasswordTransformationMethod {
+            @Override
+            public CharSequence getTransformation(CharSequence source, View view) {
+                return new PasswordCharSequence(source);
+            }
+
+            private class PasswordCharSequence implements CharSequence {
+                private CharSequence mSource;
+
+                public PasswordCharSequence(CharSequence source) {
+                    mSource = source; // Store char sequence
+                }
+
+                public char charAt(int index) {
+                    return '*'; // This is the important part
+                }
+
+                public int length() {
+                    return mSource.length(); // Return default
+                }
+
+                public CharSequence subSequence(int start, int end) {
+                    return mSource.subSequence(start, end); // Return default
+                }
+            }
+        }
 
 
+/*
     private void getNotification() {
 
         Service apiService = Client.getApiClient().create(Service.class);
@@ -286,32 +318,6 @@ public  class LoginFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-    }
-        public class AsteriskPasswordTransformationMethod extends PasswordTransformationMethod {
-            @Override
-            public CharSequence getTransformation(CharSequence source, View view) {
-                return new PasswordCharSequence(source);
-            }
-
-            private class PasswordCharSequence implements CharSequence {
-                private CharSequence mSource;
-
-                public PasswordCharSequence(CharSequence source) {
-                    mSource = source; // Store char sequence
-                }
-
-                public char charAt(int index) {
-                    return '*'; // This is the important part
-                }
-
-                public int length() {
-                    return mSource.length(); // Return default
-                }
-
-                public CharSequence subSequence(int start, int end) {
-                    return mSource.subSequence(start, end); // Return default
-                }
-            }
-        }
+    }*/
     }
 

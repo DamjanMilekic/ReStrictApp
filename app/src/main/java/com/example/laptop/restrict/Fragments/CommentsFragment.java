@@ -30,6 +30,7 @@ import com.example.laptop.restrict.Model.PostCommentRequest;
 import com.example.laptop.restrict.Model.ProjectStatusComment;
 import com.example.laptop.restrict.Model.ProjectStatusPostComment;
 import com.example.laptop.restrict.R;
+import com.example.laptop.restrict.SavedSharedPreferences;
 import com.example.laptop.restrict.SecondLevelExpandableListView;
 
 import java.util.ArrayList;
@@ -85,7 +86,7 @@ public class CommentsFragment extends Fragment {
 
                 if (search.getText().toString() != null) {
                     apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
-                    Call<ProjectStatusComment> call = apiInterfaceDetails.getComments(version_id, LoginFragment.api_token);
+                    Call<ProjectStatusComment> call = apiInterfaceDetails.getComments(version_id, SavedSharedPreferences.getAPIToken(getActivity()));
                     call.enqueue(new Callback<ProjectStatusComment>() {
                         @Override
                         public void onResponse(Call<ProjectStatusComment> call, Response<ProjectStatusComment> response) {
@@ -182,7 +183,7 @@ public class CommentsFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
-        Call<ProjectStatusComment> call = apiInterfaceDetails.getComments(version_id, LoginFragment.api_token);
+        Call<ProjectStatusComment> call = apiInterfaceDetails.getComments(version_id, SavedSharedPreferences.getAPIToken(getActivity()));
         call.enqueue(new Callback<ProjectStatusComment>() {
             @Override
             public void onResponse(Call<ProjectStatusComment> call, Response<ProjectStatusComment> response) {
@@ -224,7 +225,7 @@ public class CommentsFragment extends Fragment {
 
         if (text != null && !text.equals("")) {
 
-            PostCommentRequest postCommentRequest = new PostCommentRequest(version_id, text, LoginFragment.api_token);
+            PostCommentRequest postCommentRequest = new PostCommentRequest(version_id, text, SavedSharedPreferences.getAPIToken(getActivity()));
             Call<ProjectStatusPostComment> call = apiInterfaceDetails.setComment(postCommentRequest);
             call.enqueue(new Callback<ProjectStatusPostComment>() {
                 @Override
@@ -236,7 +237,7 @@ public class CommentsFragment extends Fragment {
                             @Override
                             public void run() {
 
-                                Call<ProjectStatusComment> reloadComments = apiInterfaceDetails.getComments(version_id, LoginFragment.api_token);
+                                Call<ProjectStatusComment> reloadComments = apiInterfaceDetails.getComments(version_id, SavedSharedPreferences.getAPIToken(getActivity()));
                                 reloadComments.enqueue(new Callback<ProjectStatusComment>() {
                                     @Override
                                     public void onResponse(Call<ProjectStatusComment> call, Response<ProjectStatusComment> response) {

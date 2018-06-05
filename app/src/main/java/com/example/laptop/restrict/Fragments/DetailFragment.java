@@ -27,6 +27,7 @@ import com.example.laptop.restrict.Interfaces.ApiInterfaceDetails;
 import com.example.laptop.restrict.MainActivity;
 import com.example.laptop.restrict.Model.ProjectStatusData;
 import com.example.laptop.restrict.R;
+import com.example.laptop.restrict.SavedSharedPreferences;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -81,7 +82,7 @@ public class DetailFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         ApiInterfaceDetails apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
-        Call<ProjectStatusData> call = apiInterfaceDetails.getVersions(358, MainActivity.APP_TOKEN);
+        Call<ProjectStatusData> call = apiInterfaceDetails.getVersions(358, SavedSharedPreferences.getAPIToken(getActivity()));
         call.enqueue(new Callback<ProjectStatusData>() {
             @Override
             public void onResponse(Call<ProjectStatusData> call, Response<ProjectStatusData> response) {

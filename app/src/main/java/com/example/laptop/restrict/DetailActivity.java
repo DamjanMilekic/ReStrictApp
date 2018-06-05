@@ -184,7 +184,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 // Inicijalizovanje toolbar-a
                 imageButtonAppsettings = (CircleImageView) findViewById(R.id.btnProfileActBarSettings);
                 //postavljanje slicice na toolbaru
-                String urlSLika= "https://s.strictapp.com/" + LoginFragment.image_url;
+                String urlSLika= "https://s.strictapp.com/" + SavedSharedPreferences.getPrefAvatar(DetailActivity.this);
                 Picasso.with(this)
                         .load(urlSLika).fit().centerCrop()
                         .into(imageButtonAppsettings);
@@ -243,7 +243,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void run() {
                         ApiInterfaceDetails apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
-                        Call<ProjectStatusData> call = apiInterfaceDetails.getVersions(drawing_id, LoginFragment.api_token);
+                        Call<ProjectStatusData> call = apiInterfaceDetails.getVersions(drawing_id, SavedSharedPreferences.getAPIToken(DetailActivity.this));
                         call.enqueue(new Callback<ProjectStatusData>() {
                             @Override
                             public void onResponse(Call<ProjectStatusData> call, Response<ProjectStatusData> response) {
@@ -699,7 +699,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
-        String apiToken= LoginFragment.api_token;
+        String apiToken= SavedSharedPreferences.getAPIToken(DetailActivity.this);
         outState.putString("api",apiToken);
     }
 
@@ -711,7 +711,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     private void loadNumberOfComments(int version_id) {
         ApiInterfaceDetails apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
-        Call<ProjectStatusComment> call = apiInterfaceDetails.getComments(version_id, LoginFragment.api_token);
+        Call<ProjectStatusComment> call = apiInterfaceDetails.getComments(version_id,SavedSharedPreferences.getAPIToken(DetailActivity.this));
         call.enqueue(new Callback<ProjectStatusComment>() {
             @Override
             public void onResponse(Call<ProjectStatusComment> call, Response<ProjectStatusComment> response) {
@@ -900,7 +900,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private void getNotification() {
 
         Service apiService = Client.getApiClient().create(Service.class);
-        Call<NotificationPopup> call = apiService.getNotificationsPopup(LoginFragment.api_token);
+        Call<NotificationPopup> call = apiService.getNotificationsPopup(SavedSharedPreferences.getAPIToken(DetailActivity.this));
         globalVar = (Global) getApplicationContext();
         call.enqueue(new Callback<NotificationPopup>() {
 

@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/lock"
-        android:layout_marginTop="94dp">
+        android:layout_marginTop="130dp">
 
         <ImageView
             android:id="@+id/imgResizeBackground"
@@ -29,14 +29,14 @@
 
         <ImageView
             android:id="@+id/imgResizeFront"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="14dp"
+            android:layout_height="17dp"
             android:layout_gravity="center"
             android:src="@drawable/expand_tool" />
 
     </FrameLayout>
 
-    <FrameLayout
+    <!--   <FrameLayout
         android:id="@+id/edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,21 +46,23 @@
         android:layout_above="@+id/lock"
         android:layout_alignStart="@+id/resize">
 
-        <ImageView
-            android:id="@+id/imgEditBackground"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:alpha="0.6"
-            android:src="@drawable/circle_selected" />
+         <ImageView
+             android:id="@+id/imgEditBackground"
+             android:layout_width="40dp"
+             android:layout_height="40dp"
+             android:alpha="0.6"
+             android:src="@drawable/circle_selected" />
 
-        <ImageView
-            android:id="@+id/imgEditFront"
-            android:layout_width="14dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:src="@drawable/edit" />
+         <ImageView
+             android:id="@+id/imgEditFront"
+             android:layout_width="14dp"
+             android:layout_height="20dp"
+             android:layout_gravity="center"
+             android:src="@drawable/edit" /> when turning on editImageModul
+              </FrameLayout>
+              -->
 
-    </FrameLayout>
+
 
     <FrameLayout
         android:id="@+id/lock"
