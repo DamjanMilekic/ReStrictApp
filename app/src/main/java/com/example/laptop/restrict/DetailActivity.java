@@ -9,6 +9,7 @@ import android.content.Context;
 import android.arch.lifecycle.LifecycleObserver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
@@ -40,6 +41,7 @@ import android.webkit.MimeTypeMap;
 import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -79,11 +81,13 @@ import com.example.laptop.restrict.Model.TypePopup;
 import com.example.laptop.restrict.Model.Version;
 import com.example.laptop.restrict.RetrofitAppSettings.Client;
 import com.example.laptop.restrict.RetrofitAppSettings.Service;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -101,7 +105,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private RecyclerView circleRecyclerView;
     private ProjectAdapter adapter;
     private ArrayList<Version> versionList;
-    public Version selectedVersion;
+    private static Version selectedVersion;
 
     private AlertDialog alertDownload, alertShare;
     private MainActivity mainActivity;
@@ -110,7 +114,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private ActionBar actionBar;
 
     // ImageButton komponente DetailActivity-a
-    private ImageButton info, comment, download, share, imageButtonAppsettings;
+    private ImageButton info, comment, download, share;
+    CircleImageView imageButtonAppsettings;
     private ImageView backButton;
 
     private TextView btnNumberNotification;
@@ -122,9 +127,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private FragmentTransaction transaction;
     private Fragment currentFragment;
 
-    private TextView numberOfNotif;
-    private ImageButton imgProfile;
-    private ImageButton notification;
+
+    private ImageView notification;
 
     private List<DatumPopup> notifList = new ArrayList<>();
     private Point p;
@@ -132,7 +136,11 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private PopUpNotifAdapter notifAdapter;
 
     private int drawing_id = -1;
+    private TextView projectName;
 
+    private static Resources resources;
+
+    public static FrameLayout frameLayout;
     @Override
     protected void onStart() {
         super.onStart();
@@ -140,6 +148,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.hide();
+
+        resources = getResources();
+
     }
 
     @Override
@@ -147,8 +158,14 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        frameLayout = (FrameLayout)findViewById(R.id.appsettingscontainer);
 
 
+        /*getFragmentManager().
+                beginTransaction().
+                remove(getFragmentManager().
+                        findFragmentById(R.id.appsettingscontainer)).
+                commit();*/
         handler = new Handler(getMainLooper());
 
         handler.post(new Runnable() {
@@ -162,9 +179,15 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
             drawing_id = getIntent().getIntExtra("drawing_id", -1);
 
+
             if (drawing_id != -1) {
                 // Inicijalizovanje toolbar-a
-                imageButtonAppsettings = (ImageButton) findViewById(R.id.btnProfileActBarSettings);
+                imageButtonAppsettings = (CircleImageView) findViewById(R.id.btnProfileActBarSettings);
+                //postavljanje slicice na toolbaru
+                String urlSLika= "https://s.strictapp.com/" + SavedSharedPreferences.getPrefAvatar(DetailActivity.this);
+                Picasso.with(this)
+                        .load(urlSLika).fit().centerCrop()
+                        .into(imageButtonAppsettings);
 
                 backButton = (ImageView) findViewById(R.id.backButtonFullScreenDetail);
 
@@ -182,6 +205,12 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onClick(View view) {
                         onBackPressed();
+                        FragmentManager fm = getSupportFragmentManager();
+
+                        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                            fm.popBackStack();
+
+                        }
                     }
                 });
 
@@ -202,6 +231,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 download = (ImageButton) findViewById(R.id.downloadImageButton);
                 share = (ImageButton) findViewById(R.id.shareImageButton);
 
+                setButtonInFocus(info);
+
                 // Postavljanje osluskivaca na ImmageButton komponente
                 info.setOnClickListener(this);
                 comment.setOnClickListener(this);
@@ -212,7 +243,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void run() {
                         ApiInterfaceDetails apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
-                        Call<ProjectStatusData> call = apiInterfaceDetails.getVersions(drawing_id, LoginFragment.api_token);
+                        Call<ProjectStatusData> call = apiInterfaceDetails.getVersions(drawing_id, SavedSharedPreferences.getAPIToken(DetailActivity.this));
                         call.enqueue(new Callback<ProjectStatusData>() {
                             @Override
                             public void onResponse(Call<ProjectStatusData> call, Response<ProjectStatusData> response) {
@@ -231,7 +262,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                                     // Projekat cija se podaci trebaju prikazati na prvom pokretanju aktivnosti
 
 
-                                    selectedVersion = versionList.get(0);
+                                    selectedVersion = versionList.get(versionList.size()-1);
                                     loadNumberOfComments(selectedVersion.getId());
 
                                     DetailImageFragment detailImageFragment = new DetailImageFragment();
@@ -273,36 +304,13 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         final Bundle args = new Bundle();
         args.putParcelable(ProjectAdapter.SELECTED_VERSION, selectedVersion);
-        /*holder.circle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                update(position);
-                raw_index = position;
-                notifyDataSetChanged();
-            }
-        });
-        if(raw_index==position){
-            holder.circle.setColorFilter(R.color.colorPrimary);
-        }
-        else {holder.circle.setColorFilter(null);
-        }*/
-        /*if (rawindex == v.getId())
-            info.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        else {
-            info.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        }*/
-        /*info.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                rawindex=v.getId();
-
-            }
-        });*/
-
 
         switch(v.getId()) {
             case R.id.infoImageButton:
-
+                setDefaultButtonColor(comment, download, share);
+                setButtonInFocus(info);
+                numberOfComments.setTextColor(getResources().getColor(R.color.buttonsSettings));
+                numberOfComments.setAlpha(0.6f);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -325,7 +333,10 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 break;
 
             case R.id.commentsImageButton:
-
+                setDefaultButtonColor(info, download, share);
+                setButtonInFocus(comment);
+                numberOfComments.setTextColor(getResources().getColor(R.color.colorPrimary));
+                numberOfComments.setAlpha(1.0f);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -351,7 +362,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        showDownloadAlert();
+                        showDownloadAlert(selectedVersion.getLabel(), selectedVersion.getPdfFile());
                     }
                 });
 
@@ -370,72 +381,83 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private void showDownloadAlert() {
-        final View download_alert = LayoutInflater.from(DetailActivity.this).inflate(R.layout.download_alert, null);
+    private void showDownloadAlert(final String fileName, final String path) {
 
-        projectSize = (TextView) download_alert.findViewById(R.id.project_size);
-        TextView download = (TextView) download_alert.findViewById(R.id.download);
-        TextView cancel = (TextView) download_alert.findViewById(R.id.cancel);
+        if (path != null && !path.equals("")) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
-        builder.setView(download_alert).setCancelable(false);
+            final View download_alert = LayoutInflater.from(DetailActivity.this).inflate(R.layout.download_alert, null);
 
-        alertDownload = builder.create();
+            projectName = (TextView) download_alert.findViewById(R.id.project_name);
+            projectSize = (TextView) download_alert.findViewById(R.id.project_size);
+            TextView download = (TextView) download_alert.findViewById(R.id.download);
+            TextView cancel = (TextView) download_alert.findViewById(R.id.cancel);
 
-        alertDownload.getWindow().setDimAmount(0.4f);
+            projectName.setText(fileName);
 
-        new ReadFileMemory().execute("pdf/drawings/u1xjwIyFm9jz76nMYB2v.pdf");
+            AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+            builder.setView(download_alert).setCancelable(false);
+
+            alertDownload = builder.create();
+
+            alertDownload.getWindow().setDimAmount(0.4f);
+
+            new ReadFileMemory().execute(path);
 
 
+            download.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-        download.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                    DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://s.strictapp.com/" + path));
 
-                DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://s.strictapp.com/pdf/drawings/u1xjwIyFm9jz76nMYB2v.pdf"));
+                    ActivityCompat.requestPermissions(DetailActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
 
-                ActivityCompat.requestPermissions(DetailActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                            request.setTitle(fileName);
+                            request.setDescription("File is being download.....");
 
-                    if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                        request.setTitle("Basement plan");
-                        request.setDescription("File is being download.....");
+                            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
+                            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE);
 
-                        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
-                        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE);
+                            request.allowScanningByMediaScanner();
+                            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 
-                        request.allowScanningByMediaScanner();
-                        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                            String nameOfFile = URLUtil.guessFileName("https://s.strictapp.com/" + path, null, MimeTypeMap.getFileExtensionFromUrl("https://s.strictapp.com/" + path));
 
-                        String nameOfFile = URLUtil.guessFileName("https://s.strictapp.com/pdf/drawings/u1xjwIyFm9jz76nMYB2v.pdf", null, MimeTypeMap.getFileExtensionFromUrl("https://s.strictapp.com/pdf/drawings/u1xjwIyFm9jz76nMYB2v.pdf"));
+                            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, nameOfFile);
 
-                        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, nameOfFile);
+                            DownloadManager manager = (DownloadManager) getApplicationContext().getSystemService(Context.DOWNLOAD_SERVICE);
+                            manager.enqueue(request);
 
-                        DownloadManager manager = (DownloadManager) getApplicationContext().getSystemService(Context.DOWNLOAD_SERVICE);
-                        manager.enqueue(request);
+                        } else {
 
-                    } else {
+                            Toast.makeText(getApplicationContext(), "Problem sa preuzimanjem fajla.", Toast.LENGTH_SHORT).show();
 
-                        Toast.makeText(getApplicationContext(), "Problem sa preuzimanjem fajla.", Toast.LENGTH_SHORT).show();
+                        }
 
                     }
 
+                    alertDownload.dismiss();
+
                 }
+            });
 
-                alertDownload.dismiss();
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDownload.dismiss();
+                }
+            });
 
-            }
-        });
+            alertDownload.show();
 
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDownload.dismiss();
-            }
-        });
+        } else {
 
-        alertDownload.show();
+            Toast.makeText(DetailActivity.this, "Nothing to download.", Toast.LENGTH_SHORT).show();
+
+        }
     }
 
     private void showShareAlert() {
@@ -546,7 +568,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                fragmentTransaction.setCustomAnimations(R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down, R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down);
+               // fragmentTransaction.setCustomAnimations(R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down, R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down);
                 fragmentTransaction.addToBackStack(null);
 
                 fragmentTransaction.replace(R.id.appsettingscontainer, fragmentAppSettingsActivity).commit();
@@ -659,6 +681,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     protected void onResume() {
         super.onResume();
         Log.d("detail", "onResume: ");
+
     }
 
     @Override
@@ -676,7 +699,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
-        String apiToken= LoginFragment.api_token;
+        String apiToken= SavedSharedPreferences.getAPIToken(DetailActivity.this);
         outState.putString("api",apiToken);
     }
 
@@ -688,7 +711,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     private void loadNumberOfComments(int version_id) {
         ApiInterfaceDetails apiInterfaceDetails = ApiClientDetails.getApiClient().create(ApiInterfaceDetails.class);
-        Call<ProjectStatusComment> call = apiInterfaceDetails.getComments(version_id, LoginFragment.api_token);
+        Call<ProjectStatusComment> call = apiInterfaceDetails.getComments(version_id,SavedSharedPreferences.getAPIToken(DetailActivity.this));
         call.enqueue(new Callback<ProjectStatusComment>() {
             @Override
             public void onResponse(Call<ProjectStatusComment> call, Response<ProjectStatusComment> response) {
@@ -770,6 +793,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
         btnNumberNotification =(TextView) findViewById(R.id.txNumberOfNotif);
         notification = findViewById(R.id.btnNotificationActBar);
+
 
         // imgProfile = findViewById(R.id.btnProfileActBar);
         if(notifList.size()==0)
@@ -876,7 +900,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private void getNotification() {
 
         Service apiService = Client.getApiClient().create(Service.class);
-        Call<NotificationPopup> call = apiService.getNotificationsPopup(LoginFragment.api_token);
+        Call<NotificationPopup> call = apiService.getNotificationsPopup(SavedSharedPreferences.getAPIToken(DetailActivity.this));
         globalVar = (Global) getApplicationContext();
         call.enqueue(new Callback<NotificationPopup>() {
 
@@ -905,8 +929,53 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
         //actionBar.show();
 
+
+
     }
 
+    private void setDefaultButtonColor(ImageButton imageButton1, ImageButton imageButton2, ImageButton imageButton3) {
 
+        imageButton1.setAlpha(0.6f);
+        imageButton1.setColorFilter(getResources().getColor(R.color.buttonsSettings));
+
+        imageButton2.setAlpha(0.6f);
+        imageButton2.setColorFilter(getResources().getColor(R.color.buttonsSettings));
+
+        imageButton3.setAlpha(0.6f);
+        imageButton3.setColorFilter(getResources().getColor(R.color.buttonsSettings));
+
+    }
+
+    private void setButtonInFocus(ImageButton imageButton) {
+
+        imageButton.setAlpha(1.0f);
+        imageButton.setColorFilter(getResources().getColor(R.color.colorPrimary));
+
+    }
+
+/*
+    public static void setDefaultColorForAllButtons() {
+
+        info.setAlpha(1.0f);
+        info.setColorFilter(resources.getColor(R.color.colorPrimary));
+
+        comment.setAlpha(0.6f);
+        comment.setColorFilter(resources.getColor(R.color.buttonsSettings));
+
+        numberOfComments.setTextColor(resources.getColor(R.color.buttonsSettings));
+        numberOfComments.setAlpha(0.6f);
+
+        download.setAlpha(0.6f);
+        download.setColorFilter(resources.getColor(R.color.buttonsSettings));
+
+        share.setAlpha(0.6f);
+        share.setColorFilter(resources.getColor(R.color.buttonsSettings));
+
+    }
+*/
+
+    public static void setSelectedVersion(Version version) {
+        selectedVersion = version;
+    }
 
 }

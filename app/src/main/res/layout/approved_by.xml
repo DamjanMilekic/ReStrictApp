@@ -62,7 +62,8 @@
                     android:layout_height="wrap_content"
                     android:text="I.Djordjevic"
                     android:textColor="@color/buttonsSettings"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:fontFamily="@font/helvetica_neue"/>
 
                 <TextView
                     android:id="@+id/jobPosition"
@@ -72,7 +73,8 @@
                     android:layout_below="@id/name"
                     android:text="Android Developer"
                     android:textColor="@color/placeholder"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:fontFamily="@font/helvetica_neue"/>
 
             </RelativeLayout>
 

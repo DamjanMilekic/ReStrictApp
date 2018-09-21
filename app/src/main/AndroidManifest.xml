@@ -24,10 +24,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DetailActivity">
+        <activity android:name=".DetailActivity"
+            android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".FullScreenImageActivity">
+        <activity android:name=".FullScreenImageActivity"
+            android:screenOrientation="portrait">
 
         </activity>
     </application>

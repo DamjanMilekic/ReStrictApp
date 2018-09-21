@@ -3,11 +3,6 @@
     android:layout_width="match_parent" android:layout_height="wrap_content"
     android:background="#ffffff">
 
-    <!-- divider -->
-  <!--  <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#E7EFF1"></LinearLayout>-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -49,29 +44,13 @@
             <ImageView
                 android:id="@+id/arrowRght"
                 android:layout_marginLeft="-36dp"
-                android:layout_width="21dp"
-                android:layout_height="21dp"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/arrow_right_black"/>
-        <!--    <ImageView
-                android:id="@+id/arrowChildExpanded"
-                android:layout_width="10dp"
-                android:layout_height="6dp"
-                android:layout_alignParentEnd="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/down_arrow_blue"
-                android:visibility="gone" />&ndash;&gt;-->
+                android:src="@drawable/arr"/>
+
         </LinearLayout>
 
-        <!--   <LinearLayout
-               android:visibility="gone"
-               android:id="@+id/subitems"
-               android:background="#E7EFF1"
-               android:layout_alignBottom="@id/item"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:orientation="vertical">
-           </LinearLayout>-->
     </LinearLayout>
 
 </RelativeLayout>

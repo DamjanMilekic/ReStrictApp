@@ -1,5 +1,6 @@
 package com.example.laptop.restrict.Fragments;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -30,9 +31,13 @@ import android.view.ViewGroup;
 import android.view.ViewGroupOverlay;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,11 +62,15 @@ import com.example.laptop.restrict.Model.TypePopup;
 import com.example.laptop.restrict.R;
 import com.example.laptop.restrict.RetrofitAppSettings.Client;
 import com.example.laptop.restrict.RetrofitAppSettings.Service;
+import com.example.laptop.restrict.SavedSharedPreferences;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -88,8 +97,7 @@ public class HomeFragment extends Fragment implements PopUpNotifAdapter.PopupIte
     private boolean isShowned=false;
 
     TextView numberOfNotif;
-    ImageButton imgProfile;
-    ImageButton notification;
+    ImageView imgProfile, notification;
 
     public static int actionBarHeight=0;
 
@@ -135,8 +143,6 @@ public class HomeFragment extends Fragment implements PopUpNotifAdapter.PopupIte
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-
         return inflater.inflate(R.layout.home_layout, container, false);
     }
 
@@ -144,12 +150,9 @@ public class HomeFragment extends Fragment implements PopUpNotifAdapter.PopupIte
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-            expandableListView = (AnimatedExpandableListView)view.findViewById(R.id.mainList);
-
+        expandableListView = (AnimatedExpandableListView)view.findViewById(R.id.mainList);
 
         getProjects();
-
 
         expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
@@ -177,7 +180,7 @@ public class HomeFragment extends Fragment implements PopUpNotifAdapter.PopupIte
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        fragmentTransaction.setCustomAnimations(R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down, R.anim.slide_from_down_to_up, R.anim.slide_from_up_to_down);
+       // fragmentTransaction.setCustomAnimations(R.anim.slide_from_up_to_down, R.anim.slide_from_down_to_up);//, R.anim.slide_from_up_to_down, R.anim.slide_from_down_to_up);
         fragmentTransaction.addToBackStack("appsettings");
 
         fragmentTransaction.replace(R.id.frame, fragmentAppSettingsActivity,"appsettings").commit();
@@ -197,7 +200,16 @@ public class HomeFragment extends Fragment implements PopUpNotifAdapter.PopupIte
         mActionBar.setDisplayShowCustomEnabled(true);
 
         notification = mCustomView.findViewById(R.id.btnNotificationActBar);
-        imgProfile = mCustomView.findViewById(R.id.btnProfileActBar);
+
+        imgProfile = mCustomView.findViewById(R.id.btnProfileActBarSettings);
+        //dodavanje slike na home toolbar
+
+        String urlSLika= "https://s.strictapp.com/" + SavedSharedPreferences.getPrefAvatar(getActivity());
+        Picasso.with(getContext())
+                .load(urlSLika).fit().centerCrop()
+                .into(imgProfile);
+
+
         numberOfNotif = mCustomView.findViewById(R.id.txNumberOfNotif);
 
         if(notifList.size()==0)
@@ -253,6 +265,8 @@ public class HomeFragment extends Fragment implements PopUpNotifAdapter.PopupIte
         View popupView = getLayoutInflater().inflate(R.layout.popup_notifications, null);
         RecyclerView recyclerView = (RecyclerView) popupView.findViewById(R.id.rvNotify);
 
+
+
         final PopupWindow popupWindow = new PopupWindow(popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
@@ -272,14 +286,30 @@ public class HomeFragment extends Fragment implements PopUpNotifAdapter.PopupIte
         notifAdapter.setClickListener(this);
         recyclerView.setAdapter(notifAdapter);
 
-        LinearLayoutManager vertical
-                = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager vertical = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(vertical);
+
+        LinearLayout.LayoutParams params = new
+                LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+
+
+        if(notifList.size()<9)
+        {
+            params.height =ViewGroup.LayoutParams.WRAP_CONTENT;
+        }
+        else{params.height=800;}
+
+       recyclerView.setLayoutParams(params);
+
+
+
         final ViewGroup root = (ViewGroup) getActivity().getWindow().getDecorView().getRootView();
 
             applyDim(root,0.7f);
 
         popupWindow.setAnimationStyle(R.style.popup_scale_animation);
+
         popupWindow.showAsDropDown(view, p.x + OFFSET_X, p.y + OFFSET_Y);
 
 
@@ -317,7 +347,8 @@ public class HomeFragment extends Fragment implements PopUpNotifAdapter.PopupIte
     private void getProjects() {
 
         Service apiService = Client.getApiClient().create(Service.class);
-        Call<DataHome> call = apiService.getProjects(LoginFragment.api_token);
+
+        Call<DataHome> call = apiService.getProjects(SavedSharedPreferences.getAPIToken(getActivity()));
 
         call.enqueue(new Callback<DataHome>() {
             @Override
@@ -380,7 +411,7 @@ public class HomeFragment extends Fragment implements PopUpNotifAdapter.PopupIte
     private void getNotification(final View view) {
 
         Service apiService = Client.getApiClient().create(Service.class);
-        Call<NotificationPopup> call = apiService.getNotificationsPopup(LoginFragment.api_token);
+        Call<NotificationPopup> call = apiService.getNotificationsPopup(SavedSharedPreferences.getAPIToken(getActivity()));
         globalVar = (Global) getActivity().getApplicationContext();
         call.enqueue(new Callback<NotificationPopup>() {
 

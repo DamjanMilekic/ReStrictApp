@@ -8,6 +8,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,7 +71,7 @@ public class SecondLevelAdapter extends AnimatedExpandableListView.AnimatedExpan
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
 
-        Section section = headers.get(groupPosition);
+        final Section section = headers.get(groupPosition);
 
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -78,19 +79,18 @@ public class SecondLevelAdapter extends AnimatedExpandableListView.AnimatedExpan
         TextView text = (TextView) convertView.findViewById(R.id.rowSecondText);
         ImageView img = convertView.findViewById(R.id.arrowRght);
 
-
         text.setText(section.getTitle());
 
         if(isExpanded)
         {
-            img.setImageResource(R.drawable.arrow_down);
+            img.setImageResource(R.drawable.arrdblue);
 
         }
         else
         {
 
             //   img.startAnimation(AnimationUtils.loadAnimation(context,R.anim.rotate_arrow));
-            img.setImageResource(R.drawable.arrow_right);
+            img.setImageResource(R.drawable.arrblue);
 
         }
         return convertView;
@@ -109,7 +109,7 @@ public class SecondLevelAdapter extends AnimatedExpandableListView.AnimatedExpan
     }
 
     @Override
-    public View getRealChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getRealChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = inflater.inflate(R.layout.row_third, null);
 
@@ -117,7 +117,7 @@ public class SecondLevelAdapter extends AnimatedExpandableListView.AnimatedExpan
         TextView basePlanNumber = (TextView) convertView.findViewById(R.id.basePlanNumber);
 
 
-        Section child = headers.get(groupPosition);
+        final Section child = headers.get(groupPosition);
         List<DrawingHome> childDrawings = child.getDrawings();
 
         final DrawingHome drawing = childDrawings.get(childPosition);

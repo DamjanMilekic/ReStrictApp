@@ -22,6 +22,8 @@ import com.example.laptop.restrict.R;
 
 import java.util.ArrayList;
 
+import static com.example.laptop.restrict.DetailActivity.setSelectedVersion;
+
 /**
  * Created by ivandjordjevic on 5.2.18..
  */
@@ -39,8 +41,9 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
         this.context = context;
         this.versions = versions;
         if (versions.size() > 0) {
-            CommentsFragment.version_id = versions.get(0).getId();
+            CommentsFragment.version_id = versions.get(versions.size()-1).getId();
         }
+        raw_index = versions.size()-1;
     }
 
     @Override
@@ -62,11 +65,13 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
                 updateImage(raw_index);
                 notifyDataSetChanged();
                 CommentsFragment.version_id = versions.get(position).getId();
+                setSelectedVersion(versions.get(position));
+                //DetailActivity.setDefaultColorForAllButtons();
 
             }
         });
 
-        if(raw_index==position){
+        if(raw_index == position){
            // holder.circle.setColorFilter(context.getResources().getColor(R.color.strictBlue));
             holder.circle.setBackground(context.getResources().getDrawable(R.drawable.circle_selected));
         }

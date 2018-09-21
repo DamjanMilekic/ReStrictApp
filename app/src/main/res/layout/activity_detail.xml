@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E9EFEF"
+    android:background="#E7EFF1"
     tools:context="com.example.laptop.restrict.DetailActivity">
 
     <RelativeLayout
@@ -41,7 +41,7 @@
 
         </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -49,61 +49,59 @@
             android:layout_marginEnd="5dp"
             android:orientation="horizontal">
 
-            <android.support.v7.widget.CardView
-                android:layout_width="45dp"
-                android:layout_marginEnd="3dp"
-                android:backgroundTint="#172D42"
-                android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/btnNotificationActBar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignRight="@id/btnProfileActBarSettings"
+                android:layout_marginRight="40dp"
+                android:src="@drawable/notif_act_bar_btn"/>
 
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <ImageButton
-                        android:id="@+id/btnNotificationActBar"
-                        android:layout_width="50dp"
-                        android:layout_height="30dp"
-                        android:background="@null"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/notif_act_bar_btn" />
-                </FrameLayout>
-
-
+            <FrameLayout
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="0.9dp"
+                android:layout_alignRight="@id/btnNotificationActBar"
+                android:layout_marginRight="3.3dp">
                 <TextView
+                    android:layout_marginStart="3.5dp"
                     android:id="@+id/txNumberOfNotif"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
                     android:layout_gravity="center"
-                    android:layout_marginTop="1.5dp"
-                    android:layout_marginStart="7.5dp"
-                    android:textSize="12sp"
-                    android:text="9"
-                    android:textColor="@color/strictBlue" />
+                    android:text=""
+                    android:textColor="@color/strictBlue"
+                    android:fontFamily="@font/helvetica_neue" />
+            </FrameLayout>
 
-
-
-            </android.support.v7.widget.CardView>
-
-            <ImageButton
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/btnProfileActBarSettings"
-                android:layout_width="50dp"
+                android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:scaleType="fitCenter"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-
-                android:background="@null"
                 android:src="@drawable/profile_act_bar_btn" />
-
-        </LinearLayout>
 
     </RelativeLayout>
 
+    </RelativeLayout>
+
+
+
   <!--  gotov toolbar-->
     <ScrollView
-        android:layout_below="@id/toolbar2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentStart="false"
+        android:layout_below="@id/toolbar2"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:clipToPadding="false"
         android:scrollbars="vertical">
 
@@ -116,10 +114,15 @@
                 android:id="@+id/circleRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
                 android:background="@color/white"
                 android:paddingBottom="2dp"
                 android:paddingTop="2dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray_shadow"
+                android:alpha="0.6"/>
 
             <fragment
                 android:id="@+id/detailImageFragment"
@@ -127,23 +130,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <!--<View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray_shadow"
+                android:alpha="0.6"/>-->
+
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="7dp"
                 android:layout_marginStart="7dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
                 app:cardCornerRadius="5dp"
                 app:cardElevation="0dp">
 
                 <LinearLayout
                     android:id="@+id/buttonsLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="40dp"
                     android:background="@color/white"
                     android:orientation="horizontal"
-                    >
+                    android:paddingTop="8dp"
+                    android:paddingBottom="12dp">
 
                     <ImageButton
                         android:id="@+id/infoImageButton"
@@ -152,15 +162,18 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:src="@mipmap/info_icon"
-                        android:tint="@color/colorPrimary"/>
+                        android:tint="@color/buttonsSettings"
+                        android:alpha="0.6"/>
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="38dp"
                         android:layout_gravity="center"
+                        android:typeface="monospace"
                         android:text="|"
                         android:textColor="@color/detail_fragment_background"
-                        android:textSize="20sp" />
+                        android:textSize="30sp" />
+
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -173,27 +186,34 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@mipmap/comments_icon"
-                            android:tint="@color/colorPrimary"/>
+                            android:tint="@color/buttonsSettings"
+                            android:alpha="0.6"/>
 
                         <TextView
                             android:id="@+id/numberOfComments"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="11sp"
-                            android:textColor="@color/colorPrimary"
-                            android:layout_marginTop="6dp"
-                            android:layout_centerHorizontal="true"/>
+
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:layout_centerInParent="true"
+                            android:alpha="0.6"
+                            android:fontFamily="@font/helvetica_neue"
+                            android:text="12"
+                            android:textStyle="bold"
+
+                            android:textColor="@color/buttonsSettings"
+                            android:textSize="11sp" />
                     </RelativeLayout>
 
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="38dp"
                         android:layout_gravity="center"
                         android:text="|"
                         android:textColor="@color/detail_fragment_background"
-                        android:textSize="20sp" />
+                        android:textSize="30sp" />
 
                     <ImageButton
                         android:id="@+id/downloadImageButton"
@@ -202,15 +222,16 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:src="@mipmap/download_icon"
-                        android:tint="@color/colorPrimary"/>
+                        android:tint="@color/buttonsSettings"
+                        android:alpha="0.6"/>
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="38dp"
                         android:layout_gravity="center"
                         android:text="|"
                         android:textColor="@color/detail_fragment_background"
-                        android:textSize="20sp" />
+                        android:textSize="30sp" />
 
                     <ImageButton
                         android:id="@+id/shareImageButton"
@@ -219,11 +240,20 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:src="@mipmap/share_icon"
-                        android:tint="@color/colorPrimary"/>
+                        android:tint="@color/buttonsSettings"
+                        android:alpha="0.6"/>
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_gravity="bottom"
+                    android:background="@color/gray_shadow"
+                    android:alpha="0.6"/>
+
             </android.support.v7.widget.CardView>
+
 
             <FrameLayout
                 android:id="@+id/onClickButtonFragmentContainer"
